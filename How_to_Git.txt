@@ -1,9 +1,7 @@
 Pushing:
-
 git add .
 git commit -m "Push uzenet"
 git push
 
 Pulling:
-
 git pull
