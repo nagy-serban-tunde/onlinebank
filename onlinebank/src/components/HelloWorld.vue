@@ -20,7 +20,8 @@
         <p class="subheading font-weight-regular">
           For help and collaboration with other Vuetify developers,
           <br>please join our online
-          <a href="https://community.vuetifyjs.com" target="_blank">Discord Community</a>
+          <v-icon>far fa-angle-left</v-icon>
+         <v-icon>fab fa-500px</v-icon>
         </p>
       </v-flex>
 
