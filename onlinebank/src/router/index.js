@@ -1,21 +1,20 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-/*import Dashboard from '@/components/dashboard/Dashboard.vue'
-import RoomInfo from '@/components/roominfo/RoomInfo.vue'
- */
+import VueRouter from 'vue-router'
+import Home from '@/components/Home.vue'
 
- Vue.use(Router)
-/*
+Vue.use(VueRouter)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      redirect: {
-        name: 'dashboard'
-      }
-    },
-    { path: '/dashboard', name: 'dashboard', component: Dashboard },
-    { path: '/roomdetails/:roomNumber', name: 'roomdetails', component: RoomInfo }
-  ]
-}) */
+// Define some routes
+const routes = [
+  { path: "/home", component: Home },
+  { path: "/", component: Home }
+]
+
+// Create the router instance and pass the `routes` option
+const router = new VueRouter({
+  routes,
+  mode:"history",
+});
+
+// Exporting "router" so it can be seen by others
+export default router
