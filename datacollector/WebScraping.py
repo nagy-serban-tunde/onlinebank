@@ -104,7 +104,7 @@ class WebScraping(object):
                 'sale_price': self.List_elements[i][2]
             }
             list += [element]
-        with open('WebScraping.json','w') as json_file:
+        with open('..\\frontend\static\WebScraping.json','w') as json_file:
              json.dump(list,json_file)
         
     def WebScrapingMain(self):
