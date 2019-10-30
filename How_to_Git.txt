@@ -5,3 +5,10 @@ git push
 
 Pulling:
 git pull
+
+
+
+vue init webpack asd
+npm ls --depth 0 vuetify
+vue add vuetify -> protopype
+<v-app-bar app>

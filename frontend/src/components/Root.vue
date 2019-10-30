@@ -2,10 +2,10 @@
   <div id="app">
     <v-app id="inspire">
       <v-layout>
-        <v-navigation-drawer dark v-model="drawer" app permanent expand-on-hover color="rgba(36, 52, 75)">
+        <v-navigation-drawer dark v-model="drawer" app absolute permanent expand-on-hover >
           <v-list-item>
             <v-list-item-avatar>
-              <v-img src="https://randomuser.me/api/portraits/women/35.jpg"></v-img>
+              <v-img src="https://randomuser.me/api/portraits/women/72.jpg"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-title class="subtitle-1">Nagy Tunde</v-list-item-title>

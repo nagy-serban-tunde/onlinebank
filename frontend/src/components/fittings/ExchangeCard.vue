@@ -1,9 +1,9 @@
 <template>
-  <v-card outlined max-width="300">
+  <v-card dark outlined max-width="300">
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">{{ card.from_curreny }} to</div>
-        <v-list-item-title class="headline mb-1">{{card.currency}} - {{card.amount}} {{card.sign}}</v-list-item-title>
+        <v-list-item-title class="headline mb-1">{{card.currency}} - {{card.sign}}{{card.amount}}</v-list-item-title>
         <v-list-item-subtitle>
           <v-layout>
             <v-layout>{{ card.from_curreny }} to {{card.currency}}:</v-layout>
