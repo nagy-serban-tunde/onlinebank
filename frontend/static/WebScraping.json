@@ -1,1 +1,26 @@
-[{"from": "RON", "web_page": [{"web_address": "https://www.otpbank.ro/hu/valutarfolyam", "values": [{"currency": "EUR", "purchase_price": "4.6900", "sale_price": "4.8300"}, {"currency": "USD", "purchase_price": "4.1900", "sale_price": "4.3800"}, {"currency": "GBP", "purchase_price": "5.3900", "sale_price": "5.6400"}]}, {"web_address": "http://www.lillapanzio.ro/valutavalto", "values": [{"currency": "EUR", "purchase_price": "4.6900", "sale_price": "4.8300"}, {"currency": "USD", "purchase_price": "4.1900", "sale_price": "4.3800"}, {"currency": "GBP", "purchase_price": "5.3900", "sale_price": "5.6400"}]}, {"web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank", "values": [{"currency": "EUR", "purchase_price": "4.6900", "sale_price": "4.8300"}, {"currency": "USD", "purchase_price": "4.1900", "sale_price": "4.3800"}, {"currency": "GBP", "purchase_price": "5.3900", "sale_price": "5.6400"}]}]}]
+[
+    {
+        "currency": "Euro",
+        "amount": "500",
+        "sign": "€",
+        "icon": "as fa-euro-sign",
+        "from_curreny": "RON",
+        "exchange": "4.76"
+    },
+    {
+        "currency": "GBP",
+        "amount": "200",
+        "sign": "£",
+        "icon": "fas fa-pound-sign",
+        "from_curreny": "RON",
+        "exchange": "5.50"
+    },
+    {
+        "currency": "USD",
+        "amount": "11",
+        "sign": "$",
+        "icon": "fas fa-dollar-sign",
+        "from_curreny": "RON",
+        "exchange": "4.29"
+    }
+]
