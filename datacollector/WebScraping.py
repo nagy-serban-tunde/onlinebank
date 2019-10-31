@@ -10,6 +10,7 @@ class WebScraping(object):
         self.webpages = webpages
         self.webpages_name = webpages_name
         self.List_elements = []
+        self.List_valutas  = ['RON','GBP', 'USD']
         self.WebScrapingMain()
     
     #a weboldalakon keresi a tablazatokat
@@ -87,24 +88,63 @@ class WebScraping(object):
         for element in temp_List_elements:
             element = self.list_cut(element)
             element = self.list_end_cut_RON(element)
+            element = ['RON'] + element
             self.List_elements += [element]
+
+    #  def json_file_upload(self):
+    #     list = []
+    #     index = 0
+    #     for i in range(len(self.List_elements)):
+    #         if i == 3 or i == 6:
+    #             index += 1
+    #         else:
+    #             pass
+    #         element = {
+    #             'web_address' : self.webpages_name[index],
+    #             'currency': self.List_elements[i][0],
+    #             'purchase_price':self.List_elements[i][1],
+    #             'sale_price': self.List_elements[i][2]
+    #         }
+    #         list += [element]
+    #     with open('..\\frontend\static\WebScraping.json','w') as json_file:
+    #          json.dump(list,json_file)
 
     def json_file_upload(self):
         list = []
-        index = 0
-        for i in range(len(self.List_elements)):
-            if i == 3 or i == 6:
-                index += 1
-            else:
-                pass
-            element = {
-                'web_address' : self.webpages_name[index],
-                'currency': self.List_elements[i][0],
-                'purchase_price':self.List_elements[i][1],
-                'sale_price': self.List_elements[i][2]
+        list1 = []
+        list2 = []
+        a=0
+        b=3
+        for i in range(len(self.webpages_name)):
+            list2.clear()
+            for j in range(a,b):
+                # print (self.List_elements[j][1],self.List_elements[j][2],self.List_elements[j][3])
+                element2 = {
+                        'currency': self.List_elements[j][1],
+                        'purchase_price':self.List_elements[j][2],
+                        'sale_price': self.List_elements[j][3]
+                }
+                list2 += [element2]
+            element1 = {
+                'web_address' : self.webpages_name[i],
+                'values' : list2,
             }
-            list += [element]
-        with open('..\\frontend\static\WebScraping.json','w') as json_file:
+            list1 += [element1]
+            print(element1)
+            a += 3
+            b += 3
+
+        # for i in list1:
+        #     print(i)
+
+        for valuta in range(len(self.List_valutas)):
+            if self.List_valutas[valuta] == self.List_elements[valuta][0]:
+                element = {
+                    'from': self.List_valutas[valuta],
+                    'web_page':list1
+                }
+                list += [element]
+        with open('..\\frontend\\static\\WebScraping.json','w') as json_file:
              json.dump(list,json_file)
         
     def WebScrapingMain(self):
@@ -124,8 +164,10 @@ if __name__ == "__main__":
     req3 = Request('https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank', headers={'User-Agent': 'Google Chrome'})
     webpages_name += ['https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank']
     webpages += [req3]
-    while 1:
-        obj = WebScraping(webpages,webpages_name)
-        del(obj)
-        time.sleep(0.1)
+    # while 1:
+    #     obj = WebScraping(webpages,webpages_name)
+    #     del(obj)
+    #     time.sleep(0.1)
+    obj = WebScraping(webpages,webpages_name)
+    del(obj)
         
