@@ -17,7 +17,7 @@
     },
     {
         "currency": "USD",
-        "amount": "1100",
+        "amount": "11",
         "sign": "$",
         "icon": "fas fa-dollar-sign",
         "from_curreny": "RON",
