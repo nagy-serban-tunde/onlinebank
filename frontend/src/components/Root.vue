@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <v-app id="inspire">
+    <v-app id="inspire" style="background-color: #333333">
       <v-layout>
-        <v-navigation-drawer dark v-model="drawer" app permanent expand-on-hover>
+        <v-navigation-drawer dark :temporary="!mini" :mini-variant.sync="mini" app permanent>
           <v-list-item>
             <v-list-item-avatar>
               <v-img src="https://randomuser.me/api/portraits/women/72.jpg"></v-img>
             </v-list-item-avatar>
-            <v-layout column align-center >
+            <v-layout column align-center>
               <v-list-item-title class="subtitle-1">{{user.name}}</v-list-item-title>
               <v-list-item-subtitle class="mt-1 green--text caption">{{user.deposit}} lej</v-list-item-subtitle>
             </v-layout>
 
-            <v-btn @click.stop="drawer = !drawer" icon>
+            <v-btn @click.stop="mini = !mini" icon>
               <v-icon>mdi-chevron-left</v-icon>
             </v-btn>
           </v-list-item>
@@ -45,7 +45,7 @@
             </v-list-item>
           </v-list>
         </v-navigation-drawer>
-        <v-container class=" justify-center">
+        <v-container class="justify-center">
           <router-view />
         </v-container>
       </v-layout>
@@ -58,7 +58,7 @@ export default {
   name: "Root",
   data() {
     return {
-      drawer: false,
+      mini: true,
       items: [
         { title: "Home", icon: "fas fa-home", route: "/home" },
         { title: "My Account", icon: "far fa-user", route: "/account" },

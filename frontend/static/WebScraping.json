@@ -3,7 +3,7 @@
         "currency": "Euro",
         "amount": "500",
         "sign": "€",
-        "icon": "as fa-euro-sign",
+        "icon": "fas fa-euro-sign",
         "from_curreny": "RON",
         "exchange": "4.76"
     },

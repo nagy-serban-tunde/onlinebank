@@ -1,5 +1,5 @@
 <template>
-  <v-card dark outlined max-width="300">
+  <v-card elevation="10" dark outlined max-width="300">
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">{{ card.from_curreny }} to</div>
@@ -17,13 +17,15 @@
     </v-list-item>
 
     <v-card-actions color="green">
-      <v-btn outlined color="success" text>Add</v-btn>
+      <exchange-card-dialog/>
     </v-card-actions>
   </v-card>
 </template>
 <script>
+import ExchangeCardDialog from "./ExchangeCardDialog";
 export default {
   name: "ExchangeCard",
+  components: { ExchangeCardDialog },
   props: ["card"]
 };
 </script>
