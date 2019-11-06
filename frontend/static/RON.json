@@ -1,1 +1,56 @@
-[{"web_address": "https://www.otpbank.ro/hu/valutarfolyam", "currency": "EUR", "purchase_price": "0.213", "sale_price": "0.206"}, {"web_address": "https://www.otpbank.ro/hu/valutarfolyam", "currency": "USD", "purchase_price": "0.237", "sale_price": "0.227"}, {"web_address": "https://www.otpbank.ro/hu/valutarfolyam", "currency": "GBP", "purchase_price": "0.184", "sale_price": "0.176"}, {"web_address": "http://www.lillapanzio.ro/valutavalto", "currency": "EUR", "purchase_price": "0.211", "sale_price": "0.210"}, {"web_address": "http://www.lillapanzio.ro/valutavalto", "currency": "USD", "purchase_price": "0.234", "sale_price": "0.232"}, {"web_address": "http://www.lillapanzio.ro/valutavalto", "currency": "GBP", "purchase_price": "0.182", "sale_price": "0.181"}, {"web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank", "currency": "EUR", "purchase_price": "0.213", "sale_price": "0.207"}, {"web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank", "currency": "USD", "purchase_price": "0.238", "sale_price": "0.227"}, {"web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank", "currency": "GBP", "purchase_price": "0.184", "sale_price": "0.176"}]
+[
+    {
+        "web_address": "https://www.otpbank.ro/hu/valutarfolyam",
+        "currency": "EUR",
+        "purchase_price": "0.213",
+        "sale_price": "0.206"
+    },
+    {
+        "web_address": "https://www.otpbank.ro/hu/valutarfolyam",
+        "currency": "USD",
+        "purchase_price": "0.237",
+        "sale_price": "0.227"
+    },
+    {
+        "web_address": "https://www.otpbank.ro/hu/valutarfolyam",
+        "currency": "GBP",
+        "purchase_price": "0.184",
+        "sale_price": "0.176"
+    },
+    {
+        "web_address": "http://www.lillapanzio.ro/valutavalto",
+        "currency": "EUR",
+        "purchase_price": "0.211",
+        "sale_price": "0.210"
+    },
+    {
+        "web_address": "http://www.lillapanzio.ro/valutavalto",
+        "currency": "USD",
+        "purchase_price": "0.234",
+        "sale_price": "0.232"
+    },
+    {
+        "web_address": "http://www.lillapanzio.ro/valutavalto",
+        "currency": "GBP",
+        "purchase_price": "0.182",
+        "sale_price": "0.181"
+    },
+    {
+        "web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank",
+        "currency": "EUR",
+        "purchase_price": "0.213",
+        "sale_price": "0.207"
+    },
+    {
+        "web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank",
+        "currency": "USD",
+        "purchase_price": "0.238",
+        "sale_price": "0.227"
+    },
+    {
+        "web_address": "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank",
+        "currency": "GBP",
+        "purchase_price": "0.184",
+        "sale_price": "0.176"
+    }
+]
