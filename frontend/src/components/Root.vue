@@ -67,7 +67,7 @@ export default {
       user: {
         name: "Nagy Tunde",
         email: "nagyserbantunde@gmail.com",
-        birthdate: "1997-01-11",
+        birthdate: "1997-09-05",
         deposit: "1467.4"
       }
     };
