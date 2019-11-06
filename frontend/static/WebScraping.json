@@ -1,0 +1,26 @@
+[
+    {
+        "currency": "Euro",
+        "amount": "500",
+        "sign": "€",
+        "icon": "fas fa-euro-sign",
+        "from_curreny": "RON",
+        "exchange": "4.76"
+    },
+    {
+        "currency": "GBP",
+        "amount": "200",
+        "sign": "£",
+        "icon": "fas fa-pound-sign",
+        "from_curreny": "RON",
+        "exchange": "5.50"
+    },
+    {
+        "currency": "USD",
+        "amount": "110",
+        "sign": "$",
+        "icon": "fas fa-dollar-sign",
+        "from_curreny": "RON",
+        "exchange": "4.29"
+    }
+]
