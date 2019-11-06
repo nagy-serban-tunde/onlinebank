@@ -99,9 +99,9 @@ class WebScraping(object):
         value_pur = 0
         value_sale = 0
         for element in self.List_elements:
-            value_pur = str((1/float(element[2]))*float(euro_pur))
-            value_sale =str((1/float(element[3]))*float(euro_sale))
-            self.List_RONtoEURO_GBP_USD += [['EUR',element[1],value_pur[:5],value_sale[:5]]]
+            value_pur = str(1/float(element[2]))
+            value_sale = str(1/float(element[3]))
+            self.List_RONtoEURO_GBP_USD += [['RON',element[1],value_pur[:5],value_sale[:5]]]
 
     def EUROtoRON_GBP_USD(self):
         value_pur = 0
@@ -179,7 +179,8 @@ class WebScraping(object):
     def WebScrapingMain(self):
         self.search_table()
         self.data_cleaning()
-        
+        self.RONtoEURO_GBP_USD()
+        self.json_file_upload('..\\frontend\\static\\RON.json',self.List_RONtoEURO_GBP_USD)
         self.EUROtoRON_GBP_USD()
         self.json_file_upload('..\\frontend\\static\\EURO.json',self.List_EUROtoRON_GBP_USD)
         self.GBPtoRON_EURO_USD()
