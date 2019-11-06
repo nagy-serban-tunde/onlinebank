@@ -170,7 +170,6 @@ class WebScraping(object):
     def WebScrapingMain(self):
         self.search_table()
         self.data_cleaning()
-        print(self.List_elements)
         self.EUROtoRON_GBP_USD()
         self.json_file_upload('..\\frontend\\static\\EURO.json',self.List_EUROtoRON_GBP_USD)
         self.GBPtoRON_EURO_USD()
