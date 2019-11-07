@@ -179,6 +179,7 @@ class WebScraping(object):
     def WebScrapingMain(self):
         self.search_table()
         self.data_cleaning()
+        self.json_file_upload('..\\frontend\\static\\WebScraping.json',self.List_elements)
         self.RONtoEURO_GBP_USD()
         self.json_file_upload('..\\frontend\\static\\RON.json',self.List_RONtoEURO_GBP_USD)
         self.EUROtoRON_GBP_USD()
@@ -191,6 +192,7 @@ class WebScraping(object):
         self.List_EUROtoRON_GBP_USD.clear()
         self.List_GBPtoRON_EURO_USD.clear()
         self.List_USDtoRON_EURO_GBP.clear()
+        self.List_RONtoEURO_GBP_USD.clear()
 
 if __name__ == "__main__":
     webpages = []
