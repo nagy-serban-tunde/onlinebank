@@ -73,7 +73,6 @@
 <script>
 
 export default {
-<<<<<<< HEAD
 	name : "Account",
 	data(){
 		return{
@@ -88,10 +87,6 @@ export default {
 		}
 	}		
 }
-=======
-  name: "Account",
-};
->>>>>>> b2bb5cb64c1229deec9e34f02e7627d24639af05
 </script>
 
 <style scoped>
