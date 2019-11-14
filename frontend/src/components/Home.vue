@@ -33,7 +33,9 @@ export default {
           amount: "30.5",
           date: "Sept 23, 2019",
           type: "red--text",
-          sign: "-"
+          sign: "-",
+          attitude: "expense",
+          comment: "kellet bagora"
         },
         {
           id: "2",
@@ -42,7 +44,9 @@ export default {
           amount: "19.6",
           date: "Sept 10, 2019",
           type: "red--text",
-          sign: "-"
+          sign: "-",
+          attitude: "expense",
+          comment: "Ket csomag perec, egy doboz pastetom, sok laska s meg valami edesseg is"
         },
         {
           id: "3",
@@ -51,7 +55,9 @@ export default {
           amount: "320",
           date: "Sept 2, 2019",
           type: "red--text",
-          sign: "-"
+          sign: "-",
+          attitude: "expense",
+          comment: "kestem a rezsivel"
         },
         {
           id: "4",
@@ -60,7 +66,9 @@ export default {
           amount: "1000",
           date: "Aug 11, 2019",
           type: "green--text",
-          sign: "+"
+          sign: "+",
+          attitude: "income",
+          comment: "anyum kuldott"
         },
         {
           id: "5",
@@ -69,7 +77,9 @@ export default {
           amount: "142.9",
           date: "Aug 10, 2019",
           type: "red--text",
-          sign: "-"
+          sign: "-",
+          attitude: "expense",
+          comment: "kaposzta, paradicsom, s egy uveg Jack"
         }
       ],
       exchangesList: [
