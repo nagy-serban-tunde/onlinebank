@@ -16,9 +16,9 @@
               <span
                 style="width:100px; text-align:right"
               >{{exchange.signFrom}} {{exchange.amountFrom}}</span>
-              <v-icon class="mx-2">fas fa-long-arrow-alt-right</v-icon>
+              <v-icon class="mx-2">{{arrow}}</v-icon>
               <span style="width:100px; text-align:left">{{exchange.signTo}} {{exchange.amountTo}}</span>
-              <exchange-dialog/>
+              <exchange-dialog :exchange="exchange"/>
             </v-layout>
           </v-list-item-action>
         </v-layout>
@@ -36,7 +36,7 @@ export default {
   props: ["exchangesList"],
   data() {
     return {
-     //
+     arrow: "fas fa-long-arrow-alt-right"
     };
   }
 };
