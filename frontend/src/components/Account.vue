@@ -55,7 +55,6 @@
         </v-list-item-icon>
         <v-list-item class="overline">Password</v-list-item>
         <v-list-item class="subtitle-1">{{ characters }}</v-list-item>
-        <!-- <v-btn outlined color="success" text>Change</v-btn> -->
         <change-password></change-password>
       </v-list-item>
 

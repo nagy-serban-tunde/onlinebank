@@ -17,3 +17,4 @@ vue add vuetify -> protopype
 Python:
 version 3.7.0
 pip install beautifulsoup4
+python -m pip install MySql-connector-python
