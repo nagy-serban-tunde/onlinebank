@@ -4,11 +4,11 @@ import Root from '@/components/Root.vue'
 import Home from '@/components/Home.vue'
 import Statistics from '@/components/Statistics.vue'
 import Account from '@/components/Account.vue'
+import Register from '@/components/Register.vue'
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
-  mode: 'history',
   routes: [
     {
       path: "/", component: Root,
@@ -16,8 +16,10 @@ export default new VueRouter({
         { path: '', redirect: { name: 'Home' } },
         { path: 'home', name: 'Home', component: Home },
         { path: 'statistics', name: 'Statistics', component: Statistics },
-        { path: 'account', name: 'Account', component: Account },
+        { path: 'account', name: 'Account', component: Account }
       ]
+    }, {
+      path: '/register', name: 'Register', component: Register
     }
   ]
 })
