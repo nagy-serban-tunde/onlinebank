@@ -14,7 +14,7 @@ export default new VueRouter({
     {
       path: "/", component: Root,
       children: [
-        { path: '', redirect: { name: 'Home' } },
+        { path: '', redirect: { name: 'Login' } },
         { path: 'home', name: 'Home', component: Home },
         { path: 'statistics', name: 'Statistics', component: Statistics },
         { path: 'account', name: 'Account', component: Account }

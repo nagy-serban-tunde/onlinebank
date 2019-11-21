@@ -8,7 +8,7 @@
         outlined
         dark
         class="ma-auto"
-        :loading="loading"
+        :loading="loadingCard"
       >
         <v-toolbar flat dark>
           <v-card-title>Login</v-card-title>
@@ -25,7 +25,6 @@
                 label="Username"
                 color="green"
                 prepend-icon="fas fa-user"
-                @click="textfieldSelected=true"
               ></v-text-field>
             </v-flex>
             <v-flex xs12>
@@ -44,8 +43,15 @@
               />
             </v-flex>
             <v-layout justify-space-around align-center>
-              <v-btn outlined class="mt-3 mb-5" color="success" text @click="toHome">Login</v-btn>
-              <v-btn outlined class="mt-3 mb-5" color="success" text @click="toRegister">Register</v-btn>
+              <v-btn outlined class="mt-3 mb-5" color="success" text @click="loginUser">Login</v-btn>
+              <v-btn
+                :loading="loadingButton"
+                outlined
+                class="mt-3 mb-5"
+                color="success"
+                text
+                @click="toRegister"
+              >Register</v-btn>
             </v-layout>
           </v-layout>
         </v-container>
@@ -64,7 +70,8 @@ export default {
       name: "",
       password: "",
       show: false,
-      loading: false,
+      loadingCard: false,
+      loadingButton: false,
       rules: {
         required: value => !!value || "Password is equired",
         min: v => v.length >= 5 || "Min 5 characters"
@@ -72,28 +79,31 @@ export default {
     };
   },
   methods: {
-    async login() {
-      this.loading = "green";
+    toHome() {
+      this.loadingCard = "success";
+      setTimeout(
+        () => ((this.loadingCard = false), this.$router.push({ path: "home" })),
+        2000
+      );
+    },
+    async loginUser() {
+      this.loadingCard = "green";
       const response = await AuthRequest.register({
         name: this.name,
         password: this.password
       });
-      setTimeout(() => (this.loading = false), 2000);
+      setTimeout(() => (this.loadingCard = false), 2000);
       console.log(response.data);
+      this.toHome();
     },
 
     toRegister() {
-      this.loading = "success";
+      this.loadingButton = "success";
       setTimeout(
-        () => ((this.loading = false), this.$router.push({ path: "register" })),
-        1000
-      );
-    },
-    toHome() {
-      this.loading = "success";
-      setTimeout(
-        () => ((this.loading = false), this.$router.push({ path: "home" })),
-        2000
+        () => (
+          (this.loadingButton = false), this.$router.push({ path: "register" })
+        ),
+        700
       );
     }
   }
