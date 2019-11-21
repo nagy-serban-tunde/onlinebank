@@ -12,7 +12,7 @@ class TablesCreated(object):
 
     def Create_Table_User(self):
         try:
-            create_table = "CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(255), birth_date TIMESTAMP, profile_picture VARCHAR(255), created_at TIMESTAMP, gender VARCHAR(255), password VARCHAR(255), email_addres VARCHAR(255), phone_number VARCHAR(255), deposit DECIMAL)"
+            create_table = "CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(255), birth_date TIMESTAMP, profile_picture VARCHAR(255), created_at TIMESTAMP, gender ENUM('M','F'), password VARCHAR(255), email_addres VARCHAR(255), phone_number VARCHAR(255), deposit DECIMAL)"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
