@@ -5,6 +5,7 @@ import Home from '@/components/Home.vue'
 import Statistics from '@/components/Statistics.vue'
 import Account from '@/components/Account.vue'
 import Register from '@/components/Register.vue'
+import Login from '@/components/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -18,8 +19,8 @@ export default new VueRouter({
         { path: 'statistics', name: 'Statistics', component: Statistics },
         { path: 'account', name: 'Account', component: Account }
       ]
-    }, {
-      path: '/register', name: 'Register', component: Register
-    }
+    },
+    { path: '/register', name: 'Register', component: Register },
+    { path: '/login', name: 'Login', component: Login }
   ]
 })

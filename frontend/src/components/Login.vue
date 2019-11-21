@@ -11,7 +11,7 @@
         :loading="loading"
       >
         <v-toolbar flat dark>
-          <v-card-title>Register</v-card-title>
+          <v-card-title>Login</v-card-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-container fluid grid-list-lg class="pt-3">
@@ -43,8 +43,9 @@
                 prepend-icon="fas fa-lock"
               />
             </v-flex>
-            <v-layout justify-center align-center>
-              <v-btn outlined class="mt-3 mb-5" color="success" text @click="register">Register</v-btn>
+            <v-layout justify-space-around align-center>
+              <v-btn outlined class="mt-3 mb-5" color="success" text @click="toHome">Login</v-btn>
+              <v-btn outlined class="mt-3 mb-5" color="success" text @click="toRegister">Register</v-btn>
             </v-layout>
           </v-layout>
         </v-container>
@@ -71,14 +72,23 @@ export default {
     };
   },
   methods: {
-    async register() {
+    async login() {
       this.loading = "green";
       const response = await AuthRequest.register({
         name: this.name,
         password: this.password
       });
-      setTimeout(() => ((this.loading = false)), 2000);
+      setTimeout(() => (this.loading = false), 2000);
       console.log(response.data);
+    },
+
+    toRegister() {
+      this.$router.push({ path: "register" });
+    },
+    toHome() {
+      this.loading = "success";
+      setTimeout(() => ((this.loading = false), (this.dialog = false)), 2000);
+      this.$router.push({ path: "home" });
     }
   }
 };

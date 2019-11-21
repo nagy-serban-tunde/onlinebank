@@ -17,7 +17,7 @@
         </v-list-item>
       </v-list-item>
 
-      <v-divider class="mx-5"></v-divider>
+      <v-divider class="mx-5" ></v-divider>
 
       <v-list-item>
         <v-list-item-icon>
