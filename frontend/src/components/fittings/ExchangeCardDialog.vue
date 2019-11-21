@@ -45,7 +45,7 @@ export default {
   methods: {
     adding() {
       this.loading = 'success';
-      setTimeout(() => (this.loading = false, this.dialog = false), 2000);
+      setTimeout(() => (this.loading = false, this.dialog = false), 1000);
     }
   }
 };
