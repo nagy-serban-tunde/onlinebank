@@ -15,45 +15,49 @@
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-container fluid grid-list-lg class="pt-3">
-          <v-layout row wrap>
-            <v-flex>
-              <v-text-field
-                class="mx-5"
-                type="name"
-                name="name"
-                v-model="name"
-                label="Username"
-                color="green"
-                prepend-icon="fas fa-user"
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field
-                name="password"
-                v-model="password"
-                class="mx-5"
-                label="Password"
-                color="green"
-                :append-icon="show ? 'fas fa-eye' : 'fas fa-eye-slash'"
-                :type="show ? 'text' : 'password'"
-                counter="24"
-                @click:append="show = !show"
-                :rules="[rules.required, rules.min]"
-                prepend-icon="fas fa-lock"
-              />
-            </v-flex>
-            <v-layout justify-space-around align-center>
-              <v-btn outlined class="mt-3 mb-5" color="success" text @click="loginUser">Login</v-btn>
-              <v-btn
-                :loading="loadingButton"
-                outlined
-                class="mt-3 mb-5"
-                color="success"
-                text
-                @click="toRegister"
-              >Register</v-btn>
+          <v-form ref="form" lazy-validation>
+            <v-layout row wrap>
+              <v-flex>
+                <v-text-field
+                  class="mx-5"
+                  type="name"
+                  name="name"
+                  v-model="name"
+                  label="Username"
+                  color="green"
+                  prepend-icon="fas fa-user"
+                  @keyup.enter="validateUser"
+                  :rules="[value=> !!value || 'Username is required']"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  name="password"
+                  v-model="password"
+                  class="mx-5"
+                  label="Password"
+                  color="green"
+                  :append-icon="show ? 'fas fa-eye' : 'fas fa-eye-slash'"
+                  :type="show ? 'text' : 'password'"
+                  counter="24"
+                  @keyup.enter="validateUser"
+                  :rules="[value => !!value || 'Password is required', value => value.length >= 5 || 'Min 5 characters']"
+                  prepend-icon="fas fa-lock"
+                />
+              </v-flex>
+              <v-layout justify-space-around align-center>
+                <v-btn
+                  :loading="loadingButton"
+                  
+                  class="mt-3 mb-5"
+                  color="success"
+                  text
+                  @click="toRegister"
+                >Register</v-btn>
+                <v-btn outlined class="mt-3 mb-5" color="success" text @click="validateUser">Login</v-btn>
+              </v-layout>
             </v-layout>
-          </v-layout>
+          </v-form>
         </v-container>
       </v-card>
     </v-app>
@@ -72,10 +76,6 @@ export default {
       show: false,
       loadingCard: false,
       loadingButton: false,
-      rules: {
-        required: value => !!value || "Password is equired",
-        min: v => v.length >= 5 || "Min 5 characters"
-      }
     };
   },
   methods: {
@@ -85,6 +85,12 @@ export default {
         () => ((this.loadingCard = false), this.$router.push({ path: "home" })),
         2000
       );
+    },
+    validateUser() {
+      if (this.$refs.form.validate()) {
+        this.snackbar = true;
+        this.loginUser();
+      }
     },
     async loginUser() {
       this.loadingCard = "green";
