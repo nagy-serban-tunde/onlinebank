@@ -34,13 +34,13 @@
           <v-divider />
 
           <v-list dense>
-            <v-list-item link>
+            <v-list-item  router :to="logoutProps.route" link>
               <v-list-item-icon>
-                <v-icon>fas fa-power-off</v-icon>
+                <v-icon>{{ logoutProps.icon }}</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content>
-                <v-list-item-title>Log Out</v-list-item-title>
+                <v-list-item-title>{{ logoutProps.title }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -64,6 +64,11 @@ export default {
         { title: "My Account", icon: "far fa-user", route: "/account" },
         { title: "Statistics", icon: "fas fa-chart-line", route: "/statistics" }
       ],
+      logoutProps: {
+        title: "Log Out",
+        icon: "fas fa-power-off",
+        route: "/login"
+      },
       user: {
         name: "Nagy Tunde",
         email: "nagyserbantunde@gmail.com",
