@@ -1,32 +1,20 @@
 import mysql.connector
 
-class ValutaMySqlConnectionAndLoading(object):
+class ValutaMySqlLoading(object):
     def __init__(self, ListToData, table_name,database_name,host,user,password):
         self.ListToData = ListToData
         self.table_name = table_name
-        self.mydb = mysql.connector.connect(
-                host=host,
-                user=user,
-                password=password,
-                database = database_name
-            )
-        self.mycursor = self.mydb.cursor()
-
-    def Drop_Table(self):
         try:
-            drop_table = "DROP TABLE {0}".format(self.table_name)
-            self.mycursor.execute(drop_table)
-            print("Table droped successfull!")
+            self.mydb = mysql.connector.connect(
+                    host=host,
+                    user=user,
+                    password=password,
+                    database = database_name
+                )
+            self.mycursor = self.mydb.cursor()
+            print("Successfull connection!")
         except:
-            print("Unable to drop the table!")
-
-    def Create_Table(self):
-        try:
-            create_table = "CREATE TABLE {0} (id INT NOT NULL AUTO_INCREMENT, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3),PRIMARY KEY (id))".format(self.table_name)
-            self.mycursor.execute(create_table)
-            print("Table created successfull!")
-        except:
-            print("Unable to create the table")
+            print("Unable connection!")
     
     def Insert_Element_In_Table(self):
         try:
@@ -53,7 +41,6 @@ class ValutaMySqlConnectionAndLoading(object):
 
     def main(self):
         # self.Drop_Table()
-        self.Create_Table()
         self.Insert_Element_In_Table()
         self.Update_Element_In_Table()
         self.mydb.close()

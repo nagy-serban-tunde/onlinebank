@@ -2,7 +2,7 @@ from WebScraping import WebScraping
 from DataCleaning import DataCleaning
 from ExchangeList import ExchangeList
 from BestExchangeValuta import BestExchangeValuta
-from ValutaMySqlConnectionAndLoading import ValutaMySqlConnectionAndLoading
+from ValutaMySqlLoading import ValutaMySqlLoading
 from TablesCreated import TablesCreated
 import WriteToJson
 
@@ -24,15 +24,15 @@ if __name__ == "__main__":
     TablesCreated("online_bank","127.0.0.1","root","diak123").main()
 
     ListBestExchangeValutaRON = BestExchangeValuta(webpages_name,List_RONtoEURO_GBP_USD,['EUR','GBP','USD']).main()
-    ValutaMySqlConnectionAndLoading(ListBestExchangeValutaRON,"RON","online_bank","127.0.0.1","root","diak123").main()
+    ValutaMySqlLoading(ListBestExchangeValutaRON,"RON","online_bank","127.0.0.1","root","diak123").main()
 
     ListBestExchangeValutaEUR = BestExchangeValuta(webpages_name,List_EUROtoRON_GBP_USD,['RON','GBP','USD']).main()
-    ValutaMySqlConnectionAndLoading(ListBestExchangeValutaEUR,"EUR","online_bank","127.0.0.1","root","diak123").main()
+    ValutaMySqlLoading(ListBestExchangeValutaEUR,"EUR","online_bank","127.0.0.1","root","diak123").main()
 
     ListBestExchangeValutaGBP = BestExchangeValuta(webpages_name,List_GBPtoRON_EURO_USD,['RON','EUR','USD']).main()
-    ValutaMySqlConnectionAndLoading(ListBestExchangeValutaGBP,"GBP","online_bank","127.0.0.1","root","diak123").main()
+    ValutaMySqlLoading(ListBestExchangeValutaGBP,"GBP","online_bank","127.0.0.1","root","diak123").main()
 
     ListBestExchangeValutaUSD = BestExchangeValuta(webpages_name,List_USDtoRON_EURO_GBP,['RON','EUR','GBP']).main()
-    ValutaMySqlConnectionAndLoading(ListBestExchangeValutaUSD,"USD","online_bank","127.0.0.1","root","diak123").main()
+    ValutaMySqlLoading(ListBestExchangeValutaUSD,"USD","online_bank","127.0.0.1","root","diak123").main()
 
     
