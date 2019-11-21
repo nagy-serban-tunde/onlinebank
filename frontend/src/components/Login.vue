@@ -83,12 +83,18 @@ export default {
     },
 
     toRegister() {
-      this.$router.push({ path: "register" });
+      this.loading = "success";
+      setTimeout(
+        () => ((this.loading = false), this.$router.push({ path: "register" })),
+        1000
+      );
     },
     toHome() {
       this.loading = "success";
-      setTimeout(() => ((this.loading = false), (this.dialog = false)), 2000);
-      this.$router.push({ path: "home" });
+      setTimeout(
+        () => ((this.loading = false), this.$router.push({ path: "home" })),
+        2000
+      );
     }
   }
 };

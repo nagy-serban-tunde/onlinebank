@@ -113,7 +113,7 @@
 
 <script>
 import ExchangeCardDialog from "./fittings/ExchangeCardDialog";
-import ChangePassword from "./fittings/ChangePassword";
+import ChangePassword from "./fittings/ChangePasswordDialog";
 
 export default {
   name: "Account",
