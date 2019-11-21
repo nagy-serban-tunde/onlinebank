@@ -1,6 +1,6 @@
 import mysql.connector
 
-class MySqlConnectionAndLoading(object):
+class ValutaMySqlConnectionAndLoading(object):
     def __init__(self, ListToData, table_name,database_name,host,user,password):
         self.ListToData = ListToData
         self.table_name = table_name
@@ -52,9 +52,9 @@ class MySqlConnectionAndLoading(object):
             print("Unable to update the data!")
 
     def main(self):
-        self.Drop_Table()
+        # self.Drop_Table()
         self.Create_Table()
         self.Insert_Element_In_Table()
-        # self.Update_Element_In_Table()
+        self.Update_Element_In_Table()
         self.mydb.close()
         
