@@ -9,14 +9,16 @@
       <v-list-item>
         <v-list-item-content>
           <div class="overline mb-4">Exchange</div>
-          <v-list-item-title
-            class="headline mb-1 red--text"
-          >-{{exchange.signFrom}} {{exchange.amountFrom}}</v-list-item-title>
+          <v-list-item-title >
+            <v-layout class="headline mb-1 red--text">
+            - {{exchange.signFrom}} {{exchange.amountFrom}}
+            </v-layout> 
+            <v-layout class="headline mb-1 green--text">
+              +{{exchange.signTo}} {{exchange.amountTo}}
+            </v-layout>
+            </v-list-item-title>
         </v-list-item-content>
-        <v-list-item-action
-          class="headline mt-5 pt-5 green--text"
-        >+{{exchange.signTo}} {{exchange.amountTo}}</v-list-item-action>
-        <v-list-item-icon>
+        <v-list-item-icon class="mb-0">
           <v-icon>{{exchange.iconFrom}}</v-icon>
           <v-icon>{{arrow}}</v-icon>
           <v-icon>{{exchange.iconTo}}</v-icon>
