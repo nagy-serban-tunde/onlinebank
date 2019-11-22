@@ -114,6 +114,7 @@
 <script>
 import ExchangeCardDialog from "./fittings/ExchangeCardDialog";
 import ChangePassword from "./fittings/ChangePasswordDialog";
+import AuthRequest from "@/services/AuthService";
 
 export default {
   name: "Account",

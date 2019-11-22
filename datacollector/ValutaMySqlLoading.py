@@ -17,15 +17,22 @@ class ValutaMySqlLoading(object):
             print("Unable connection!")
     
     def Insert_Element_In_Table(self):
-        try:
-            for element in self.ListToData:
-                insert_element = "INSERT INTO {0} (web_address, currency, purchase_price) VALUES (%s, %s, %s)".format(self.table_name)
-                val = (element[0],element[2],element[3])
-                self.mycursor.execute(insert_element, val)
-                self.mydb.commit()
-                print("Data inserted successfull!")
-        except:
-            print("Unable to inserte the data!")
+        is_empty_tables = "SELECT count(*) from {0}".format(self.table_name)
+        is_empty = self.mycursor.execute(is_empty_tables)
+        is_empty = self.mycursor.fetchall()
+        is_empty,= is_empty[0]
+        if is_empty == 0:
+            try:
+                for element in self.ListToData:
+                    insert_element = "INSERT INTO {0} (web_address, currency, purchase_price) VALUES (%s, %s, %s)".format(self.table_name)
+                    val = (element[0],element[2],element[3])
+                    self.mycursor.execute(insert_element, val)
+                    self.mydb.commit()
+                    print("Data inserted successfull!")
+            except:
+                print("Unable to inserte the data!")
+        else:
+            pass
     
     def Update_Element_In_Table(self):
         try:
@@ -41,7 +48,7 @@ class ValutaMySqlLoading(object):
 
     def main(self):
         # self.Drop_Table()
-        self.Insert_Element_In_Table()
         self.Update_Element_In_Table()
+        self.Insert_Element_In_Table()
         self.mydb.close()
         
