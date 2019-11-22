@@ -93,7 +93,6 @@
         <v-list-item class="overline">Telephone Number</v-list-item>
         <v-list-item class="subtitle-1" v-text="user.telephone_number"></v-list-item>
       </v-list-item>
-
       <v-divider class="mx-5"></v-divider>
 
       <v-list-item>

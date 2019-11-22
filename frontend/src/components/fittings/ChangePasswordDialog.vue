@@ -30,7 +30,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn v-on="on" @click="changing" color="success" text>Change</v-btn>
+        <v-btn @click="changing" color="success" text>Change</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
