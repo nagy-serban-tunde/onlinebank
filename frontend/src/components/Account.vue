@@ -12,7 +12,7 @@
         <v-list-item class="overline">Picture</v-list-item>
         <v-list-item class="mr-5 pr-5">
           <v-avatar size="100">
-            <v-img :src="user.picture"></v-img>
+            <v-img :src = profile_picture ></v-img>
           </v-avatar>
         </v-list-item>
       </v-list-item>
@@ -24,7 +24,7 @@
           <v-icon class="far fa-user"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Username</v-list-item>
-        <v-list-item class="subtitle-1" v-text="user.name"></v-list-item>
+        <v-list-item class="subtitle-1"> {{ full_name }} </v-list-item>
       </v-list-item>
 
       <v-divider class="mx-5"></v-divider>
@@ -34,7 +34,7 @@
           <v-icon class="far fa-clock"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Birth date</v-list-item>
-        <v-list-item class="subtitle-1" v-text="user.birth_date"></v-list-item>
+        <v-list-item class="subtitle-1" > {{ birth_date }} </v-list-item>
       </v-list-item>
 
       <v-divider class="mx-5"></v-divider>
@@ -44,7 +44,7 @@
           <v-icon class="fas fa-venus-mars"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Gender</v-list-item>
-        <v-list-item class="subtitle-1" v-text="user.gender"></v-list-item>
+        <v-list-item class="subtitle-1" > {{ gender }} </v-list-item>
       </v-list-item>
 
       <v-divider class="mx-5"></v-divider>
@@ -68,7 +68,7 @@
           <v-icon class="fas fa-calendar-check"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Data_accession</v-list-item>
-        <v-list-item class="subtitle-1" v-text="user.data_accession"></v-list-item>
+        <v-list-item class="subtitle-1" > {{ created_at }} </v-list-item>
       </v-list-item>
     </v-card>
 
@@ -76,12 +76,13 @@
       <v-card-title primary-title class="justify-center">
         <v-subheader class="display-1 white--text">Connection Data</v-subheader>
       </v-card-title>
+
       <v-list-item>
         <v-list-item-icon>
           <v-icon class="far fa-envelope"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Email Address</v-list-item>
-        <v-list-item class="subtitle-1" v-text="user.email_address"></v-list-item>
+        <v-list-item class="subtitle-1" > {{ email_addres }} </v-list-item>
       </v-list-item>
 
       <v-divider class="mx-5"></v-divider>
@@ -91,7 +92,7 @@
           <v-icon class="fas fa-mobile-alt"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Telephone Number</v-list-item>
-        <v-list-item class="subtitle-1" v-text="user.telephone_number"></v-list-item>
+        <v-list-item class="subtitle-1" > {{ phone_number }} </v-list-item>
       </v-list-item>
       <v-divider class="mx-5"></v-divider>
 
@@ -100,12 +101,13 @@
           <v-icon class="fas fa-comments-dollar"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Deposit</v-list-item>
-        <v-list-item class="subtitle-1 ">{{user.deposit}} RON 
+        <v-list-item class="subtitle-1 ">{{ deposit }} RON 
           <v-layout class ="ml-5 pl-5">
             <exchange-card-dialog :currency="'RON'" />
           </v-layout>
         </v-list-item>
       </v-list-item>
+
     </v-card>
   </div>
 </template>
@@ -113,25 +115,25 @@
 <script>
 import ExchangeCardDialog from "./fittings/ExchangeCardDialog";
 import ChangePassword from "./fittings/ChangePasswordDialog";
+import AuthRequest from "@/services/AuthService";
 
 export default {
   name: "Account",
   components: { ExchangeCardDialog , ChangePassword},
   data() {
     isMobile: false;
+    this.user();
     return {
       password_other: "",
-      user: {
-        picture: "https://randomuser.me/api/portraits/women/72.jpg",
-        name: "Nagy Tünde",
-        birth_date: "1997-09-05",
-        gender: "Female",
-        password: "alfabetaalfa",
-        data_accession: "2019-11-06",
-        email_address: "nagyserbantunde@gmail.com",
-        telephone_number: "0729461392",
-        deposit: "1467,4"
-      }
+      profile_picture: "",
+      full_name: "",
+      birth_date: "",
+      gender: "",
+      password: "",
+      created_at: "",
+      email_addres: "",
+      phone_number: "",
+      deposit: "",
     };
 
   },
@@ -147,23 +149,32 @@ export default {
     window.addEventListener("resize", this.onResize, { passive: true });
   },
   computed: {
-    password_length: function() {
-      return this.user.password.length;
-    },
     characters : function(){
-      for (let index = 0; index < this.password_length; index++) {
+      for (let index = 0; index < this.password.length; index++) {
         this.password_other = this.password_other + "*";
       }
       return this.password_other;
     },
-
   },
 
   methods: {
+    async user (){
+      const response = await AuthRequest.account(2);
+      this.profile_picture = response.profile_picture;
+      this.full_name = response.full_name;
+      this.birth_date = response.birth_date;
+      this.gender = response.gender;
+      this.password = response.password;
+      this.created_at = response.created_at;
+      this.email_addres = response.email_addres;
+      this.phone_number = response.phone_number;
+      this.deposit = response.deposit;
+    },
+    
     onResize() {
       this.isMobile = window.innerWidth < 600;
     }
-  }
+  },
 };
 </script>
 
