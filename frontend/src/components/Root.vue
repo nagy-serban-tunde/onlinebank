@@ -5,11 +5,11 @@
         <v-navigation-drawer dark :temporary="!mini" :mini-variant.sync="mini" app permanent>
           <v-list-item>
             <v-list-item-avatar>
-              <v-img src="https://randomuser.me/api/portraits/women/72.jpg"></v-img>
+              <v-img :src = profile_picture ></v-img>
             </v-list-item-avatar>
             <v-layout column align-center>
-              <v-list-item-title class="subtitle-1">{{user.name}}</v-list-item-title>
-              <v-list-item-subtitle class="mt-1 green--text caption">{{user.deposit}} lej</v-list-item-subtitle>
+              <v-list-item-title class="subtitle-1">{{ full_name }}</v-list-item-title>
+              <v-list-item-subtitle class="mt-1 green--text caption">{{ deposit }} lej</v-list-item-subtitle>
             </v-layout>
 
             <v-btn @click.stop="mini = !mini" icon>
@@ -54,11 +54,18 @@
 </template>
 
 <script>
+
+import AuthRequest from "@/services/AuthService";
+
 export default {
   name: "Root",
   data() {
+    this.user();
     return {
       mini: true,
+      profile_picture: "",
+      full_name: "",
+      deposit: "",
       items: [
         { title: "Home", icon: "fas fa-home", route: "/home" },
         { title: "My Account", icon: "far fa-user", route: "/account" },
@@ -69,14 +76,22 @@ export default {
         icon: "fas fa-power-off",
         route: "/login"
       },
-      user: {
-        name: "Nagy Tunde",
-        email: "nagyserbantunde@gmail.com",
-        birthdate: "1997-09-05",
-        deposit: "1467.4"
-      }
+      // user: {
+      //   name: "Nagy Tunde",
+      //   email: "nagyserbantunde@gmail.com",
+      //   birthdate: "1997-09-05",
+      //   deposit: "1467.4"
+      // }
     };
-  }
+  },
+   methods: {
+      async user (){
+        const response = await AuthRequest.account(2);
+        this.profile_picture = response.profile_picture;
+        this.full_name = response.full_name;
+        this.deposit = response.deposit;
+      },
+  },
 };
 </script>
 
