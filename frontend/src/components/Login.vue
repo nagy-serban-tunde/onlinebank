@@ -41,6 +41,7 @@
                   :type="show ? 'text' : 'password'"
                   counter="24"
                   @keyup.enter="validateUser"
+                  @click:append="show = !show"
                   :rules="[value => !!value || 'Password is required', value => value.length >= 5 || 'Min 5 characters']"
                   prepend-icon="fas fa-lock"
                 />
@@ -76,6 +77,7 @@ export default {
       show: false,
       loadingCard: false,
       loadingButton: false,
+      show: false,
     };
   },
   methods: {

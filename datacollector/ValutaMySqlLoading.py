@@ -41,7 +41,7 @@ class ValutaMySqlLoading(object):
 
     def main(self):
         # self.Drop_Table()
-        self.Insert_Element_In_Table()
+        # self.Insert_Element_In_Table()
         self.Update_Element_In_Table()
         self.mydb.close()
         
