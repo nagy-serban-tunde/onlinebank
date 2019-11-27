@@ -67,6 +67,60 @@ app.post('/register', function (req, res) {
     });
 });
 
+app.post('/changedeposit', function(req,res){
+    var sql = `SELECT id from user where  password="${req.body.password}"`;
+    connection.query(sql, function(err, result){
+        if (err){
+            res.send({
+                error: 'Wrong password!'
+            })
+            console.log('Wrong password!');
+            return;
+        } else{
+            var sql1 = `UPDATE user SET deposit = "${req.body.deposit}" WHERE (id = "${result[0].id}");`
+            connection.query(sql1, function (err1) {
+                if(err1){
+                    res.send({
+                        error: 'Wrong update!'
+                    })
+                }else{
+                    res.send({
+                        message: "Successful update"
+                    })
+                    console.log('Successful update');
+                }
+            })
+        }
+    });
+});
+
+app.post('/changepassword', function(req,res){
+    var sql = `SELECT id from user where  password="${req.body.password}"`;
+    connection.query(sql, function(err, result){
+        if (err){
+            res.send({
+                error: 'Wrong password!'
+            })
+            console.log('Wrong password!');
+            return;
+        } else{
+            var sql1 = `UPDATE user SET password = "${req.body.new_password}" WHERE (id = "${result[0].id}");`
+            connection.query(sql1, function (err1) {
+                if(err1){
+                    res.send({
+                        error: 'Wrong update!'
+                    })
+                }else{
+                    res.send({
+                        message: "Successful update"
+                    })
+                    console.log('Successful update');
+                }
+            })
+        }
+    });
+});
+
 const getUserInfo = (id) => {
     return new Promise((resolve, reject) => {
         connection.query(`SELECT * from user where id = "${id}"`, function (error, results, fields) {
