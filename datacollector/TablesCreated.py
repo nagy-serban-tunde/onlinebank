@@ -16,7 +16,7 @@ class TablesCreated(object):
 
     def Create_Table_User(self):
         try:
-            create_table = "CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(255) NOT NULL UNIQUE , birth_date DATE NOT NULL, profile_picture VARCHAR(255) NOT NULL, created_at DATE NOT NULL, gender ENUM('M','F') NOT NULL, password VARCHAR(255) NOT NULL UNIQUE, email_addres VARCHAR(255)  NOT NULL UNIQUE, phone_number VARCHAR(255) NOT NULL, deposit DECIMAL(10,3) NOT NULL)"
+            create_table = "CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, last_name VARCHAR(255) NOT NULL, first_name VARCHAR(255) NOT NULL ,username VARCHAR(255) NOT NULL UNIQUE , birth_date DATE NOT NULL, profile_picture VARCHAR(255) NOT NULL, created_at DATE NOT NULL, gender ENUM('M','F') NOT NULL, password VARCHAR(255) NOT NULL UNIQUE, email_addres VARCHAR(255)  NOT NULL UNIQUE, phone_number VARCHAR(255) NOT NULL, deposit DECIMAL(10,3) NOT NULL)"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:

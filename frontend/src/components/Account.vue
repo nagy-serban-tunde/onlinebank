@@ -24,7 +24,17 @@
           <v-icon class="far fa-user"></v-icon>
         </v-list-item-icon>
         <v-list-item class="overline">Username</v-list-item>
-        <v-list-item class="subtitle-1"> {{ full_name }} </v-list-item>
+        <v-list-item class="subtitle-1"> {{ username }} </v-list-item>
+      </v-list-item>
+
+      <v-divider class="mx-5"></v-divider>
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon class="far fa-user-circle"></v-icon>
+        </v-list-item-icon>
+        <v-list-item class="overline">Name</v-list-item>
+        <v-list-item class="subtitle-1"> {{ last_name }} {{ first_name }} </v-list-item>
       </v-list-item>
 
       <v-divider class="mx-5"></v-divider>
@@ -124,9 +134,11 @@ export default {
     isMobile: false;
     this.user();
     return {
+      last_name: "",
+      first_name: "",
       password_other: "",
       profile_picture: "",
-      full_name: "",
+      username: "",
       birth_date: "",
       gender: "",
       password: "",
@@ -159,9 +171,11 @@ export default {
 
   methods: {
     async user (){
-      const response = await AuthRequest.account(2);
+      const response = await AuthRequest.account(1);
+      this.last_name = response.last_name;
+      this.first_name = response.first_name;
       this.profile_picture = response.profile_picture;
-      this.full_name = response.full_name;
+      this.username = response.username;
       this.birth_date = response.birth_date;
       this.gender = response.gender;
       this.password = response.password;

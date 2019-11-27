@@ -44,14 +44,10 @@ class ValutaMySqlLoading(object):
                 self.mydb.commit()
                 print("Data updated successfull!")
         except:
-            print("Unable to update the data!")
+            self.Insert_Element_In_Table()
 
     def main(self):
         # self.Drop_Table()
-<<<<<<< HEAD
-        # self.Insert_Element_In_Table()
-=======
->>>>>>> b4a84a49c924f0729d84b831eb7066a77ff68ad8
         self.Update_Element_In_Table()
         self.Insert_Element_In_Table()
         self.mydb.close()

@@ -80,7 +80,7 @@ export default {
   },
    methods: {
       async user (){
-        const response = await AuthRequest.account(2);
+        const response = await AuthRequest.account(1);
         this.profile_picture = response.profile_picture;
         this.full_name = response.full_name;
         this.deposit = response.deposit;
