@@ -1,6 +1,22 @@
 <template>
   <div>
     <v-list two-line subheader>
+      <v-fab-transition>
+        <v-btn
+          @click="toLogin"
+          v-show="!hidden"
+          color="green"
+          fab
+          dark
+          small
+          absolute
+          top
+          right
+          :loading="loadingButton"
+        >
+          <v-icon>fas fa-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
       <v-list-item v-for="transaction in transactionsList" :key="transaction.id">
         <v-list-item-avatar>
           <v-icon :color="transaction.type" v-text="transaction.icon"></v-icon>
@@ -18,7 +34,7 @@
                 mr-5
                 justify-space-around
               >{{transaction.sign}}{{transaction.amount}} RON</v-layout>
-              <transcation-dialog :transaction="transaction"/>
+              <transcation-dialog :transaction="transaction" />
             </v-layout>
           </v-list-item-action>
         </v-layout>

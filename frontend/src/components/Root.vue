@@ -5,10 +5,10 @@
         <v-navigation-drawer dark :temporary="!mini" :mini-variant.sync="mini" app permanent>
           <v-list-item>
             <v-list-item-avatar>
-              <v-img :src = profile_picture ></v-img>
+              <v-img :src="profile_picture"></v-img>
             </v-list-item-avatar>
             <v-layout column align-center>
-              <v-list-item-title class="subtitle-1">{{ full_name }}</v-list-item-title>
+              <v-list-item-title class="subtitle-1">{{ first_name }} {{ last_name }}</v-list-item-title>
               <v-list-item-subtitle class="mt-1 green--text caption">{{ deposit }} lej</v-list-item-subtitle>
             </v-layout>
 
@@ -34,7 +34,7 @@
           <v-divider />
 
           <v-list dense>
-            <v-list-item  router :to="logoutProps.route" link>
+            <v-list-item router :to="logoutProps.route" link>
               <v-list-item-icon>
                 <v-icon>{{ logoutProps.icon }}</v-icon>
               </v-list-item-icon>
@@ -54,7 +54,6 @@
 </template>
 
 <script>
-
 import AuthRequest from "@/services/AuthService";
 
 export default {
@@ -64,7 +63,8 @@ export default {
     return {
       mini: true,
       profile_picture: "",
-      full_name: "",
+      first_name: "",
+      last_name: "",
       deposit: "",
       items: [
         { title: "Home", icon: "fas fa-home", route: "/home" },
@@ -75,17 +75,18 @@ export default {
         title: "Log Out",
         icon: "fas fa-power-off",
         route: "/login"
-      },
+      }
     };
   },
-   methods: {
-      async user (){
-        const response = await AuthRequest.account(1);
-        this.profile_picture = response.profile_picture;
-        this.full_name = response.full_name;
-        this.deposit = response.deposit;
-      },
-  },
+  methods: {
+    async user() {
+      const response = await AuthRequest.account(1);
+      this.profile_picture = response.profile_picture;
+      this.last_name = response.last_name;
+      this.first_name = response.first_name;
+      this.deposit = response.deposit;
+    }
+  }
 };
 </script>
 

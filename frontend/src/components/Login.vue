@@ -47,6 +47,7 @@
                 />
               </v-flex>
               <v-layout justify-space-around align-center>
+                <v-icon icon></v-icon>
                 <v-btn
                   :loading="loadingButton"
                   class="mt-3 mb-5"
@@ -117,9 +118,9 @@ export default {
       } else {
         this. loginSuccesMsg = response.data.message;
         setTimeout(() => (this. loginFailedSnackbar = false),(this. loginSuccesSnackbar = true), 1000);
-        setTimeout(() => this.toHome(), 1000);
+        this.toHome()
       }
-      setTimeout(() => (this.loadingCard = false), 1000);
+      setTimeout(() => (this.loadingCard = false), 2000);
     },
 
     toRegister() {
