@@ -13,6 +13,8 @@
         :type="show ? 'text' : 'password'"
         counter="24"
         @click:append="show = !show"
+        name= "password"
+        v-model="password"
         :rules="[rules.required, rules.min]"
       />
 
@@ -23,6 +25,8 @@
         :type="show1 ? 'text' : 'password'"
         counter="24"
         @click:append="show1 = !show1"
+        name = "new_password"
+        v-model="new_password"
         :rules="[rules.required, rules.min]"
       />
 
@@ -38,22 +42,31 @@
 </template>
 
 <script>
+
+import AuthRequest from "@/services/AuthService";
+
 export default {
   name: "ChangePassword",
   data() {
     return {
+      password: "",
+      new_password: "",
       show: false,
       show1:false,
       dialog: false,
       loading: false,
       rules: {
-        required: value => !!value || "Password is equired",
+        required: value => !!value || "Password is required",
         min: v => v.length >= 5 || "Min 5 characters"
       }
     };
   },
   methods: {
-    changing() {
+    async changing() {
+      const response = await AuthRequest.changepassword({
+        password : this.password,
+        new_password: this.new_password
+      });
       this.loading = 'success';
       setTimeout(() => (this.loading = false, this.dialog = false), 1000);
     }

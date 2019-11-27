@@ -167,7 +167,6 @@ export default {
       this.phone_number = response.phone_number;
       this.deposit = response.deposit;
     },
-
     onResize() {
       this.isMobile = window.innerWidth < 600;
     }
