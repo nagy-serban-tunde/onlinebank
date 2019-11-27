@@ -76,12 +76,6 @@ export default {
         icon: "fas fa-power-off",
         route: "/login"
       },
-      // user: {
-      //   name: "Nagy Tunde",
-      //   email: "nagyserbantunde@gmail.com",
-      //   birthdate: "1997-09-05",
-      //   deposit: "1467.4"
-      // }
     };
   },
    methods: {

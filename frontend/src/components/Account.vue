@@ -173,7 +173,7 @@ export default {
     
     onResize() {
       this.isMobile = window.innerWidth < 600;
-    }
+    },
   },
 };
 </script>

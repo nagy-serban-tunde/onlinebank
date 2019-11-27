@@ -49,7 +49,6 @@
               <v-layout justify-space-around align-center>
                 <v-btn
                   :loading="loadingButton"
-                  
                   class="mt-3 mb-5"
                   color="success"
                   text
@@ -61,6 +60,14 @@
           </v-form>
         </v-container>
       </v-card>
+      <v-snackbar v-model="loginSuccesSnackbar" class="mb-5 green--text">
+        {{ loginSuccesMsg }}
+        <v-btn text @click="loginSuccesSnackbar = false">Close</v-btn>
+      </v-snackbar>
+      <v-snackbar v-model="loginFailedSnackbar" class="mb-5 red--text">
+        {{ loginFailedMsg }}
+        <v-btn text @click="loginFailedSnackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-app>
   </div>
 </template>
@@ -78,6 +85,10 @@ export default {
       loadingCard: false,
       loadingButton: false,
       show: false,
+      loginFailedMsg: "",
+      loginSuccesMsg: "",
+      loginFailedSnackbar: false,
+      loginSuccesSnackbar: false
     };
   },
   methods: {
@@ -90,19 +101,25 @@ export default {
     },
     validateUser() {
       if (this.$refs.form.validate()) {
-        this.snackbar = true;
         this.loginUser();
       }
     },
     async loginUser() {
       this.loadingCard = "green";
-      const response = await AuthRequest.register({
+      const response = await AuthRequest.verification({
         name: this.name,
         password: this.password
       });
-      setTimeout(() => (this.loadingCard = false), 2000);
-      console.log(response.data);
-      this.toHome();
+      //console.log(response.data);
+      if (response.data.error) {
+        this. loginFailedMsg = response.data.error;
+        setTimeout(() => (this. loginSuccesSnackbar = false),(this. loginFailedSnackbar = true), 1000);
+      } else {
+        this. loginSuccesMsg = response.data.message;
+        setTimeout(() => (this. loginFailedSnackbar = false),(this. loginSuccesSnackbar = true), 1000);
+        setTimeout(() => this.toHome(), 1000);
+      }
+      setTimeout(() => (this.loadingCard = false), 1000);
     },
 
     toRegister() {
