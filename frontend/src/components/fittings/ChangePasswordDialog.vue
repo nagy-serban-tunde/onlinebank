@@ -48,7 +48,7 @@ export default {
       loading: false,
       rules: {
         required: value => !!value || "Password is equired",
-        min: v => v.length >= 8 || "Min 8 characters"
+        min: v => v.length >= 5 || "Min 5 characters"
       }
     };
   },

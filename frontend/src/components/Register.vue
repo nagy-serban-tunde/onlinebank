@@ -58,6 +58,32 @@
                   :rules="[ value =>!! value || 'E-mail is required!']"
                 />
               </v-flex>
+              <v-layout>
+                <v-flex>
+                  <v-text-field
+                    class="ml-5"
+                    type="firstname"
+                    name="firstname"
+                    v-model="firstname"
+                    label="First name"
+                    color="green"
+                    dense
+                    :rules="[ value =>!! value || 'First Name is required!']"
+                  />
+                </v-flex>
+                <v-flex>
+                  <v-text-field
+                    class="mr-5"
+                    type="lastname"
+                    name="lastname"
+                    v-model="lastname"
+                    label="Last name"
+                    color="green"
+                    dense
+                    :rules="[ value =>!! value || 'Last name is required!']"
+                  />
+                </v-flex>
+              </v-layout>
               <v-dialog
                 ref="dialog"
                 v-model="modal"
@@ -154,6 +180,8 @@ export default {
     return {
       name: "",
       password: "",
+      firstname: "",
+      lastname: "",
       email: "",
       phonenumber: "",
       gender: "",
@@ -193,6 +221,8 @@ export default {
       const response = await AuthRequest.register({
         name: this.name,
         password: this.password,
+        firstname: this.firstname,
+        lastname: this.lastname,
         email: this.email,
         phonenumber: this.phonenumber,
         gender: this.gender,
@@ -200,10 +230,18 @@ export default {
       });
       if (response.data.error) {
         this.regFailedMsg = response.data.error;
-        setTimeout(() => (this.regSuccesSnackbar = false),(this.regFailedSnackbar = true), 1000);
+        setTimeout(
+          () => (this.regSuccesSnackbar = false),
+          (this.regFailedSnackbar = true),
+          1000
+        );
       } else {
         this.regSuccesMsg = response.data.message;
-        setTimeout(() => (this.regFailedSnackbar = false),(this.regSuccesSnackbar = true), 1000);
+        setTimeout(
+          () => (this.regFailedSnackbar = false),
+          (this.regSuccesSnackbar = true),
+          1000
+        );
         setTimeout(() => this.toLogin(), 1000);
       }
       setTimeout(
