@@ -4,35 +4,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
-
-//mysql connection
-
-var mysql = require('mysql');
-//native password
-//ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password'
-var con = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "diak123",
-  database : 'online_bank'
-});
-
-const getUser = (id) => {
-    return new Promise((resolve, reject) => {
-        con.query(`SELECT * from user where id = "${id}"`, function (error, results, fields) {
-        if (error) { reject(error) }
-        else { resolve(results[0]) }
-            //console.log('The solution is: ', results[0]);
-        });
-    })
-}
-
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-
-/*Fobb express requestek: get, post, put, patch, delete, stb... */
+const mysql = require('mysql');
+const config = require('./config/config');
 
 // felepeti az express servert
 const app = express();
@@ -41,26 +14,91 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/user/:id', async (request, response) => {
-    user = await getUser(request.params.id).catch(err => console.error(err))
-    console.log(user);
-    response.send(user);
+/*Fobb express reqek: get, post, put, patch, delete, stb... */
+const connection = mysql.createConnection({
+    host: config.db.host,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.database,
 });
 
-app.get('/', (request, response) => {
-    console.log('Someone connected!');
-    response.send({ message: 'Hello bello te lo' });
+
+connection.connect(function (err) {
+    if (err) throw err;
+    console.log("Connected!");
 });
 
-app.post('/register', (request, response) => {
-    console.log('POST request received!');
-    response.send({
-        message: `User ${request.body.name} registered! Have fun!`
+app.post('/verification', function (req, res) {
+    var sql = `SELECT id from user where (full_name = "${req.body.name}" && password="${req.body.password}")`;
+    connection.query(sql, function (err, result, fields) {
+        console.log(result[0]);
+        if (!result[0]) {
+            res.send({
+                error: 'Wrong username or password!'
+            })
+            console.log('Wrong username or password!');
+            return;
+        } else {
+
+            res.send({
+                message: `User ${req.body.name} logged in!`
+            })
+            console.log(`User ${req.body.name} logged in!`);
+        }
+    });
+});
+
+app.post('/register', function (req, res) {
+    var sql = `INSERT INTO user (full_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number, deposit) VALUES ( "${req.body.name}", "${req.body.date}", 'kep', CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}", 0)`;
+    connection.query(sql, function (err, result) {
+        if (err) {
+            res.send({
+                error: 'Registration rejected! User data already in use!'
+            })
+            console.log('Registration rejected! User data already in use!');
+            return;
+        } else {
+
+            res.send({
+                message: `User ${req.body.name} registered! Have fun!`
+            })
+            console.log(`User ${req.body.name} registered! Have fun!`);
+        }
+    });
+});
+
+const getUserInfo = (id) => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * from user where id = "${id}"`, function (error, results, fields) {
+            if (error) { reject(error) }
+            else { resolve(results[0]) }
+        });
     })
-})
+}
 
+app.get('/user/:id', async (req, res) => {
+    user = await getUserInfo(req.params.id).catch(err => console.error(err))
+    var day = user.birth_date.getDate();
+    var month = user.birth_date.getMonth();
+    var year = user.birth_date.getFullYear();
+    user.birth_date = year + '-' + month + '-' + day;
 
+    var day = user.created_at.getDate();
+    var month = user.created_at.getMonth();
+    var year = user.created_at.getFullYear();
+    user.created_at = year + '-' + month + '-' + day;
 
-app.listen(8081, function () {
-    console.log("Server is listening on port 8081");
+    console.log(user);
+    res.send(user);
+});
+
+app.get('/', (req, res) => {
+    console.log('Someone connected!');
+    res.send({ message: 'Hello bello te lo' });
+});
+
+//require('./routes')(app)
+
+app.listen(config.port, function () {
+    console.log(`Server is listening on port ${config.port}`);
 });

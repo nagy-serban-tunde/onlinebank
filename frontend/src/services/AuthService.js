@@ -10,5 +10,8 @@ export default {
     account: async (id) => {
         let page = '/user/' + String(id);
         return (await Api().get(page)).data;
-    }
+    },
+    verification: (verif_data) => {
+        return Api().post('verification', verif_data);
+    },
 }

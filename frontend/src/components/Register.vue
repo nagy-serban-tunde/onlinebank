@@ -85,6 +85,9 @@
             </v-layout>
             <v-layout mx-4 justify-space-around>
               <v-select
+                type="gender"
+                name="gender"
+                v-model="gender"
                 class="mr-5"
                 :items="gendersList"
                 label="Gender"
@@ -130,6 +133,14 @@
           </v-btn>
         </v-fab-transition>
       </v-card>
+      <v-snackbar v-model="regSuccesSnackbar" class="mb-5 green--text">
+        {{ regSuccesMsg }}
+        <v-btn text @click="regSuccesSnackbar = false">Close</v-btn>
+      </v-snackbar>
+      <v-snackbar v-model="regFailedSnackbar" class="mb-5 red--text">
+        {{ regFailedMsg }}
+        <v-btn text @click="regFailedSnackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-app>
   </div>
 </template>
@@ -145,14 +156,19 @@ export default {
       password: "",
       email: "",
       phonenumber: "",
+      gender: "",
+      date: new Date().toISOString().substr(0, 10),
+      gendersList: ["F", "M"],
+      regFailedMsg: "",
+      regSuccesMsg: "",
+      modal: false,
       show: false,
       loadingCard: false,
       loadingButton: false,
       hidden: false,
       checkbox: false,
-      date: new Date().toISOString().substr(0, 10),
-      modal: false,
-      gendersList: ["F", "M"]
+      regFailedSnackbar: false,
+      regSuccesSnackbar: false
     };
   },
   methods: {
@@ -162,13 +178,12 @@ export default {
         () => (
           (this.loadingButton = false), this.$router.push({ path: "login" })
         ),
-        500
+        1000
       );
     },
     // User viladtion meghivja a registert, ha helyesek az adatok
     validateUser() {
       if (this.$refs.form.validate()) {
-        this.snackbar = true;
         this.registerUser();
       }
     },
@@ -177,14 +192,24 @@ export default {
       setTimeout(() => (this.loadingCard = "green"), 200);
       const response = await AuthRequest.register({
         name: this.name,
-        password: this.password
+        password: this.password,
+        email: this.email,
+        phonenumber: this.phonenumber,
+        gender: this.gender,
+        date: this.date
       });
-
+      if (response.data.error) {
+        this.regFailedMsg = response.data.error;
+        setTimeout(() => (this.regSuccesSnackbar = false),(this.regFailedSnackbar = true), 1000);
+      } else {
+        this.regSuccesMsg = response.data.message;
+        setTimeout(() => (this.regFailedSnackbar = false),(this.regSuccesSnackbar = true), 1000);
+        setTimeout(() => this.toLogin(), 1000);
+      }
       setTimeout(
         () => ((this.hidden = false), (this.loadingCard = false)),
-        2000
+        1000
       );
-      console.log(response.data);
     }
   }
 };
