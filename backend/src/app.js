@@ -49,7 +49,7 @@ app.post('/verification', function (req, res) {
 });
 
 app.post('/register', function (req, res) {
-    var sql = `INSERT INTO user (username,last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number, deposit) VALUES ( "${req.body.name}", "Kolompár" , "Kárlosz","${req.body.date}", 'kep', CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}", 0)`;
+    var sql = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number, deposit) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.date}", 'kep', CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}", 0)`;
     connection.query(sql, function (err, result) {
         if (err) {
             res.send({
@@ -134,16 +134,16 @@ const getUserInfo = (id) => {
 app.get('/user/:id', async (req, res) => {
     user = await getUserInfo(req.params.id).catch(err => console.error(err))
     var day = user.birth_date.getDate();
-    var month = user.birth_date.getMonth();
+    var month = user.birth_date.getMonth() + 1;
     var year = user.birth_date.getFullYear();
     user.birth_date = year + '-' + month + '-' + day;
 
     var day = user.created_at.getDate();
-    var month = user.created_at.getMonth();
+    var month = user.created_at.getMonth() + 1;
     var year = user.created_at.getFullYear();
     user.created_at = year + '-' + month + '-' + day;
 
-    console.log(user);
+    console.log(day);
     res.send(user);
 });
 
