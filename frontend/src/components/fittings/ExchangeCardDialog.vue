@@ -6,7 +6,16 @@
     <v-card :loading="loading" class="px-5">
       <v-card-title>Uploading {{currency}}</v-card-title>
 
-      <v-text-field class="mx-5 mb-5" label="Amount to upload" clearable counter="7" name="amount" v-model="amount"/>
+      <v-text-field
+        class="mx-5 mb-5"
+        label="Amount to upload"
+        clearable
+        counter="10"
+        hint="Up to 3 decimal places allowed"
+        name="amount"
+        :rules="[ value => /^\d+(\.\d{1,3})?$/.test(value) || 'Invalid input number!']"
+        v-model="amount"
+      />
       <v-text-field
         class="mx-5 mb-5"
         label="Password"
@@ -15,7 +24,7 @@
         counter="24"
         @click:append="show = !show"
         :rules="[rules.required, rules.min]"
-        name = "password"
+        name="password"
         v-model="password"
       />
 
@@ -30,7 +39,6 @@
   </v-dialog>
 </template>
 <script>
-
 import AuthRequest from "@/services/AuthService";
 
 export default {
@@ -44,8 +52,8 @@ export default {
       dialog: false,
       loading: false,
       rules: {
-        required: value => !!value || "Password is equired",
-        min: v => v.length >= 5 || "Min 8 characters"
+        required: value => !!value || "Password is required",
+        min: v => v.length >= 5 || "Min 5 characters"
       }
     };
   },
@@ -54,13 +62,20 @@ export default {
       var new_deposit = 0;
       new_deposit = new_deposit + parseFloat(this.amount);
       const response = await AuthRequest.changedeposit({
-        password : this.password,
+        password: this.password,
         deposit: new_deposit
       });
-      this.loading = 'success';
-      setTimeout(() => (this.loading = false, this.dialog = false,this.password = "",this.amount = ""), 1000);
+      this.loading = "success";
+      setTimeout(
+        () => (
+          (this.loading = false),
+          (this.dialog = false),
+          (this.password = ""),
+          (this.amount = "")
+        ),
+        1000
+      );
     }
-    
   }
 };
 </script>

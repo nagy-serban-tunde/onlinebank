@@ -59,7 +59,6 @@ import AuthRequest from "@/services/AuthService";
 export default {
   name: "Root",
   data() {
-    this.user();
     return {
       mini: true,
       profile_picture: "",
@@ -86,6 +85,9 @@ export default {
       this.first_name = response.first_name;
       this.deposit = response.deposit;
     }
+  },
+  mounted(){
+    this.user();
   }
 };
 </script>

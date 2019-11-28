@@ -55,7 +55,7 @@
                   label="E-mail"
                   color="green"
                   dense
-                  :rules="[ value =>!! value || 'E-mail is required!']"
+                  :rules="[ value =>!! value || 'E-mail is required!', value => /.+@.+\..+/.test(value) || 'E-mail must be valid',]"
                 />
               </v-flex>
               <v-layout>
@@ -145,7 +145,7 @@
         <v-fab-transition>
           <v-btn
             @click="toLogin"
-            v-show="!hidden"
+            v-show="!hidden"  
             color="green"
             fab
             dark
