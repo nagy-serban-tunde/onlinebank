@@ -16,7 +16,15 @@ class TablesCreated(object):
 
     def Create_Table_User(self):
         try:
-            create_table = "CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL UNIQUE , last_name VARCHAR(255) NOT NULL, first_name VARCHAR(255) NOT NULL , birth_date DATE NOT NULL, profile_picture VARCHAR(255) NOT NULL, created_at DATE NOT NULL, gender ENUM('M','F') NOT NULL, password VARCHAR(255) NOT NULL UNIQUE, email_addres VARCHAR(255)  NOT NULL UNIQUE, phone_number VARCHAR(255) NOT NULL, deposit DECIMAL(10,3) NOT NULL)"
+            create_table = "CREATE TABLE user (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL UNIQUE , last_name VARCHAR(255) NOT NULL, first_name VARCHAR(255) NOT NULL , birth_date DATE NOT NULL, profile_picture VARCHAR(255) NOT NULL, created_at DATE NOT NULL, gender ENUM('M','F') NOT NULL, password VARCHAR(255) NOT NULL, email_addres VARCHAR(255)  NOT NULL UNIQUE, phone_number VARCHAR(255) NOT NULL UNIQUE )"
+            self.mycursor.execute(create_table)
+            print("Table created successfull!")
+        except:
+            print("Unable to create the table")
+
+    def Create_Table_Deposit(self):
+        try:
+            create_table = "CREATE TABLE deposit (id INT AUTO_INCREMENT PRIMARY KEY , user_id INT , eur DECIMAL(10,3), ron DECIMAL(10,3), gbp DECIMAL(10,3), usd DECIMAL(10,3), FOREIGN KEY (user_id) REFERENCES user(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -104,6 +112,7 @@ class TablesCreated(object):
 
     def main(self):
         self.Create_Table_User()
+        self.Create_Table_Deposit()
         self.Create_Table_Transactions()
         self.Create_Table_Income()
         self.Create_Table_Types()
