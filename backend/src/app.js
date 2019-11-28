@@ -1,3 +1,6 @@
+//python import
+const child_process = require('child_process')
+
 // modulok importalasa
 const express = require('express');
 // bodyParser segit feldolgozni json fileokat konnyen
@@ -49,7 +52,7 @@ app.post('/verification', function (req, res) {
 });
 
 app.post('/register', function (req, res) {
-    var sql = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number, deposit) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.date}", "https://eu.ui-avatars.com/api/?name=${req.body.firstname}+${req.body.lastname}", CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}", 0)`;
+    var sql = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number, deposit) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.date}", "https://eu.ui-avatars.com/api/?name=${req.body.firstname}+${req.body.lastname}", CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}")`;
     connection.query(sql, function (err, result) {
         if (err) {
             res.send({
@@ -157,3 +160,14 @@ app.get('/', (req, res) => {
 app.listen(config.port, function () {
     console.log(`Server is listening on port ${config.port}`);
 });
+
+function python_run(){
+    const run = child_process.exec("python ..\\datacollector\\main.py",{timeout: 10*1000})
+    run.stdout.on('data',d=>console.log(d))
+    run.on("error", err => console.log(err))
+    run.on("exit",()=>{
+        console.log("Successful update")
+    })
+}
+python_run();
+setInterval(()=>python_run(), 50 * 1000 );
