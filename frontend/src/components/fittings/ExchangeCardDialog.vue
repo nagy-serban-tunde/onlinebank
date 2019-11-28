@@ -55,7 +55,9 @@ export default {
       new_deposit = new_deposit + parseFloat(this.amount);
       const response = await AuthRequest.changedeposit({
         password : this.password,
-        deposit: new_deposit
+        deposit: new_deposit,
+        currency: "ron",
+        user_id: 1,
       });
       this.loading = 'success';
       setTimeout(() => (this.loading = false, this.dialog = false,this.password = "",this.amount = ""), 1000);

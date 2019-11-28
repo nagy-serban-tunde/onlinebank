@@ -11,6 +11,10 @@ export default {
         let page = '/user/' + String(id);
         return (await Api().get(page)).data;
     },
+    DepositRonInfo: async (id) => {
+        let page = '/depositRON/' + String(id);
+        return (await Api().get(page)).data;
+    },
     verification: (verif_data) => {
         return Api().post('verification', verif_data);
     },

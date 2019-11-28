@@ -1,18 +1,23 @@
 <template>
   <div id="app">
-    <v-sheet color="rgba(0, 0, 0, .12)">
-      <v-sparkline
-        :value="value"
-        line-width="1"
-        color="rgba(255, 255, 255, .7)"
-        height="100"
-        padding="20"
-        stroke-linecap="round"
-        smooth
-      >
-        <template v-slot:label="item">${{ item.value }}</template>
-      </v-sparkline>
-    </v-sheet>
+    <v-card dark max-width="500">
+
+      <v-card-title primary-title class="justify-center">
+        <v-subheader class="display-1 white--text">Tranzactions a month</v-subheader>
+      </v-card-title>
+
+      <v-card-text>
+        <v-sheet color="rgba(0, 0, 0, .12)">
+          <v-sparkline :value="value" color = green height="100" >
+            <template v-slot:label="item" >
+              ${{ item.value }}
+            </template>
+          </v-sparkline>
+        </v-sheet>
+      </v-card-text>
+  
+      <v-divider></v-divider>
+    </v-card>
   </div>
 </template>
 
