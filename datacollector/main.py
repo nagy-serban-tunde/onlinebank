@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # WriteToJson.json_file_upload('..\\frontend\\static\\GBP.json',List_GBPtoRON_EURO_USD,webpages_name)
     # WriteToJson.json_file_upload('..\\frontend\\static\\USD.json',List_USDtoRON_EURO_GBP,webpages_name)
 
-    TablesCreated("online_bank","127.0.0.1","root","diak123").main()
+    # TablesCreated("online_bank","127.0.0.1","root","diak123").main()
 
     ListBestExchangeValutaRON = BestExchangeValuta(webpages_name,List_RONtoEURO_GBP_USD,['EUR','GBP','USD']).main()
     ValutaMySqlLoading(ListBestExchangeValutaRON,"RON","online_bank","127.0.0.1","root","diak123").main()

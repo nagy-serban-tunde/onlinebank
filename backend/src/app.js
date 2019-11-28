@@ -1,3 +1,6 @@
+//python import
+const child_process = require('child_process')
+
 // modulok importalasa
 const express = require('express');
 // bodyParser segit feldolgozni json fileokat konnyen
@@ -157,3 +160,14 @@ app.get('/', (req, res) => {
 app.listen(config.port, function () {
     console.log(`Server is listening on port ${config.port}`);
 });
+
+function python_run(){
+    const run = child_process.exec("python ..\\datacollector\\main.py",{timeout: 10*1000})
+    run.stdout.on('data',d=>console.log(d))
+    run.on("error", err => console.log(err))
+    run.on("exit",()=>{
+        console.log("Successful update")
+    })
+}
+python_run();
+setInterval(()=>python_run(), 50 * 1000 );
