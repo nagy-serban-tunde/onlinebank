@@ -98,7 +98,7 @@
         </v-list-item-icon>
         <v-list-item class="overline">Deposit</v-list-item>
         <v-list-item class="subtitle-1">
-          {{ deposit }} RON
+          {{ depositRon }} RON
           <v-layout class="ml-5 pl-5">
             <exchange-card-dialog :currency="'RON'" />
           </v-layout>
@@ -130,7 +130,7 @@ export default {
       created_at: "",
       email_addres: "",
       phone_number: "",
-      deposit: ""
+      depositRon : "",
     };
   },
 
@@ -156,6 +156,7 @@ export default {
   methods: {
     async user() {
       const response = await AuthRequest.account(1);
+      const response1 = await AuthRequest.DepositRonInfo(1);
       this.last_name = response.last_name;
       this.first_name = response.first_name;
       this.username = response.username;
@@ -165,8 +166,9 @@ export default {
       this.created_at = response.created_at;
       this.email_addres = response.email_addres;
       this.phone_number = response.phone_number;
-      this.deposit = response.deposit;
+      this.depositRon = response1.ron;
     },
+
     onResize() {
       this.isMobile = window.innerWidth < 600;
     }

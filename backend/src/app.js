@@ -71,8 +71,8 @@ app.post('/register', function (req, res) {
 });
 
 app.post('/changedeposit', function(req,res){
-    var sql = `SELECT id from user where  password="${req.body.password}"`;
-    connection.query(sql, function(err, result){
+    var sqlpassword = `SELECT id from user where  password="${req.body.password}"`;
+    connection.query(sqlpassword, function(err, resultpassword){
         if (err){
             res.send({
                 error: 'Wrong password!'
@@ -80,19 +80,19 @@ app.post('/changedeposit', function(req,res){
             console.log('Wrong password!');
             return;
         } else{
-            var sql1 = `UPDATE user SET deposit = "${req.body.deposit}" WHERE (id = "${result[0].id}");`
-            connection.query(sql1, function (err1) {
+            var sqlnewdeposit = `UPDATE deposit SET ${req.body.currency} = "${req.body.deposit}" WHERE user_id="${resultpassword[0].id}"`
+            connection.query(sqlnewdeposit, function(err1){
                 if(err1){
                     res.send({
-                        error: 'Wrong update!'
+                        error: 'Wrong deposit update!'
                     })
                 }else{
                     res.send({
-                        message: "Successful update"
+                        message: "Successful deposit update !"
                     })
-                    console.log('Successful update');
+                    console.log('Successful deposit update !');
                 }
-            })
+            });
         }
     });
 });
@@ -107,7 +107,7 @@ app.post('/changepassword', function(req,res){
             console.log('Wrong password!');
             return;
         } else{
-            var sql1 = `UPDATE user SET password = "${req.body.new_password}" WHERE (id = "${result[0].id}");`
+            var sql1 = `UPDATE user SET password = "${req.body.new_password}" WHERE (id = "${result[0].id}")`;
             connection.query(sql1, function (err1) {
                 if(err1){
                     res.send({
@@ -115,9 +115,9 @@ app.post('/changepassword', function(req,res){
                     })
                 }else{
                     res.send({
-                        message: "Successful update"
+                        message: "Successful update password"
                     })
-                    console.log('Successful update');
+                    console.log('Successful update password');
                 }
             })
         }
@@ -133,6 +133,20 @@ const getUserInfo = (id) => {
         });
     })
 }
+
+app.get('/depositRON/:id', async (req, res) => {
+    sql = `SELECT ron from deposit where user_id = "${req.params.id}"`
+    connection.query(sql, function(err,result){
+        if (err){
+            res.send({
+                error: 'Wrong user id'
+            })
+        }else{
+            res.send(result[0])
+            console.log(result[0])
+        }
+    });
+})
 
 app.get('/user/:id', async (req, res) => {
     user = await getUserInfo(req.params.id).catch(err => console.error(err))
@@ -162,11 +176,11 @@ app.listen(config.port, function () {
 });
 
 function python_run(){
-    const run = child_process.exec("python ..\\datacollector\\main.py",{timeout: 10*1000})
-    run.stdout.on('data',d=>console.log(d))
-    run.on("error", err => console.log(err))
-    run.on("exit",()=>{
-        console.log("Successful update")
+    const runscript = child_process.exec("python ..\\datacollector\\main.py",{timeout: 10*1000})
+    runscript.stdout.on('data',d=>console.log(d))
+    runscript.on("error", err => console.log(err))
+    runscript.on("exit",()=>{
+        console.log("Python code runed")
     })
 }
 python_run();

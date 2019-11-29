@@ -9,7 +9,7 @@
             </v-list-item-avatar>
             <v-layout column align-center>
               <v-list-item-title class="subtitle-1">{{ first_name }} {{ last_name }}</v-list-item-title>
-              <v-list-item-subtitle class="mt-1 green--text caption">{{ deposit }} lej</v-list-item-subtitle>
+              <v-list-item-subtitle class="mt-1 green--text caption">{{ depositRon }} lej</v-list-item-subtitle>
             </v-layout>
 
             <v-btn @click.stop="mini = !mini" icon>
@@ -64,7 +64,7 @@ export default {
       profile_picture: "",
       first_name: "",
       last_name: "",
-      deposit: "",
+      depositRon: "",
       items: [
         { title: "Home", icon: "fas fa-home", route: "/home" },
         { title: "My Account", icon: "far fa-user", route: "/account" },
@@ -80,10 +80,11 @@ export default {
   methods: {
     async user() {
       const response = await AuthRequest.account(1);
+      const response1 = await AuthRequest.DepositRonInfo(1);
       this.profile_picture = response.profile_picture;
       this.last_name = response.last_name;
       this.first_name = response.first_name;
-      this.deposit = response.deposit;
+      this.depositRon = response1.ron;
     }
   },
   mounted(){
