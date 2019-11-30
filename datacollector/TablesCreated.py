@@ -32,7 +32,7 @@ class TablesCreated(object):
     
     def Create_Table_Transactions(self):
         try:
-            create_table = "CREATE TABLE transactions (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (id) REFERENCES user(id))"
+            create_table = "CREATE TABLE transactions (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (user_id) REFERENCES user(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -40,7 +40,7 @@ class TablesCreated(object):
     
     def Create_Table_Income(self):
         try:
-            create_table = "CREATE TABLE income (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, transaction_id INT, amount DECIMAL, FOREIGN KEY (id) REFERENCES transactions(id))"
+            create_table = "CREATE TABLE income (id INT AUTO_INCREMENT PRIMARY KEY, transaction_id INT, amount DECIMAL, FOREIGN KEY (id) REFERENCES transactions(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -48,7 +48,7 @@ class TablesCreated(object):
     
     def Create_Table_Types(self):
         try:
-            create_table = "CREATE TABLE types_ (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), icon VARCHAR(255) )"
+            create_table = "CREATE TABLE types_ (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), icon VARCHAR(255) )"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -56,7 +56,7 @@ class TablesCreated(object):
 
     def Create_Table_Expense(self):
         try:
-            create_table = "CREATE TABLE expense (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, transaction_id INT, amount DECIMAL, type INT, FOREIGN KEY (id) REFERENCES transactions(id),FOREIGN KEY (type) REFERENCES types_(id))"
+            create_table = "CREATE TABLE expense (id INT AUTO_INCREMENT PRIMARY KEY, transaction_id INT, amount DECIMAL, type INT, FOREIGN KEY (id) REFERENCES transactions(id),FOREIGN KEY (type) REFERENCES types_(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -64,7 +64,7 @@ class TablesCreated(object):
         
     def Create_Table_Exchange(self):
         try:
-            create_table = "CREATE TABLE exchange (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (id) REFERENCES user(id))"
+            create_table = "CREATE TABLE exchange (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (user_id) REFERENCES user(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -72,7 +72,7 @@ class TablesCreated(object):
 
     def Create_Table_Exchange_Detail(self):
         try:
-            create_table = "CREATE TABLE exchange_detail (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, exchange_id INT, currency VARCHAR(255), sign VARCHAR(255), from_amount DECIMAL, to_amount DECIMAL, rate DECIMAL, site VARCHAR(255), FOREIGN KEY (exchange_id) REFERENCES exchange(id))"
+            create_table = "CREATE TABLE exchange_detail (id INT AUTO_INCREMENT PRIMARY KEY, exchange_id INT, currency VARCHAR(255), sign VARCHAR(255), from_amount DECIMAL(10,3), to_amount DECIMAL(10,3), rate DECIMAL(10,3), site VARCHAR(255), FOREIGN KEY (exchange_id) REFERENCES exchange(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -80,7 +80,7 @@ class TablesCreated(object):
     
     def Create_Table_EUR(self):
         try:
-            create_table = "CREATE TABLE eur (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
+            create_table = "CREATE TABLE eur (id INT AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -88,7 +88,7 @@ class TablesCreated(object):
 
     def Create_Table_GBP(self):
         try:
-            create_table = "CREATE TABLE gbp (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
+            create_table = "CREATE TABLE gbp (id INT AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -96,7 +96,7 @@ class TablesCreated(object):
     
     def Create_Table_RON(self):
         try:
-            create_table = "CREATE TABLE ron (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
+            create_table = "CREATE TABLE ron (id INT AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -104,7 +104,7 @@ class TablesCreated(object):
         
     def Create_Table_USD(self):
         try:
-            create_table = "CREATE TABLE usd (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
+            create_table = "CREATE TABLE usd (id INT AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
