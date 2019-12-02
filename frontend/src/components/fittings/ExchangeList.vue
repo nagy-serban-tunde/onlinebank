@@ -1,6 +1,11 @@
 <template>
   <div>
     <v-list two-line subheader>
+      <v-fab-transition>
+        <v-btn color="green" fab dark small absolute left top>
+          <v-icon>fas fa-plus</v-icon>
+        </v-btn>
+      </v-fab-transition>
       <v-list-item v-for="exchange in exchangesList" :key="exchange.id">
         <v-list-item-avatar>
           <v-icon v-text="exchange.iconTo"></v-icon>
@@ -18,7 +23,7 @@
               >{{exchange.signFrom}} {{exchange.amountFrom}}</span>
               <v-icon class="mx-2">{{arrow}}</v-icon>
               <span style="width:100px; text-align:left">{{exchange.signTo}} {{exchange.amountTo}}</span>
-              <exchange-dialog :exchange="exchange"/>
+              <exchange-dialog :exchange="exchange" />
             </v-layout>
           </v-list-item-action>
         </v-layout>
@@ -36,7 +41,7 @@ export default {
   props: ["exchangesList"],
   data() {
     return {
-     arrow: "fas fa-long-arrow-alt-right"
+      arrow: "fas fa-long-arrow-alt-right"
     };
   }
 };

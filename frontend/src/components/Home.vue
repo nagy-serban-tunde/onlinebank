@@ -1,14 +1,17 @@
 <template>
   <div>
     <v-layout ma-5 justify-space-between>
-      <exchange-card v-for="card in cardsList" :key="card.currency" :card="card" />
+      <exchange-card v-for="card in deposit" :key="card.currency" :card="card" />
     </v-layout>
-    <v-layout/>
+    <v-layout />
     <v-card dark class="mx-5 mt-5">
-      <v-subheader class="subtitle-1">Transactions</v-subheader>
+      <v-divider />
+      <v-subheader class="subtitle-1 mt-5">Transactions</v-subheader>
       <transaction-list :transactionsList="transactionsList" />
-      <v-divider inset></v-divider>
-      <v-subheader class="subtitle-1">Exchanges</v-subheader>
+    </v-card>
+    <v-card dark class="mx-5">
+      <v-divider />
+      <v-subheader class="subtitle-1 mt-5">Exchanges</v-subheader>
       <exchange-list :exchangesList="exchangesList" />
     </v-card>
   </div>
@@ -18,6 +21,7 @@
 import ExchangeCard from "./fittings/ExchangeCard";
 import TransactionList from "./fittings/TransactionList";
 import ExchangeList from "./fittings/ExchangeList";
+import AuthRequest from "@/services/AuthService";
 import axios from "axios";
 
 export default {
@@ -25,7 +29,7 @@ export default {
   components: { ExchangeCard, TransactionList, ExchangeList },
   data() {
     return {
-      cardsList: null,
+      deposit: null,
       transactionsList: [
         {
           id: "1",
@@ -47,7 +51,8 @@ export default {
           type: "red--text",
           sign: "-",
           attitude: "expense",
-          comment: "Ket csomag perec, egy doboz pastetom, sok laska s meg valami edesseg is"
+          comment:
+            "Ket csomag perec, egy doboz pastetom, sok laska s meg valami edesseg is"
         },
         {
           id: "3",
@@ -94,7 +99,7 @@ export default {
           iconFrom: "fas fa-euro-sign",
           iconTo: "fas fa-pound-sign",
           amountFrom: "320",
-          amountTo:"275.3",
+          amountTo: "275.3",
           date: "Jul 2, 2019"
         },
         {
@@ -107,7 +112,7 @@ export default {
           iconFrom: "fas fa-euro-sign",
           iconTo: "fas fa-dollar-sign",
           amountFrom: "110",
-          amountTo:"122",
+          amountTo: "122",
           date: "Jan 27, 2013"
         },
         {
@@ -118,9 +123,9 @@ export default {
           signFrom: "$",
           rate: "4.71",
           iconFrom: "fas fa-dollar-sign",
-          iconTo:"fas fa-euro-sign",
+          iconTo: "fas fa-euro-sign",
           amountFrom: "104",
-          amountTo:"93.8",
+          amountTo: "93.8",
           date: "Feb 19, 2018"
         },
         {
@@ -131,23 +136,23 @@ export default {
           signFrom: "£",
           rate: "1.29",
           iconFrom: "fas fa-pound-sign",
-          iconTo:"fas fa-dollar-sign",
+          iconTo: "fas fa-dollar-sign",
           amountFrom: "980",
-          amountTo:"1,262.8",
+          amountTo: "1,262.8",
           date: "Dec 24, 2017"
         }
       ]
     };
   },
-  created() {
-    axios.get("/static/WebScraping.json").then(resp => {
-      this.cardsList = resp.data;
-    });
+  methods: {
+    async getDeposit() {
+      const userid = localStorage.getItem("userid");
+      const deposit = await AuthRequest.getdeposit(userid);
+      this.deposit = deposit;
+    }
   },
-  updated() {
-    axios.get("/static/WebScraping.json").then(resp => {
-      this.cardsList = resp.data;
-    });
+  mounted() {
+    this.getDeposit();
   }
 };
 </script>

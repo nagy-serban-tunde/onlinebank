@@ -6,7 +6,16 @@
     <v-card :loading="loading" class="px-5">
       <v-card-title>Uploading {{currency}}</v-card-title>
 
-      <v-text-field class="mx-5 mb-5" label="Amount to upload" clearable counter="7" name="amount" v-model="amount"/>
+      <v-text-field
+        class="mx-5 mb-5"
+        label="Amount to upload"
+        clearable
+        counter="10"
+        hint="Up to 3 decimal places allowed"
+        name="amount"
+        :rules="[ value => /^\d+(\.\d{1,3})?$/.test(value) || 'Invalid input number!']"
+        v-model="amount"
+      />
       <v-text-field
         class="mx-5 mb-5"
         label="Password"
@@ -15,7 +24,7 @@
         counter="24"
         @click:append="show = !show"
         :rules="[rules.required, rules.min]"
-        name = "password"
+        name="password"
         v-model="password"
       />
 
@@ -30,7 +39,6 @@
   </v-dialog>
 </template>
 <script>
-
 import AuthRequest from "@/services/AuthService";
 
 export default {
@@ -44,7 +52,7 @@ export default {
       dialog: false,
       loading: false,
       rules: {
-        required: value => !!value || "Password is equired",
+        required: value => !!value || "Password is required",
         min: v => v.length >= 5 || "Min 5 characters"
       }
     };
@@ -60,10 +68,17 @@ export default {
         currency: "ron",
         user_id: 1,
       });
-      this.loading = 'success';
-      setTimeout(() => (this.loading = false, this.dialog = false,this.password = "",this.amount = ""), 1000);
+      this.loading = "success";
+      setTimeout(
+        () => (
+          (this.loading = false),
+          (this.dialog = false),
+          (this.password = ""),
+          (this.amount = "")
+        ),
+        1000
+      );
     }
-    
   }
 };
 </script>
