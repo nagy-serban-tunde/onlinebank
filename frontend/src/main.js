@@ -7,6 +7,9 @@ import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import VueApexCharts from 'vue-apexcharts';
+
+Vue.component('apexchart', VueApexCharts)
 
 Vue.config.productionTip = false
 
