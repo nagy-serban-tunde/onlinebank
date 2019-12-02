@@ -87,14 +87,14 @@
               <v-dialog
                 ref="dialog"
                 v-model="modal"
-                :return-value.sync="date"
+                :return-value.sync="birth_date"
                 persistent
                 width="290px"
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
                     class="mx-5"
-                    v-model="date"
+                    v-model="birth_date"
                     label="Birth Date"
                     prepend-icon="fas fa-calendar-day"
                     readonly
@@ -185,7 +185,7 @@ export default {
       email: "",
       phonenumber: "",
       gender: "",
-      date: new Date().toISOString().substr(0, 10),
+      birth_date: new Date().toISOString().substr(0, 10),
       gendersList: ["F", "M"],
       regFailedMsg: "",
       regSuccesMsg: "",
@@ -226,7 +226,7 @@ export default {
         email: this.email,
         phonenumber: this.phonenumber,
         gender: this.gender,
-        date: this.date
+        birth_date: this.birth_date
       });
       if (response.data.error) {
         this.regFailedMsg = response.data.error;

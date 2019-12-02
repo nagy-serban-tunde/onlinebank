@@ -155,8 +155,8 @@ export default {
 
   methods: {
     async user() {
-      const response = await AuthRequest.account(1);
-      const response1 = await AuthRequest.DepositRonInfo(1);
+      const userid = localStorage.getItem('userid')
+      const response = await AuthRequest.account(userid);
       this.last_name = response.last_name;
       this.first_name = response.first_name;
       this.username = response.username;
@@ -166,7 +166,6 @@ export default {
       this.created_at = response.created_at;
       this.email_addres = response.email_addres;
       this.phone_number = response.phone_number;
-      this.depositRon = response1.ron;
     },
 
     onResize() {

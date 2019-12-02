@@ -1,8 +1,8 @@
 <template>
-  <v-card elevation="10" dark outlined max-width="27%">
+  <v-card elevation="10" dark outlined max-width="24%">
     <v-list-item>
       <v-list-item-content>
-        <div class="overline mb-4">{{ card.from_curreny }} to</div>
+        <div class="overline mb-4"></div>
         <v-list-item-title class="headline mb-1">{{card.currency}} - {{card.sign}}{{card.amount}}</v-list-item-title>
         <v-list-item-subtitle>
           <v-layout>
@@ -17,7 +17,7 @@
     </v-list-item>
 
     <v-card-actions color="green">
-      <exchange-card-dialog :currency="card.sign"/>
+      <exchange-card-dialog :currency="card.sign" />
     </v-card-actions>
   </v-card>
 </template>

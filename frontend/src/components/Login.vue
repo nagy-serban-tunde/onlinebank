@@ -111,14 +111,23 @@ export default {
         name: this.name,
         password: this.password
       });
-      //console.log(response.data);
       if (response.data.error) {
-        this. loginFailedMsg = response.data.error;
-        setTimeout(() => (this. loginSuccesSnackbar = false),(this. loginFailedSnackbar = true), 1000);
+        this.loginFailedMsg = response.data.error;
+        setTimeout(
+          () => (this.loginSuccesSnackbar = false),
+          (this.loginFailedSnackbar = true),
+          1000
+        );
       } else {
-        this. loginSuccesMsg = response.data.message;
-        setTimeout(() => (this. loginFailedSnackbar = false),(this. loginSuccesSnackbar = true), 1000);
-        this.toHome()
+        this.loginSuccesMsg = "User " + this.name + " logged in!";
+        setTimeout(
+          () => (this.loginFailedSnackbar = false),
+          (this.loginSuccesSnackbar = true),
+          1000
+        );
+        localStorage.setItem("userid", response.data.message);
+        console.log(response.data.message);
+        this.toHome();
       }
       setTimeout(() => (this.loadingCard = false), 2000);
     },

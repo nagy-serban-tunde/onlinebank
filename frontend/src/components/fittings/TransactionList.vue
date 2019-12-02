@@ -2,18 +2,7 @@
   <div>
     <v-list two-line subheader>
       <v-fab-transition>
-        <v-btn
-          @click="toLogin"
-          v-show="!hidden"
-          color="green"
-          fab
-          dark
-          small
-          absolute
-          top
-          right
-          :loading="loadingButton"
-        >
+        <v-btn color="green" fab dark small absolute left top>
           <v-icon>fas fa-plus</v-icon>
         </v-btn>
       </v-fab-transition>

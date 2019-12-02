@@ -9,7 +9,7 @@
             </v-list-item-avatar>
             <v-layout column align-center>
               <v-list-item-title class="subtitle-1">{{ first_name }} {{ last_name }}</v-list-item-title>
-              <v-list-item-subtitle class="mt-1 green--text caption">{{ depositRon }} lej</v-list-item-subtitle>
+              <v-list-item-subtitle class="mt-1 green--text caption">• online</v-list-item-subtitle>
             </v-layout>
 
             <v-btn @click.stop="mini = !mini" icon>
@@ -49,6 +49,26 @@
           <router-view />
         </v-container>
       </v-layout>
+      <v-bottom-navigation max-height="50" hidden grow dark fixed color="grey">
+        <v-btn>
+          <span>{{depositEUR}}</span>
+          <v-icon>fas fa-euro-sign</v-icon>
+        </v-btn>
+
+        <v-btn>
+          <span>{{depositGBP}}</span>
+          <v-icon>fas fa-pound-sign</v-icon>
+        </v-btn>
+
+        <v-btn>
+          <span>{{depositUSD}}</span>
+          <v-icon>fas fa-dollar-sign</v-icon>
+        </v-btn>
+         <v-btn>
+          <span>{{depositRON}}</span>
+          <v-icon>RON</v-icon>
+        </v-btn>
+      </v-bottom-navigation>
     </v-app>
   </div>
 </template>
@@ -64,7 +84,10 @@ export default {
       profile_picture: "",
       first_name: "",
       last_name: "",
-      depositRon: "",
+      depositRON: "",
+      depositGBP: "",
+      depositUSD: "",
+      depositEUR: "",
       items: [
         { title: "Home", icon: "fas fa-home", route: "/home" },
         { title: "My Account", icon: "far fa-user", route: "/account" },
@@ -78,17 +101,21 @@ export default {
     };
   },
   methods: {
-    async user() {
-      const response = await AuthRequest.account(1);
-      const response1 = await AuthRequest.DepositRonInfo(1);
-      this.profile_picture = response.profile_picture;
-      this.last_name = response.last_name;
-      this.first_name = response.first_name;
-      this.depositRon = response1.ron;
+    async getUserInfo() {
+      const userid = localStorage.getItem('userid')
+      const user = await AuthRequest.account(userid);
+      const deposit = await AuthRequest.getdeposit(userid);
+      this.profile_picture = user.profile_picture;
+      this.last_name = user.last_name;
+      this.first_name = user.first_name;
+      this.depositRON = deposit[0].amount;
+      this.depositEUR = deposit[1].amount;
+      this.depositGBP = deposit[2].amount;
+      this.depositUSD = deposit[3].amount;
     }
   },
-  mounted(){
-    this.user();
+  mounted() {
+    this.getUserInfo();
   }
 };
 </script>
