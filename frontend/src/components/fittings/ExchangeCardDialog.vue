@@ -45,13 +45,14 @@ export default {
       loading: false,
       rules: {
         required: value => !!value || "Password is equired",
-        min: v => v.length >= 5 || "Min 8 characters"
+        min: v => v.length >= 5 || "Min 5 characters"
       }
     };
   },
   methods: {
     async adding() {
-      var new_deposit = 0;
+      const responseDep = await AuthRequest.DepositRonInfo(1)
+      var new_deposit = responseDep.ron;
       new_deposit = new_deposit + parseFloat(this.amount);
       const response = await AuthRequest.changedeposit({
         password : this.password,

@@ -15,6 +15,22 @@ export default {
         let page = '/depositRON/' + String(id);
         return (await Api().get(page)).data;
     },
+    statisticIncome: async (id) => {
+        let page = '/statisticIncome/' + String(id);
+        return (await Api().get(page)).data;
+    },
+    statisticExpense: async (id) => {
+        let page = '/statisticExpense/' + String(id);
+        return (await Api().get(page)).data;
+    },
+    statisticExchangeNumber: async(id) =>{
+        let page = '/statisticExchangeNumber/' + String(id);
+        return (await Api().get(page)).data;
+    },
+    statisticValuta: async (valuta) => {
+        let page = '/statisticValuta/' + valuta;
+        return (await Api().get(page)).data;
+    },
     verification: (verif_data) => {
         return Api().post('verification', verif_data);
     },

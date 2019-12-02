@@ -110,6 +110,14 @@ class TablesCreated(object):
         except:
             print("Unable to create the table")
 
+    def Create_Table_Valuta(self):
+        try:
+            create_table = "CREATE TABLE Valuta (id INT AUTO_INCREMENT PRIMARY KEY, web_address VARCHAR(255), currency VARCHAR(255), purchase_price DECIMAL(19,3))"
+            self.mycursor.execute(create_table)
+            print("Table created successfull!")
+        except:
+            print("Unable to create the table")
+
     def main(self):
         self.Create_Table_User()
         self.Create_Table_Deposit()
@@ -123,4 +131,5 @@ class TablesCreated(object):
         self.Create_Table_GBP()
         self.Create_Table_RON()
         self.Create_Table_USD()
+        self.Create_Table_Valuta()
         self.mydb.close()

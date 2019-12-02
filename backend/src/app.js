@@ -77,7 +77,6 @@ app.post('/changedeposit', function(req,res){
             res.send({
                 error: 'Wrong password!'
             })
-            console.log('Wrong password!');
             return;
         } else{
             var sqlnewdeposit = `UPDATE deposit SET ${req.body.currency} = "${req.body.deposit}" WHERE user_id="${resultpassword[0].id}"`
@@ -90,7 +89,6 @@ app.post('/changedeposit', function(req,res){
                     res.send({
                         message: "Successful deposit update !"
                     })
-                    console.log('Successful deposit update !');
                 }
             });
         }
@@ -104,7 +102,6 @@ app.post('/changepassword', function(req,res){
             res.send({
                 error: 'Wrong password!'
             })
-            console.log('Wrong password!');
             return;
         } else{
             var sql1 = `UPDATE user SET password = "${req.body.new_password}" WHERE (id = "${result[0].id}")`;
@@ -117,7 +114,6 @@ app.post('/changepassword', function(req,res){
                     res.send({
                         message: "Successful update password"
                     })
-                    console.log('Successful update password');
                 }
             })
         }
@@ -143,10 +139,9 @@ app.get('/depositRON/:id', async (req, res) => {
             })
         }else{
             res.send(result[0])
-            console.log(result[0])
         }
     });
-})
+});
 
 app.get('/user/:id', async (req, res) => {
     user = await getUserInfo(req.params.id).catch(err => console.error(err))
@@ -154,14 +149,70 @@ app.get('/user/:id', async (req, res) => {
     var month = user.birth_date.getMonth() + 1;
     var year = user.birth_date.getFullYear();
     user.birth_date = year + '-' + month + '-' + day;
-
     var day = user.created_at.getDate();
     var month = user.created_at.getMonth() + 1;
     var year = user.created_at.getFullYear();
     user.created_at = year + '-' + month + '-' + day;
-
-    console.log(day);
     res.send(user);
+});
+
+app.get('/statisticIncome/:id',async(req,res) => {
+    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where user_id = "${req.params.id}";`
+    connection.query(sql,function(err,result){
+        if (err){
+            res.send({
+                error : 'Wrong statisticIncome'
+            })
+        }else{
+            for (let index = 0; index < result.length; index++) {
+                result[index].date = result[index].date.getTime();
+            }
+            res.send(result);
+        }
+    });
+});
+
+app.get('/statisticExpense/:id',async(req,res) => {
+    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where user_id = "${req.params.id}";`
+    connection.query(sql,function(err,result){
+        if (err){
+            res.send({
+                error : 'Wrong statisticExpense'
+            })
+        }else{
+            for (let index = 0; index < result.length; index++) {
+                result[index].date = result[index].date.getTime();
+            }
+            res.send(result);
+        }
+    });
+});
+
+app.get('/statisticExchangeNumber/:id', async(req,res) => {
+    sql = `select count(*) as number, date from exchange  where user_id = "${req.params.id}" group by date;`
+    connection.query(sql,function(err,result) {
+        if (err){
+            res.send({
+                error : "Wrong statisticExchangeNumber"
+            })
+        }else{
+            for (let index = 0; index < result.length; index++) {
+                result[index].date = result[index].date.getTime();
+            }
+            res.send(result);
+        }
+    });
+});
+
+app.get('/statisticValuta/:valuta', async(req,res) => {
+    sql = `select web_address,currency,purchase_price from valuta`;
+    connection.query(sql,function(err,result){
+        if(err){
+            error : 'Wrong getvaluta'
+        }else{
+            res.send(result);
+        }
+    });
 });
 
 app.get('/', (req, res) => {
@@ -184,4 +235,4 @@ function python_run(){
     })
 }
 python_run();
-setInterval(()=>python_run(), 50 * 1000 );
+setInterval(()=>python_run(), 100 * 1000 );
