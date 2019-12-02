@@ -24,7 +24,7 @@ class TablesCreated(object):
 
     def Create_Table_Deposit(self):
         try:
-            create_table = "CREATE TABLE deposit (id INT AUTO_INCREMENT PRIMARY KEY , user_id INT , eur DECIMAL(10,3), ron DECIMAL(10,3), gbp DECIMAL(10,3), usd DECIMAL(10,3), FOREIGN KEY (user_id) REFERENCES user(id))"
+            create_table = "CREATE TABLE deposit (id INT AUTO_INCREMENT PRIMARY KEY , user_id INT , eur DECIMAL(10,3) DEFAULT 0, ron DECIMAL(10,3) DEFAULT 0, gbp DECIMAL(10,3) DEFAULT 0, usd DECIMAL(10,3) DEFAULT 0, FOREIGN KEY (user_id) REFERENCES user(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
