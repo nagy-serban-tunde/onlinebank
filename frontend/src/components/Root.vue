@@ -50,10 +50,30 @@
         </v-container>
       </v-layout>
       <v-bottom-navigation max-height="50" hidden grow dark fixed color="grey">
-        <upload-money :currencyprop="'ron'" :amountprop="depositRON" :iconprop="'RON'" />
-        <upload-money :currencyprop="'eur'" :amountprop="depositEUR" :iconprop="'fas fa-euro-sign'" />
-        <upload-money :currencyprop="'gbp'" :amountprop="depositGBP" :iconprop="'fas fa-pound-sign'" />
-        <upload-money :currencyprop="'usd'" :amountprop="depositUSD" :iconprop="'fas fa-dollar-sign'" />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'ron'"
+          :amountprop="depositRON"
+          :iconprop="'RON'"
+        />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'eur'"
+          :amountprop="depositEUR"
+          :iconprop="'fas fa-euro-sign'"
+        />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'gbp'"
+          :amountprop="depositGBP"
+          :iconprop="'fas fa-pound-sign'"
+        />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'usd'"
+          :amountprop="depositUSD"
+          :iconprop="'fas fa-dollar-sign'"
+        />
       </v-bottom-navigation>
     </v-app>
   </div>

@@ -38,8 +38,8 @@ export default {
     verification: (verif_data) => {
         return Api().post('verification', verif_data);
     },
-    changedeposit: (new_deposit) => {
-        return Api().post('/changedeposit', new_deposit);
+    changedeposit: (deposit) => {
+        return Api().post('/changedeposit', deposit);
     },
     changepassword: (new_password) => {
         return Api().post('/changepassword', new_password);

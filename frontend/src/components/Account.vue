@@ -90,20 +90,6 @@
         <v-list-item class="overline">Telephone Number</v-list-item>
         <v-list-item class="subtitle-1">{{ phone_number }}</v-list-item>
       </v-list-item>
-      <v-divider class="mx-5"></v-divider>
-
-      <v-list-item>
-        <v-list-item-icon>
-          <v-icon class="fas fa-comments-dollar"></v-icon>
-        </v-list-item-icon>
-        <v-list-item class="overline">Deposit</v-list-item>
-        <v-list-item class="subtitle-1">
-          {{ depositRon }} RON
-          <v-layout class="ml-5 pl-5">
-            <exchange-card-dialog :currency="'RON'" />
-          </v-layout>
-        </v-list-item>
-      </v-list-item>
     </v-card>
   </div>
 </template>
@@ -129,7 +115,7 @@ export default {
       created_at: "",
       email_addres: "",
       phone_number: "",
-      depositRon : "",
+      depositRon: ""
     };
   },
 
@@ -154,7 +140,7 @@ export default {
 
   methods: {
     async user() {
-      const userid = localStorage.getItem('userid')
+      const userid = localStorage.getItem("userid");
       const response = await AuthRequest.account(userid);
       this.last_name = response.last_name;
       this.first_name = response.first_name;

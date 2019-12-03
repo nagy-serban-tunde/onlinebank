@@ -1,38 +1,47 @@
 <template>
   <div id="app">
-    <v-layout ma-5 justify-space-between >
-      <v-card color="#444" width="500" >
+    <v-layout ma-5 justify-space-between>
+      <v-card color="#444" width="500">
         <v-card-title class="justify-center">
           <v-subheader class="display-1 green--text">Transactions Income</v-subheader>
         </v-card-title>
-        <apexchart type="line" :options="TransactionsIncomeExpenseExchangeNumberChart" :series="TransactionsIncomeChartData" />
+        <apexchart
+          type="line"
+          :options="TransactionsIncomeExpenseExchangeNumberChart"
+          :series="TransactionsIncomeChartData"
+        />
       </v-card>
 
-      <v-card color="#444" width="500" >
+      <v-card color="#444" width="500">
         <v-card-title class="justify-center">
           <v-subheader class="display-1 green--text">Transactions Expense</v-subheader>
         </v-card-title>
-        <apexchart type="line" :options="TransactionsIncomeExpenseExchangeNumberChart" :series="TransactionsExpenseChartData" />
+        <apexchart
+          type="line"
+          :options="TransactionsIncomeExpenseExchangeNumberChart"
+          :series="TransactionsExpenseChartData"
+        />
       </v-card>
-
     </v-layout>
 
     <v-layout ma-5 justify-space-between>
-
-      <v-card color="#444" width="500" >
+      <v-card color="#444" width="500">
         <v-card-title class="justify-center">
           <v-subheader class="display-1 green--text">Exchange number</v-subheader>
         </v-card-title>
-        <apexchart type="area" :options="TransactionsIncomeExpenseExchangeNumberChart" :series="ExchangenumberChartData" />
+        <apexchart
+          type="area"
+          :options="TransactionsIncomeExpenseExchangeNumberChart"
+          :series="ExchangenumberChartData"
+        />
       </v-card>
 
-      <v-card color="#444" width="500" >
+      <v-card color="#444" width="500">
         <v-card-title class="justify-center">
           <v-subheader class="display-1 green--text">Valuta RON TO</v-subheader>
         </v-card-title>
         <apexchart type="bar" :options="ValutaRonChart" :series="ValutaRonChartData" />
       </v-card>
-
     </v-layout>
   </div>
 </template>
@@ -43,9 +52,6 @@ import AuthRequest from "@/services/AuthService";
 export default {
   name: "Statistic",
   data() {
-    this.StatisticExpenseIncome();
-    this.StatisticValutaRon();
-    this.StatisticExchanegNumber();
     return {
       TransactionsIncomeExpenseExchangeNumberChart: {
         chart: {
@@ -59,9 +65,9 @@ export default {
               zoomin: false,
               zoomout: false,
               pan: false,
-              reset: false,
-            },
-          },
+              reset: false
+            }
+          }
         },
         colors: ["#4caf50"],
         xaxis: {
@@ -69,12 +75,12 @@ export default {
             style: {
               colors: "#4caf50"
             },
-            formatter:function (timeStamp) {
+            formatter: function(timeStamp) {
               let date = new Date(timeStamp);
               var day = date.getDate();
-              var month = date.getMonth()+1;
-              var year = date.getFullYear()%100;
-              date = year + '-' + month + '-' + day;
+              var month = date.getMonth() + 1;
+              var year = date.getFullYear() % 100;
+              date = year + "-" + month + "-" + day;
               return date;
             }
           }
@@ -93,7 +99,7 @@ export default {
           data: []
         }
       ],
-      TransactionsIncomeChartData:[
+      TransactionsIncomeChartData: [
         {
           name: "Value",
           data: []
@@ -111,25 +117,25 @@ export default {
               zoomin: false,
               zoomout: false,
               pan: false,
-              reset: false,
-            },
-          },
+              reset: false
+            }
+          }
         },
-        legend:{
+        legend: {
           showForSingleSeries: false,
           showForNullSeries: true,
           showForZeroSeries: true,
           labels: {
-            colors: "#ffffff",
-          },
+            colors: "#ffffff"
+          }
         },
-        colors: ["#4caf50","#2f6a31","#173518"],
+        colors: ["#4caf50", "#2f6a31", "#173518"],
         xaxis: {
-          categories: ["EUR","USD","GBP"],
+          categories: ["EUR", "USD", "GBP"],
           labels: {
             style: {
               colors: "#4caf50"
-            },
+            }
           }
         },
         yaxis: {
@@ -150,7 +156,8 @@ export default {
           data: []
         },
         {
-          name: "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank",
+          name:
+            "https://www.curs-valutar-bnr.ro/curs-valutar-banci/unicredit-tiriac-bank",
           data: []
         }
       ],
@@ -158,14 +165,14 @@ export default {
         {
           name: "Exchange Number",
           data: []
-        },
-      ],
+        }
+      ]
     };
   },
   methods: {
     async StatisticExpenseIncome() {
       const responseIncome = await AuthRequest.statisticIncome(1);
-      for (let index = 0; index < responseIncome.length; index++){
+      for (let index = 0; index < responseIncome.length; index++) {
         this.TransactionsIncomeChartData[0].data[index] = [
           responseIncome[index].date,
           responseIncome[index].amount
@@ -200,15 +207,22 @@ export default {
         response[8].purchase_price
       ];
     },
-    async StatisticExchanegNumber(){
-      const responseExchangeNumber = await AuthRequest.statisticExchangeNumber(1);
-      for (let index = 0; index < responseExchangeNumber.length; index++){
+    async StatisticExchanegNumber() {
+      const responseExchangeNumber = await AuthRequest.statisticExchangeNumber(
+        1
+      );
+      for (let index = 0; index < responseExchangeNumber.length; index++) {
         this.ExchangenumberChartData[0].data[index] = [
           responseExchangeNumber[index].date,
           responseExchangeNumber[index].number
         ];
       }
     }
+  },
+  mounted() {
+    this.StatisticExpenseIncome();
+    this.StatisticValutaRon();
+    this.StatisticExchanegNumber();
   }
 };
 </script>

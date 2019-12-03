@@ -23,8 +23,8 @@ if __name__ == "__main__":
     # WriteToJson.json_file_upload('..\\frontend\\static\\GBP.json',List_GBPtoRON_EURO_USD,webpages_name)
     # WriteToJson.json_file_upload('..\\frontend\\static\\USD.json',List_USDtoRON_EURO_GBP,webpages_name)
 
-    TablesCreated("online_bank","127.0.0.1","root","diak123").main()
-    insert_table.InsertToTable()
+    # TablesCreated("online_bank","127.0.0.1","root","diak123").main()
+    # insert_table.InsertToTable()
 
     ValutaMySqlLoading(List_elements,"Valuta","online_bank","127.0.0.1","root","diak123").Read_Json_File_and_Update_Database('..\\frontend\\static\\WebScraping1.json')
 
