@@ -11,6 +11,10 @@ export default {
         let page = '/user/' + String(id);
         return (await Api().get(page)).data;
     },
+    getcard: async (id) => {
+        let page = '/cards/' + String(id);
+        return (await Api().get(page)).data;
+    },
     getdeposit: async (id) => {
         let page = '/deposit/' + String(id);
         return (await Api().get(page)).data;
@@ -35,9 +39,9 @@ export default {
         return Api().post('verification', verif_data);
     },
     changedeposit: (new_deposit) => {
-        return Api().post('changedeposit', new_deposit);
+        return Api().post('/changedeposit', new_deposit);
     },
     changepassword: (new_password) => {
-        return Api().post('changepassword', new_password);
+        return Api().post('/changepassword', new_password);
     },
 }

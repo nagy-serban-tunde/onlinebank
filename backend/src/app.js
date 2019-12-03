@@ -144,7 +144,7 @@ const getDeposit = (id) => {
         });
     })
 }
-app.get('/deposit/:id', async (req, res) => {
+app.get('/cards/:id', async (req, res) => {
     amounts = await getDeposit(req.params.id).catch(err => console.error(err))
     var deposit = [
         {
@@ -181,6 +181,12 @@ app.get('/deposit/:id', async (req, res) => {
         }
     ];
 
+    console.log(deposit);
+    res.send(deposit);
+})
+
+app.get('/deposit/:id', async (req, res) => {
+    deposit = await getDeposit(req.params.id).catch(err => console.error(err))
     console.log(deposit);
     res.send(deposit);
 })

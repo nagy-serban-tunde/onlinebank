@@ -145,14 +145,14 @@ export default {
     };
   },
   methods: {
-    async getDeposit() {
+    async getCards() {
       const userid = localStorage.getItem("userid");
-      const deposit = await AuthRequest.getdeposit(userid);
+      const deposit = await AuthRequest.getcard(userid);
       this.deposit = deposit;
     }
   },
   mounted() {
-    this.getDeposit();
+    this.getCards();
   }
 };
 </script>
