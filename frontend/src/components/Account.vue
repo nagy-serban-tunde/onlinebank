@@ -90,20 +90,17 @@
         <v-list-item class="overline">Telephone Number</v-list-item>
         <v-list-item class="subtitle-1">{{ phone_number }}</v-list-item>
       </v-list-item>
-      <v-divider class="mx-5"></v-divider>
-
     </v-card>
   </div>
 </template>
 
 <script>
-import ExchangeCardDialog from "./fittings/ExchangeCardDialog";
 import ChangePassword from "./fittings/ChangePasswordDialog";
 import AuthRequest from "@/services/AuthService";
 
 export default {
   name: "Account",
-  components: { ExchangeCardDialog, ChangePassword },
+  components: { ChangePassword },
   data() {
     isMobile: false;
     this.user();
@@ -118,7 +115,7 @@ export default {
       created_at: "",
       email_addres: "",
       phone_number: "",
-      depositRon : "",
+      depositRon: ""
     };
   },
 
@@ -143,7 +140,7 @@ export default {
 
   methods: {
     async user() {
-      const userid = localStorage.getItem('userid')
+      const userid = localStorage.getItem("userid");
       const response = await AuthRequest.account(userid);
       this.last_name = response.last_name;
       this.first_name = response.first_name;

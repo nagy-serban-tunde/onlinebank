@@ -97,7 +97,7 @@ export default {
       this.loadingCard = "success";
       setTimeout(
         () => ((this.loadingCard = false), this.$router.push({ path: "home" })),
-        2000
+        1000
       );
     },
     validateUser() {
@@ -126,10 +126,9 @@ export default {
           1000
         );
         localStorage.setItem("userid", response.data.message);
-        console.log(response.data.message);
         this.toHome();
       }
-      setTimeout(() => (this.loadingCard = false), 2000);
+      setTimeout(() => (this.loadingCard = false), 1000);
     },
 
     toRegister() {

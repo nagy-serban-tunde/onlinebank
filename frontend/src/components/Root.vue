@@ -50,24 +50,30 @@
         </v-container>
       </v-layout>
       <v-bottom-navigation max-height="50" hidden grow dark fixed color="grey">
-        <v-btn>
-          <span>{{depositEUR}}</span>
-          <v-icon>fas fa-euro-sign</v-icon>
-        </v-btn>
-
-        <v-btn>
-          <span>{{depositGBP}}</span>
-          <v-icon>fas fa-pound-sign</v-icon>
-        </v-btn>
-
-        <v-btn>
-          <span>{{depositUSD}}</span>
-          <v-icon>fas fa-dollar-sign</v-icon>
-        </v-btn>
-         <v-btn>
-          <span>{{depositRON}}</span>
-          <v-icon>RON</v-icon>
-        </v-btn>
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'ron'"
+          :amountprop="depositRON"
+          :iconprop="'RON'"
+        />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'eur'"
+          :amountprop="depositEUR"
+          :iconprop="'fas fa-euro-sign'"
+        />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'gbp'"
+          :amountprop="depositGBP"
+          :iconprop="'fas fa-pound-sign'"
+        />
+        <upload-money
+          @refresh-event="getUserInfo"
+          :currencyprop="'usd'"
+          :amountprop="depositUSD"
+          :iconprop="'fas fa-dollar-sign'"
+        />
       </v-bottom-navigation>
     </v-app>
   </div>
@@ -75,9 +81,11 @@
 
 <script>
 import AuthRequest from "@/services/AuthService";
+import UploadMoney from "./fittings/UploadMoneyDialog";
 
 export default {
   name: "Root",
+  components: { UploadMoney },
   data() {
     return {
       mini: true,
@@ -102,16 +110,16 @@ export default {
   },
   methods: {
     async getUserInfo() {
-      const userid = localStorage.getItem('userid')
+      const userid = localStorage.getItem("userid");
       const user = await AuthRequest.account(userid);
       const deposit = await AuthRequest.getdeposit(userid);
       this.profile_picture = user.profile_picture;
       this.last_name = user.last_name;
       this.first_name = user.first_name;
-      this.depositRON = deposit[0].amount;
-      this.depositEUR = deposit[1].amount;
-      this.depositGBP = deposit[2].amount;
-      this.depositUSD = deposit[3].amount;
+      this.depositRON = deposit.ron;
+      this.depositEUR = deposit.eur;
+      this.depositGBP = deposit.gbp;
+      this.depositUSD = deposit.usd;
     }
   },
   mounted() {

@@ -86,53 +86,34 @@ app.post('/register', function (req, res) {
 });
 
 app.post('/changedeposit', function (req, res) {
-    var sqlpassword = `SELECT id from user where password="${req.body.password}"`;
-    connection.query(sqlpassword, function (err, resultpassword) {
+    var sql = `UPDATE deposit SET ${req.body.currency} = "${req.body.new_deposit}" WHERE user_id="${req.body.id}"`
+    connection.query(sql, function (err) {
         if (err) {
             res.send({
-                error: 'Wrong password!'
+                error: 'Deposit update error!'
             })
-            return;
         } else {
-            var sqlnewdeposit = `UPDATE deposit SET ${req.body.currency} = "${req.body.deposit}" WHERE user_id="${resultpassword[0].id}"`
-            connection.query(sqlnewdeposit, function (err1) {
-                if (err1) {
-                    res.send({
-                        error: 'Wrong deposit update!'
-                    })
-                } else {
-                    res.send({
-                        message: "Successful deposit update !"
-                    })
-                }
-            });
+            res.send({
+                message: "Successful deposit update!"
+            })
         }
     });
+
 });
 
 app.post('/changepassword', function (req, res) {
-    var sql = `SELECT id from user where  password="${req.body.password}"`;
-    connection.query(sql, function (err, result) {
+    var sql = `UPDATE user SET password = "${req.body.new_password}" WHERE id="${req.body.id}"`;
+    connection.query(sql, function (err) {
         if (err) {
             res.send({
-                error: 'Wrong password!'
+                error: 'Password change error!'
             })
-            return;
         } else {
-            var sql1 = `UPDATE user SET password = "${req.body.new_password}" WHERE (id = "${result[0].id}")`;
-            connection.query(sql1, function (err1) {
-                if (err1) {
-                    res.send({
-                        error: 'Wrong update!'
-                    })
-                } else {
-                    res.send({
-                        message: "Successful update password"
-                    })
-                }
+            res.send({
+                message: "Successful password update"
             })
         }
-    });
+    })
 });
 
 const getDeposit = (id) => {
@@ -144,7 +125,7 @@ const getDeposit = (id) => {
         });
     })
 }
-app.get('/deposit/:id', async (req, res) => {
+app.get('/cards/:id', async (req, res) => {
     amounts = await getDeposit(req.params.id).catch(err => console.error(err))
     var deposit = [
         {
@@ -185,6 +166,12 @@ app.get('/deposit/:id', async (req, res) => {
     res.send(deposit);
 })
 
+app.get('/deposit/:id', async (req, res) => {
+    deposit = await getDeposit(req.params.id).catch(err => console.error(err))
+    console.log(deposit);
+    res.send(deposit);
+})
+
 
 const getUserInfo = (id) => {
     return new Promise((resolve, reject) => {
@@ -208,14 +195,14 @@ app.get('/user/:id', async (req, res) => {
     res.send(user);
 });
 
-app.get('/statisticIncome/:id',async(req,res) => {
-    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where user_id = "${req.params.id}" and date between now() - interval 30 day and now() ;`
-    connection.query(sql,function(err,result){
-        if (err){
+app.get('/statisticIncome/:id', async (req, res) => {
+    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where user_id = "${req.params.id}";`
+    connection.query(sql, function (err, result) {
+        if (err) {
             res.send({
-                error : 'Wrong statisticIncome'
+                error: 'Wrong statisticIncome'
             })
-        }else{
+        } else {
             for (let index = 0; index < result.length; index++) {
                 result[index].date = result[index].date.getTime();
             }
@@ -224,14 +211,14 @@ app.get('/statisticIncome/:id',async(req,res) => {
     });
 });
 
-app.get('/statisticExpense/:id',async(req,res) => {
-    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where user_id = "${req.params.id}" and date between now() - interval 30 day and now() ;`
-    connection.query(sql,function(err,result){
-        if (err){
+app.get('/statisticExpense/:id', async (req, res) => {
+    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where user_id = "${req.params.id}";`
+    connection.query(sql, function (err, result) {
+        if (err) {
             res.send({
-                error : 'Wrong statisticExpense'
+                error: 'Wrong statisticExpense'
             })
-        }else{
+        } else {
             for (let index = 0; index < result.length; index++) {
                 result[index].date = result[index].date.getTime();
             }
@@ -240,14 +227,14 @@ app.get('/statisticExpense/:id',async(req,res) => {
     });
 });
 
-app.get('/statisticExchangeNumber/:id', async(req,res) => {
+app.get('/statisticExchangeNumber/:id', async (req, res) => {
     sql = `select count(*) as number, date from exchange  where user_id = "${req.params.id}" group by date;`
-    connection.query(sql,function(err,result) {
-        if (err){
+    connection.query(sql, function (err, result) {
+        if (err) {
             res.send({
-                error : "Wrong statisticExchangeNumber"
+                error: "Wrong statisticExchangeNumber"
             })
-        }else{
+        } else {
             for (let index = 0; index < result.length; index++) {
                 result[index].date = result[index].date.getTime();
             }
@@ -256,12 +243,12 @@ app.get('/statisticExchangeNumber/:id', async(req,res) => {
     });
 });
 
-app.get('/statisticValuta/:valuta', async(req,res) => {
+app.get('/statisticValuta/:valuta', async (req, res) => {
     sql = `select web_address,currency,purchase_price from valuta`;
-    connection.query(sql,function(err,result){
-        if(err){
-            error : 'Wrong getvaluta'
-        }else{
+    connection.query(sql, function (err, result) {
+        if (err) {
+            error: 'Wrong getvaluta'
+        } else {
             res.send(result);
         }
     });
@@ -287,4 +274,4 @@ function python_run() {
     })
 }
 python_run();
-setInterval(()=>python_run(), 100 * 1000 );
+setInterval(() => python_run(), 100 * 1000);
