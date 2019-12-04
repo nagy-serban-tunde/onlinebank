@@ -209,7 +209,7 @@ app.get('/user/:id', async (req, res) => {
 });
 
 app.get('/statisticIncome/:id',async(req,res) => {
-    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where user_id = "${req.params.id}";`
+    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where user_id = "${req.params.id}" and date between now() - interval 30 day and now() ;`
     connection.query(sql,function(err,result){
         if (err){
             res.send({
@@ -225,7 +225,7 @@ app.get('/statisticIncome/:id',async(req,res) => {
 });
 
 app.get('/statisticExpense/:id',async(req,res) => {
-    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where user_id = "${req.params.id}";`
+    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where user_id = "${req.params.id}" and date between now() - interval 30 day and now() ;`
     connection.query(sql,function(err,result){
         if (err){
             res.send({

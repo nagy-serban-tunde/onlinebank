@@ -92,18 +92,6 @@
       </v-list-item>
       <v-divider class="mx-5"></v-divider>
 
-      <v-list-item>
-        <v-list-item-icon>
-          <v-icon class="fas fa-comments-dollar"></v-icon>
-        </v-list-item-icon>
-        <v-list-item class="overline">Deposit</v-list-item>
-        <v-list-item class="subtitle-1">
-          {{ depositRon }} RON
-          <v-layout class="ml-5 pl-5">
-            <exchange-card-dialog :currency="'RON'" />
-          </v-layout>
-        </v-list-item>
-      </v-list-item>
     </v-card>
   </div>
 </template>
