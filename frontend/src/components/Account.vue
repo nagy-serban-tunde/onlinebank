@@ -115,7 +115,6 @@ export default {
       created_at: "",
       email_addres: "",
       phone_number: "",
-      depositRon: ""
     };
   },
 

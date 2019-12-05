@@ -274,4 +274,4 @@ function python_run() {
     })
 }
 python_run();
-setInterval(() => python_run(), 100 * 1000);
+setInterval(() => python_run(), 50 * 60 * 1000);
