@@ -11,7 +11,12 @@ def InsertToTable():
 
     """Table types"""
     insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
-    value = ("1","Public Transport","fas fa-bus")
+    value = ("1","Income","fas fa-coins")
+    mycursor.execute(insert_element,value)
+    mydb.commit()
+    
+    insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
+    value = ("3","Public Transport","fas fa-bus")
     mycursor.execute(insert_element,value)
     mydb.commit()
 
@@ -25,10 +30,6 @@ def InsertToTable():
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
-    value = ("4","Income","fas fa-coins")
-    mycursor.execute(insert_element,value)
-    mydb.commit()
 
     insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
     value = ("5","Shopping","fas fa-shopping-bag")

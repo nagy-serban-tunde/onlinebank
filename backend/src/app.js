@@ -55,11 +55,14 @@ app.post('/sendtransaction', async (req, res) => {
 
 const getTransactionTypes = () => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM types_`, function (error, results) {
+        connection.query(`CREATE TABLE temp_tbl AS SELECT * FROM types_;
+        DELETE FROM temp_tbl WHERE name = 'Income';
+        SELECT * from temp_tbl;`, function (error, results) {
             if (error) { reject(error) }
             else { resolve(results) }
             console.log(results);
         });
+        connection.query(`DROP TABLE temp_tbl`)
     })
 }
 app.get('/transactiontypes', async (req, res) => {

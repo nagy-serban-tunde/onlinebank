@@ -8,6 +8,7 @@
       <v-form ref="form" lazy-validation>
         <v-text-field
           class="mx-5 mb-5"
+          @keyup.enter="changepassword"
           label="Old password"
           :append-icon="show ? 'fas fa-eye' : 'fas fa-eye-slash'"
           :type="show ? 'text' : 'password'"
@@ -20,6 +21,7 @@
 
         <v-text-field
           class="mx-5 mb-5"
+          @keyup.enter="changepassword"
           label="New password"
           :append-icon="show1 ? 'fas fa-eye' : 'fas fa-eye-slash'"
           :type="show1 ? 'text' : 'password'"

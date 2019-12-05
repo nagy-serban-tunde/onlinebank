@@ -20,6 +20,7 @@
             <v-text-field
               class="mb-5"
               label="Amount"
+              @keyup.enter="adding"
               color="green"
               clearable
               counter="10"
@@ -32,6 +33,7 @@
         </v-layout>
         <v-text-field
           class="mx-5 mb-5"
+          @keyup.enter="adding"
           label="Password"
           color="green"
           :append-icon="show ? 'fas fa-eye' : 'fas fa-eye-slash'"
@@ -44,10 +46,10 @@
         />
       </v-form>
 
-      <v-divider></v-divider>
+      <v-divider/>
 
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer/>
         <v-btn @click="adding" color="success" text>Add</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
