@@ -14,8 +14,8 @@ if __name__ == "__main__":
 
     List_RONtoEURO_GBP_USD,List_EUROtoRON_GBP_USD,List_GBPtoRON_EURO_USD,List_USDtoRON_EURO_GBP = ExchangeList(List_elements).main()
 
-    TablesCreated("online_bank","127.0.0.1","root","diak123").main()
-    insert_table.InsertToTable()
+    #TablesCreated("online_bank","127.0.0.1","root","diak123").main()
+    #insert_table.InsertToTable()
 
     ValutaMySqlLoading(List_elements,"Valuta","online_bank","127.0.0.1","root","diak123").ValutaTableUpload(webpages_name)
 
