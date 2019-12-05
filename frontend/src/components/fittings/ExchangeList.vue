@@ -1,11 +1,7 @@
 <template>
   <div>
     <v-list two-line subheader>
-      <v-fab-transition>
-        <v-btn color="green" fab dark small absolute left top>
-          <v-icon>fas fa-plus</v-icon>
-        </v-btn>
-      </v-fab-transition>
+      <create-exchange-dialog />
       <v-list-item v-for="exchange in exchangesList" :key="exchange.id">
         <v-list-item-avatar>
           <v-icon v-text="exchange.iconTo"></v-icon>
@@ -34,10 +30,11 @@
 
 <script>
 import ExchangeDialog from "./ExchangeDialog";
+import CreateExchangeDialog from "./CreateExchangeDialog";
 
 export default {
   name: "ExchangeList",
-  components: { ExchangeDialog },
+  components: { ExchangeDialog, CreateExchangeDialog },
   props: ["exchangesList"],
   data() {
     return {

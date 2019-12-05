@@ -19,30 +19,26 @@
           <v-icon>{{transaction.icon}}</v-icon>
         </v-list-item-icon>
       </v-list-item>
-          <v-card-text class="pl-4">
-           "{{transaction.comment}}"
-          </v-card-text>
+      <v-card-text class="pl-4">"{{transaction.comment}}"</v-card-text>
       <v-divider />
       <v-card-actions class="justify-start">
-        <v-card-subtitle>
-          {{transaction.date}}
-        </v-card-subtitle>
-        <v-spacer/> 
+        <v-card-subtitle>{{transaction.date}}</v-card-subtitle>
+        <v-spacer />
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
+
 <script>
 export default {
   name: "ExchangeDialog",
   props: ["transaction"],
   data() {
     return {
-      dialog: false
+      dialog: false,
     };
-  }
+  },
 };
 </script>
-<style>
-</style>
+<style/>

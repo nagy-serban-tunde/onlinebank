@@ -1,11 +1,7 @@
 <template>
   <div>
     <v-list two-line subheader>
-      <v-fab-transition>
-        <v-btn color="green" fab dark small absolute left top>
-          <v-icon>fas fa-plus</v-icon>
-        </v-btn>
-      </v-fab-transition>
+      <create-transcation-dialog />
       <v-list-item v-for="transaction in transactionsList" :key="transaction.id">
         <v-list-item-avatar>
           <v-icon :color="transaction.type" v-text="transaction.icon"></v-icon>
@@ -34,13 +30,13 @@
 
 <script>
 import TranscationDialog from "./TransactionDialog";
+import CreateTranscationDialog from "./CreateTransactionDialog";
 
 export default {
   name: "TransactionList",
-  components: { TranscationDialog },
+  components: { TranscationDialog, CreateTranscationDialog },
   props: ["transactionsList"]
 };
 </script>
 
-<style scoped>
-</style>
+<style />

@@ -31,9 +31,45 @@ connection.connect(function (err) {
     console.log("Connected!");
 });
 
+
+const inserTransaction = (req) => {
+    return new Promise((resolve, reject) => {
+        var sqlgettypeid = `SELECT id FROM types_ WHERE name = '${req.body.type}'`
+        connection.query(sqlgettypeid, function (err, typeid) {
+            var sqlinserttransaction = `INSERT INTO transactions ( user_id, date) VALUES ('${req.body.userid}', CURDATE())`
+            connection.query(sqlinserttransaction, function (err, result) {
+                var sqlinsertexpense = `INSERT INTO expense (transaction_id, amount, type) VALUES ('${result.insertId}', '${req.body.amount}', '${typeid[0].id}')`
+                connection.query(sqlinsertexpense, function (err, result) {
+                    if (err) { reject(err) }
+                    else { resolve(result) }
+                })
+            })
+        })
+    })
+}
+
+app.post('/sendtransaction', async (req, res) => {
+    await inserTransaction(req).catch(err => console.error(err))
+    res.send([{ message: "Transaction done!" }])
+})
+
+const getTransactionTypes = () => {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM types_`, function (error, results) {
+            if (error) { reject(error) }
+            else { resolve(results) }
+            console.log(results);
+        });
+    })
+}
+app.get('/transactiontypes', async (req, res) => {
+    transactionTypes = await getTransactionTypes().catch(err => console.error(err))
+    res.send(transactionTypes);
+})
+
 app.post('/verification', function (req, res) {
     var sql = `SELECT id from user where (username = "${req.body.name}" && password="${req.body.password}")`;
-    connection.query(sql, function (err, result, fields) {
+    connection.query(sql, function (err, result) {
         console.log(result[0]);
         if (!result[0]) {
             res.send({
@@ -118,13 +154,14 @@ app.post('/changepassword', function (req, res) {
 
 const getDeposit = (id) => {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT ron, gbp, usd, eur from deposit where user_id = "${id}"`, function (error, results, fields) {
+        connection.query(`SELECT ron, gbp, usd, eur FROM deposit where user_id = "${id}"`, function (error, results, fields) {
             if (error) { reject(error) }
             else { resolve(results[0]) }
             console.log(results[0]);
         });
     })
 }
+
 app.get('/cards/:id', async (req, res) => {
     amounts = await getDeposit(req.params.id).catch(err => console.error(err))
     var deposit = [
@@ -161,8 +198,6 @@ app.get('/cards/:id', async (req, res) => {
             exchange: "4.29"
         }
     ];
-
-    console.log(deposit);
     res.send(deposit);
 })
 

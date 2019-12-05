@@ -79,7 +79,6 @@ export default {
         const userid = localStorage.getItem("userid");
         const user = await AuthRequest.account(userid);
         if (user.password == this.password) {
-          console.log("OK");
           const response = await AuthRequest.changepassword({
             id: userid,
             new_password: this.new_password

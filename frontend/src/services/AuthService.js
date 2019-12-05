@@ -5,7 +5,7 @@ import { strict } from 'assert';
 
 export default {
     register: (auth_data) => {
-        return Api().post('register', auth_data);
+        return Api().post('/register', auth_data);
     },
     account: async (id) => {
         let page = '/user/' + String(id);
@@ -27,7 +27,7 @@ export default {
         let page = '/statisticExpense/' + String(id);
         return (await Api().get(page)).data;
     },
-    statisticExchangeNumber: async(id) =>{
+    statisticExchangeNumber: async (id) => {
         let page = '/statisticExchangeNumber/' + String(id);
         return (await Api().get(page)).data;
     },
@@ -36,7 +36,7 @@ export default {
         return (await Api().get(page)).data;
     },
     verification: (verif_data) => {
-        return Api().post('verification', verif_data);
+        return Api().post('/verification', verif_data);
     },
     changedeposit: (deposit) => {
         return Api().post('/changedeposit', deposit);
@@ -44,4 +44,11 @@ export default {
     changepassword: (new_password) => {
         return Api().post('/changepassword', new_password);
     },
+    gettransactiontypes: async () => {
+        let page = '/transactiontypes';
+        return (await Api().get(page)).data;
+    },
+    sendtransaction: (transaction) => {
+        return Api().post('/sendtransaction', transaction);
+    }
 }
