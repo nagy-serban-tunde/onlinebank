@@ -37,7 +37,7 @@ def InsertToTable():
 
     """Table user"""
     insert_element = "INSERT INTO user (id,username,last_name,first_name,birth_date,profile_picture,created_at,gender,password,email_addres,phone_number) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    value = ("1","nagytunde","Nagy","Tünde","1997.09.05","kep","2019.11.30","F","diak1234","nagyserbantunde@gmail.com","0729461356")
+    value = ("1","nagytunde","Tünde","Nagy","1997.09.05","https://eu.ui-avatars.com/api/?background=fff&color=4caf50&bold=true&name=Nagy+Tünde","2019.11.30","F","diak1234","nagyserbantunde@gmail.com","0729461356")
     mycursor.execute(insert_element,value)
     mydb.commit()
 

@@ -1,5 +1,6 @@
 import math
 
+# This class does ...
 class BestExchangeValuta(object):
 
     def __init__(self, webpages_name, lista, valuta):

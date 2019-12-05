@@ -231,7 +231,7 @@ app.get('/user/:id', async (req, res) => {
 });
 
 app.get('/statisticIncome/:id', async (req, res) => {
-    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where user_id = "${req.params.id}";`
+    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}";`
     connection.query(sql, function (err, result) {
         if (err) {
             res.send({
@@ -247,7 +247,7 @@ app.get('/statisticIncome/:id', async (req, res) => {
 });
 
 app.get('/statisticExpense/:id', async (req, res) => {
-    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where user_id = "${req.params.id}";`
+    sql = `select amount,date from transactions t join expense e on t.id = e.transaction_id where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}";`
     connection.query(sql, function (err, result) {
         if (err) {
             res.send({
@@ -263,7 +263,7 @@ app.get('/statisticExpense/:id', async (req, res) => {
 });
 
 app.get('/statisticExchangeNumber/:id', async (req, res) => {
-    sql = `select count(*) as number, date from exchange  where user_id = "${req.params.id}" group by date;`
+    sql = `select count(*) as number, date from exchange  where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}" group by date;`
     connection.query(sql, function (err, result) {
         if (err) {
             res.send({
@@ -309,4 +309,4 @@ function python_run() {
     })
 }
 python_run();
-setInterval(() => python_run(), 100 * 1000);
+setInterval(() => python_run(), 50 * 60 * 1000);

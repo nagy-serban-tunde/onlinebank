@@ -12,6 +12,9 @@ class ExchangeList(object):
         self.List_GBPtoRON_EURO_USD = []
         self.List_USDtoRON_EURO_GBP = []
 
+#self.currencyMap['RON']['GBP']
+#self.currencyMap['RON']['GBP']['time']
+#self.List_RONtoEURO_GBP_USD[3]
 
     def RONtoEURO_GBP_USD(self):
         value_pur = 0
