@@ -17,7 +17,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-/*Fobb express reqek: get, post, put, patch, delete, stb... */
+/*Fobb express requestekek: get, post, put, patch, delete, stb... */
 const connection = mysql.createConnection({
     host: config.db.host,
     user: config.db.user,
@@ -32,24 +32,41 @@ connection.connect(function (err) {
 });
 
 
-const inserTransaction = (req) => {
+const insertTransaction = (req) => {
     return new Promise((resolve, reject) => {
-        var sqlgettypeid = `SELECT id FROM types_ WHERE name = '${req.body.type}'`
-        connection.query(sqlgettypeid, function (err, typeid) {
-            var sqlinserttransaction = `INSERT INTO transactions ( user_id, date) VALUES ('${req.body.userid}', CURDATE())`
-            connection.query(sqlinserttransaction, function (err, result) {
-                var sqlinsertexpense = `INSERT INTO expense (transaction_id, amount, type) VALUES ('${result.insertId}', '${req.body.amount}', '${typeid[0].id}')`
+        var sqlinserttransaction = `INSERT INTO transactions ( user_id, date) VALUES ('${req.body.id}', CURDATE())`
+        connection.query(sqlinserttransaction, function (err, transaction_id) {
+            console.log(req.body.type)
+            if (req.body.type == "income") {
+
+                console.log("EZ EGY FAKIN INCOME")
+                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount) VALUES ('${transaction_id.insertId}', '${req.body.amount}')`
                 connection.query(sqlinsertexpense, function (err, result) {
                     if (err) { reject(err) }
                     else { resolve(result) }
                 })
-            })
+            } else {
+
+                console.log("EZ EGY FAKIN EXPENSE")
+                var sqlgettypeid = `SELECT id FROM types_ WHERE name = '${req.body.category}'`
+                connection.query(sqlgettypeid, function (err, typeid) {
+                    console.log(`watafakakakaakakak ${typeid}`)
+                    var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${typeid[0].id}')`
+                    connection.query(sqlinsertexpense, function (err, result) {
+                        if (err) { reject(err) }
+                        else { resolve(result) }
+                    })
+                })
+
+            }
         })
     })
 }
 
+
+
 app.post('/sendtransaction', async (req, res) => {
-    await inserTransaction(req).catch(err => console.error(err))
+    await insertTransaction(req).catch(err => console.error(err))
     res.send([{ message: "Transaction done!" }])
 })
 
@@ -110,6 +127,7 @@ app.post('/register', function (req, res) {
                 var sqlinsertdeposit = `INSERT INTO deposit (user_id) VALUES ('${result[0].id}');`
                 connection.query(sqlinsertdeposit, function (err, result) {
                     if (err) {
+                        console.log(err);
                         res.send({
                             error: 'Registration rejected! Deposit creation failed!'
                         })
@@ -177,7 +195,8 @@ app.get('/cards/:id', async (req, res) => {
             sign: "",
             icon: "RON",
             from_curreny: "RON",
-            exchange: "4.29"
+            exchange: "4.29",
+            notification: false
         },
         {
             currency: "Euro",
@@ -185,7 +204,8 @@ app.get('/cards/:id', async (req, res) => {
             sign: "€",
             icon: "fas fa-euro-sign",
             from_curreny: "RON",
-            exchange: "4.76"
+            exchange: "4.76",
+            notification: false
         },
         {
             currency: "GBP",
@@ -193,7 +213,8 @@ app.get('/cards/:id', async (req, res) => {
             sign: "£",
             icon: "fas fa-pound-sign",
             from_curreny: "RON",
-            exchange: "5.50"
+            exchange: "5.50",
+            notification: true
         },
         {
             currency: "USD",
@@ -201,7 +222,8 @@ app.get('/cards/:id', async (req, res) => {
             sign: "$",
             icon: "fas fa-dollar-sign",
             from_curreny: "RON",
-            exchange: "4.29"
+            exchange: "4.29",
+            notification: true
         }
     ];
     res.send(deposit);

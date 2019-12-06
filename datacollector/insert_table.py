@@ -16,17 +16,17 @@ def InsertToTable():
     mydb.commit()
     
     insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
-    value = ("3","Public Transport","fas fa-bus")
+    value = ("2","Public Transport","fas fa-bus")
     mycursor.execute(insert_element,value)
     mydb.commit()
 
     insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
-    value = ("2","Food","fas fa-utensils")
+    value = ("3","Food","fas fa-utensils")
     mycursor.execute(insert_element,value)
     mydb.commit()
 
     insert_element = "INSERT INTO types_ (id,name,icon) VALUES(%s,%s,%s)"
-    value = ("3","Housing","fas fa-home")
+    value = ("4","Housing","fas fa-home")
     mycursor.execute(insert_element,value)
     mydb.commit()
 

@@ -23,24 +23,29 @@
         <v-toolbar-title class="ml-5">Add Transaction</v-toolbar-title>
         <template v-slot:extension>
           <v-tabs class="ml-2" v-model="tabs">
-            <v-tab href="#one">Income</v-tab>
-            <v-tab href="#two">Expense</v-tab>
+            <v-tab href="#income">Income</v-tab>
+            <v-tab href="#expense">Expense</v-tab>
             <v-tabs-slider color="green" />
           </v-tabs>
         </template>
       </v-toolbar>
       <v-card-text>
         <v-tabs-items v-model="tabs">
-          <v-tab-item v-for="content in ['one', 'two']" :key="content" :value="content"></v-tab-item>
+          <v-tab-item
+            v-for="content in ['income', 'expense']"
+            v-model="value"
+            :key="content"
+            :value="content"
+          ></v-tab-item>
         </v-tabs-items>
       </v-card-text>
       <v-layout mx-4 justify-space-around>
         <v-flex md5>
           <v-select
             :disabled="disableType"
-            type="type"
-            name="type"
-            v-model="type"
+            type="category"
+            name="category"
+            v-model="category"
             class="mr-5"
             item-text="name"
             :items="transactionTypes"
@@ -114,7 +119,7 @@ export default {
       hidden: false,
       tabs: null,
       disableType: false,
-      type: null,
+      category: "",
       amount: null
     };
   },
@@ -126,20 +131,21 @@ export default {
     async sendTransaction() {
       const userid = localStorage.getItem("userid");
       const response = await AuthRequest.sendtransaction({
-        userid: userid,
-        type: this.type,
-        amount: this.amount
+        id: userid,
+        category: this.category,
+        amount: this.amount,
+        type: this.tabs
       });
     }
   },
   computed: {
     activeSign() {
       switch (this.tabs) {
-        case "one": {
+        case "income": {
           this.disableType = true;
           return { color: "success", icon: "fas fa-plus" };
         }
-        case "two": {
+        case "expense": {
           this.Type = "Type";
           this.disableType = false;
           return { color: "red", icon: "fas fa-minus" };

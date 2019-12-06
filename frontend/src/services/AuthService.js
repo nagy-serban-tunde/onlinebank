@@ -50,5 +50,6 @@ export default {
     },
     sendtransaction: (transaction) => {
         return Api().post('/sendtransaction', transaction);
-    }
+    },
+  
 }
