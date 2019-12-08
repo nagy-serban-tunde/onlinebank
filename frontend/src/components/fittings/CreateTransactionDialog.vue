@@ -100,7 +100,7 @@
 
       <v-card-actions>
         <v-spacer />
-        <v-btn @click="sendTransaction" color="success" text>Add</v-btn>
+        <v-btn @click="verification" color="success" text>Add</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
@@ -124,6 +124,11 @@ export default {
     };
   },
   methods: {
+    verification() {
+      if (this.$refs.form.validate()) {
+        this.sendTransaction()
+      }
+    },
     async getTransactionTypes() {
       const transactionTypes = await AuthRequest.gettransactiontypes();
       this.transactionTypes = transactionTypes;
