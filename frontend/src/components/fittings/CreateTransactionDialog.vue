@@ -104,6 +104,14 @@
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
+    <v-snackbar v-model="regSuccesSnackbar" class="mb-5 green--text">
+      {{ regSuccesMsg }}
+      <v-btn text @click="regSuccesSnackbar = false">Close</v-btn>
+    </v-snackbar>
+    <v-snackbar v-model="regFailedSnackbar" class="mb-5 red--text">
+      {{ regFailedMsg }}
+      <v-btn text @click="regFailedSnackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-dialog>
 </template>
 
@@ -120,13 +128,17 @@ export default {
       tabs: null,
       disableType: false,
       category: "",
-      amount: null
+      amount: null,
+      regFailedMsg: "",
+      regSuccesMsg: "",
+      regFailedSnackbar: false,
+      regSuccesSnackbar: false
     };
   },
   methods: {
     verification() {
       if (this.$refs.form.validate()) {
-        this.sendTransaction()
+        this.sendTransaction();
       }
     },
     async getTransactionTypes() {
@@ -141,6 +153,43 @@ export default {
         amount: this.amount,
         type: this.tabs
       });
+      this.activateSnackbar(response);
+    },
+
+    activateSnackbar(response) {
+      if (response.data.error) {
+        this.regFailedMsg = response.data.error;
+        setTimeout(
+          () => (this.regSuccesSnackbar = false),
+          (this.regFailedSnackbar = true),
+          1000
+        );
+        this.loading = "success";
+      setTimeout(
+        () => (
+          (this.loading = false),
+          (this.regFailedSnackbar = false)
+        ),
+        1000
+      );
+      } else {
+        this.regSuccesMsg = response.data.message;
+        setTimeout(
+          () => (this.regFailedSnackbar = false),
+          (this.regSuccesSnackbar = true),
+          1000
+        );
+        this.$refs.form.reset();
+        this.loading = "success";
+      setTimeout(
+        () => (
+          (this.loading = false),
+          (this.regSuccesSnackbar = false),
+          (this.dialog = false)
+        ),
+        1000
+      );
+      }
     }
   },
   computed: {
