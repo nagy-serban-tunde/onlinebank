@@ -62,10 +62,11 @@
               label="Amount"
               color="green"
               clearable
-              counter="10"
+              counter="9"
               hint="Up to 3 decimal places allowed"
               name="amount"
               :rules="[ value => /^\d+(\.\d{1,3})?$/.test(value) || 'Invalid input number!']"
+              @keyup.enter="verification"
               v-model="amount"
             />
           </v-flex>
@@ -80,6 +81,7 @@
           counter="50"
           name="comment"
           v-model="comment"
+          @keyup.enter="verification"
         />
       </v-flex>
 
@@ -100,10 +102,18 @@
 
       <v-card-actions>
         <v-spacer />
-        <v-btn @click="sendTransaction" color="success" text>Add</v-btn>
+        <v-btn @click="verification" color="success" text>Add</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
+    <v-snackbar v-model="regSuccesSnackbar" class="mb-5 green--text">
+      {{ regSuccesMsg }}
+      <v-btn text @click="regSuccesSnackbar = false">Close</v-btn>
+    </v-snackbar>
+    <v-snackbar v-model="regFailedSnackbar" class="mb-5 red--text">
+      {{ regFailedMsg }}
+      <v-btn text @click="regFailedSnackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-dialog>
 </template>
 
@@ -120,10 +130,20 @@ export default {
       tabs: null,
       disableType: false,
       category: "",
-      amount: null
+      amount: null,
+      regFailedMsg: "",
+      regSuccesMsg: "",
+      regFailedSnackbar: false,
+      regSuccesSnackbar: false,
+      comment: ""
     };
   },
   methods: {
+    verification() {
+      if (this.$refs.form.validate()) {
+        this.sendTransaction();
+      }
+    },
     async getTransactionTypes() {
       const transactionTypes = await AuthRequest.gettransactiontypes();
       this.transactionTypes = transactionTypes;
@@ -134,8 +154,44 @@ export default {
         id: userid,
         category: this.category,
         amount: this.amount,
-        type: this.tabs
+        type: this.tabs,
+        comment: this.comment
       });
+      this.activateSnackbar(response);
+    },
+
+    activateSnackbar(response) {
+      if (response.data.error) {
+        this.regFailedMsg = response.data.error;
+        setTimeout(
+          () => (this.regSuccesSnackbar = false),
+          (this.regFailedSnackbar = true),
+          1000
+        );
+        this.loading = "success";
+        setTimeout(
+          () => ((this.loading = false), (this.regFailedSnackbar = false)),
+          1000
+        );
+      } else {
+        this.regSuccesMsg = response.data.message;
+        setTimeout(
+          () => (this.regFailedSnackbar = false),
+          (this.regSuccesSnackbar = true),
+          1000
+        );
+        this.$refs.form.reset();
+        this.comment = "";
+        this.loading = "success";
+        setTimeout(
+          () => (
+            (this.loading = false),
+            (this.regSuccesSnackbar = false),
+            (this.dialog = false)
+          ),
+          1000
+        );
+      }
     }
   },
   computed: {

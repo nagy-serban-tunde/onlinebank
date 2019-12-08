@@ -35,23 +35,23 @@ connection.connect(function (err) {
 const insertTransaction = (req) => {
     return new Promise((resolve, reject) => {
         var sqlinserttransaction = `INSERT INTO transactions ( user_id, date) VALUES ('${req.body.id}', CURDATE())`
-        connection.query(sqlinserttransaction, function (err, transaction_id) {
-            console.log(req.body.type)
+        connection.query(sqlinserttransaction, function (err, result) {
+            if (err) { reject(err) }
+            else { resolve(result) }
+            const transaction_id = result;
             if (req.body.type == "income") {
-
-                console.log("EZ EGY FAKIN INCOME")
-                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount) VALUES ('${transaction_id.insertId}', '${req.body.amount}')`
+                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${req.body.comment}')`
                 connection.query(sqlinsertexpense, function (err, result) {
                     if (err) { reject(err) }
                     else { resolve(result) }
                 })
             } else {
-
-                console.log("EZ EGY FAKIN EXPENSE")
                 var sqlgettypeid = `SELECT id FROM types_ WHERE name = '${req.body.category}'`
-                connection.query(sqlgettypeid, function (err, typeid) {
-                    console.log(`watafakakakaakakak ${typeid}`)
-                    var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${typeid[0].id}')`
+                connection.query(sqlgettypeid, function (err, result) {
+                    if (err) { reject(err) }
+                    else { resolve(result) }
+                    const typeid = result[0].id
+                    var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${typeid}','${req.body.comment}')`
                     connection.query(sqlinsertexpense, function (err, result) {
                         if (err) { reject(err) }
                         else { resolve(result) }
@@ -66,19 +66,33 @@ const insertTransaction = (req) => {
 
 
 app.post('/sendtransaction', async (req, res) => {
-    await insertTransaction(req).catch(err => console.error(err))
-    res.send([{ message: "Transaction done!" }])
+    transactionTypes = await insertTransaction(req).then(
+        function (result) {
+            res.send({
+                message: 'Transaction added!'
+            })
+            console.log('Transaction added!')
+        },
+        function (error) {
+            res.send({
+                error: 'Invalid transaction!'
+            })
+            console.log('Invalid transaction!');
+
+        }
+    );
 })
 
 const getTransactionTypes = () => {
     return new Promise((resolve, reject) => {
-        connection.query(`CREATE TABLE temp_tbl AS SELECT * FROM types_`, function (error, results) {
-            connection.query(`DELETE FROM temp_tbl WHERE name = 'Income';`, function (error, results) {
+        connection.query(`CREATE TABLE temp_tbl AS SELECT * FROM types_`, function (error, result) {
+            connection.query(`DELETE FROM temp_tbl WHERE name = 'Income';`, function (error, result) {
                 connection.query(`SELECT * from temp_tbl`, function (err, result) {
-                    connection.query(`DROP TABLE temp_tbl`, function (error, results) {
+                    const response = result
+                    connection.query(`DROP TABLE temp_tbl`, function (error, result) {
                         if (err) { reject(err) }
-                        else { resolve(result) }
-                        console.log(result);
+                        else { resolve(response) }
+                        console.log(response);
                     })
                 });
             });

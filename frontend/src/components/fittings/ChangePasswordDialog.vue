@@ -33,11 +33,11 @@
         />
       </v-form>
 
-      <v-divider></v-divider>
+      <v-divider/>
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="changepassword" color="success" text>Change</v-btn>
+        <v-btn @click="validate" color="success" text>Change</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
@@ -76,50 +76,57 @@ export default {
     };
   },
   methods: {
-    async changepassword() {
+    validate() {
       if (this.$refs.form.validate()) {
-        const userid = localStorage.getItem("userid");
-        const user = await AuthRequest.account(userid);
-        if (user.password == this.password) {
-          const response = await AuthRequest.changepassword({
-            id: userid,
-            new_password: this.new_password
-          });
-          if (response.data.error) {
-            this.regFailedMsg = response.data.error;
-            setTimeout(
-              () => (this.regSuccesSnackbar = false),
-              (this.regFailedSnackbar = true),
-              1000
-            );
-          } else {
-            this.regSuccesMsg = response.data.message;
-            setTimeout(
-              () => (this.regFailedSnackbar = false),
-              (this.regSuccesSnackbar = true),
-              1000
-            );
-            this.$refs.form.reset();
-          }
-          this.loading = "success";
-          setTimeout(
-            () => (
-              (this.loading = false),
-              (this.regSuccesSnackbar = false),
-              (this.regFailedSnackbar = false),
-              (this.dialog = false)
-            ),
-            1000
-          );
-        } else {
-          this.regFailedMsg = "Wrong password!";
-          setTimeout(
-            () => (this.regSuccesSnackbar = false),
-            (this.regFailedSnackbar = true),
-            1000
-          );
-        }
+        this.changepassword();
       }
+    },
+    async changepassword() {
+      const userid = localStorage.getItem("userid");
+      const user = await AuthRequest.account(userid);
+      if (user.password == this.password) {
+        const response = await AuthRequest.changepassword({
+          id: userid,
+          new_password: this.new_password
+        });
+        this.activateSnackbar(response);
+      } else {
+        this.regFailedMsg = "Wrong password!";
+        setTimeout(
+          () => (this.regSuccesSnackbar = false),
+          (this.regFailedSnackbar = true),
+          1000
+        );
+      }
+    },
+
+    activateSnackbar(response) {
+      if (response.data.error) {
+        this.regFailedMsg = response.data.error;
+        setTimeout(
+          () => (this.regSuccesSnackbar = false),
+          (this.regFailedSnackbar = true),
+          1000
+        );
+      } else {
+        this.regSuccesMsg = response.data.message;
+        setTimeout(
+          () => (this.regFailedSnackbar = false),
+          (this.regSuccesSnackbar = true),
+          1000
+        );
+        this.$refs.form.reset();
+      }
+      this.loading = "success";
+      setTimeout(
+        () => (
+          (this.loading = false),
+          (this.regSuccesSnackbar = false),
+          (this.regFailedSnackbar = false),
+          (this.dialog = false)
+        ),
+        1000
+      );
     }
   }
 };
