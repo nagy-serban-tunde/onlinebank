@@ -66,6 +66,7 @@
               hint="Up to 3 decimal places allowed"
               name="amount"
               :rules="[ value => /^\d+(\.\d{1,3})?$/.test(value) || 'Invalid input number!']"
+              @keyup.enter="verification"
               v-model="amount"
             />
           </v-flex>
@@ -80,6 +81,7 @@
           counter="50"
           name="comment"
           v-model="comment"
+          @keyup.enter="verification"
         />
       </v-flex>
 
@@ -132,7 +134,8 @@ export default {
       regFailedMsg: "",
       regSuccesMsg: "",
       regFailedSnackbar: false,
-      regSuccesSnackbar: false
+      regSuccesSnackbar: false,
+      comment: ""
     };
   },
   methods: {
@@ -151,7 +154,8 @@ export default {
         id: userid,
         category: this.category,
         amount: this.amount,
-        type: this.tabs
+        type: this.tabs,
+        comment: this.comment
       });
       this.activateSnackbar(response);
     },
@@ -165,13 +169,10 @@ export default {
           1000
         );
         this.loading = "success";
-      setTimeout(
-        () => (
-          (this.loading = false),
-          (this.regFailedSnackbar = false)
-        ),
-        1000
-      );
+        setTimeout(
+          () => ((this.loading = false), (this.regFailedSnackbar = false)),
+          1000
+        );
       } else {
         this.regSuccesMsg = response.data.message;
         setTimeout(
@@ -180,15 +181,16 @@ export default {
           1000
         );
         this.$refs.form.reset();
+        this.comment = "";
         this.loading = "success";
-      setTimeout(
-        () => (
-          (this.loading = false),
-          (this.regSuccesSnackbar = false),
-          (this.dialog = false)
-        ),
-        1000
-      );
+        setTimeout(
+          () => (
+            (this.loading = false),
+            (this.regSuccesSnackbar = false),
+            (this.dialog = false)
+          ),
+          1000
+        );
       }
     }
   },

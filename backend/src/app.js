@@ -40,7 +40,7 @@ const insertTransaction = (req) => {
             else { resolve(result) }
             const transaction_id = result;
             if (req.body.type == "income") {
-                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount) VALUES ('${transaction_id.insertId}', '${req.body.amount}')`
+                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${req.body.comment}')`
                 connection.query(sqlinsertexpense, function (err, result) {
                     if (err) { reject(err) }
                     else { resolve(result) }
@@ -51,7 +51,7 @@ const insertTransaction = (req) => {
                     if (err) { reject(err) }
                     else { resolve(result) }
                     const typeid = result[0].id
-                    var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${typeid}')`
+                    var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${typeid}','${req.body.comment}')`
                     connection.query(sqlinsertexpense, function (err, result) {
                         if (err) { reject(err) }
                         else { resolve(result) }
