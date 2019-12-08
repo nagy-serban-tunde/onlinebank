@@ -19,7 +19,7 @@
               >{{exchange.signFrom}} {{exchange.amountFrom}}</span>
               <v-icon class="mx-2">{{arrow}}</v-icon>
               <span style="width:100px; text-align:left">{{exchange.signTo}} {{exchange.amountTo}}</span>
-              <exchange-dialog :exchange="exchange" />
+              <exchange-dialog/>
             </v-layout>
           </v-list-item-action>
         </v-layout>

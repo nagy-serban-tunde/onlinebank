@@ -33,7 +33,7 @@
         />
       </v-form>
 
-      <v-divider></v-divider>
+      <v-divider/>
 
       <v-card-actions>
         <v-spacer></v-spacer>

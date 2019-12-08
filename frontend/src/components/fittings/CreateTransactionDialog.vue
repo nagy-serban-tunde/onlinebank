@@ -62,7 +62,7 @@
               label="Amount"
               color="green"
               clearable
-              counter="10"
+              counter="9"
               hint="Up to 3 decimal places allowed"
               name="amount"
               :rules="[ value => /^\d+(\.\d{1,3})?$/.test(value) || 'Invalid input number!']"

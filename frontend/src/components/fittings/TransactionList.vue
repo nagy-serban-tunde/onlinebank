@@ -19,7 +19,7 @@
                 mr-5
                 justify-space-around
               >{{transaction.sign}}{{transaction.amount}} RON</v-layout>
-              <transcation-dialog :transaction="transaction" />
+              <transcation-dialog/>
             </v-layout>
           </v-list-item-action>
         </v-layout>
