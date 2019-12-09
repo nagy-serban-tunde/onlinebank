@@ -32,6 +32,49 @@ connection.connect(function (err) {
 });
 
 
+app.get('/transactionlist/:id', async (req, res) => {
+    amounts = await getDeposit(req.params.id).catch(err => console.error(err))
+    var deposit = [
+        {
+            currency: "RON",
+            amount: amounts.ron,
+            sign: "",
+            icon: "RON",
+            from_curreny: "RON",
+            exchange: "4.29",
+            notification: false
+        },
+        {
+            currency: "Euro",
+            amount: amounts.eur,
+            sign: "€",
+            icon: "fas fa-euro-sign",
+            from_curreny: "RON",
+            exchange: "4.76",
+            notification: false
+        },
+        {
+            currency: "GBP",
+            amount: amounts.gbp,
+            sign: "£",
+            icon: "fas fa-pound-sign",
+            from_curreny: "RON",
+            exchange: "5.50",
+            notification: true
+        },
+        {
+            currency: "USD",
+            amount: amounts.usd,
+            sign: "$",
+            icon: "fas fa-dollar-sign",
+            from_curreny: "RON",
+            exchange: "4.29",
+            notification: true
+        }
+    ];
+    res.send(deposit);
+})
+
 const insertTransaction = (req) => {
     return new Promise((resolve, reject) => {
         var sqlinserttransaction = `INSERT INTO transactions ( user_id, date) VALUES ('${req.body.id}', CURDATE())`
@@ -62,8 +105,6 @@ const insertTransaction = (req) => {
         })
     })
 }
-
-
 
 app.post('/sendtransaction', async (req, res) => {
     transactionTypes = await insertTransaction(req).then(

@@ -32,7 +32,7 @@ export default {
         return (await Api().get(page)).data;
     },
     statisticValuta: async (valuta) => {
-        let page = '/statisticValuta/' + valuta;
+        let page = '/statisticValuta/' + String(valuta);;
         return (await Api().get(page)).data;
     },
     verification: (verif_data) => {
@@ -51,5 +51,8 @@ export default {
     sendtransaction: (transaction) => {
         return Api().post('/sendtransaction', transaction);
     },
-  
+    gettransactionlist: async (id) => {
+        let page = '/transactionlist' + String(id);
+        return (await Api().get(page)).data;
+    },
 }

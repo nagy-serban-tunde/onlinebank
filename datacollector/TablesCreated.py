@@ -32,7 +32,7 @@ class TablesCreated(object):
     
     def Create_Table_Transactions(self):
         try:
-            create_table = "CREATE TABLE transactions (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (user_id) REFERENCES user(id))"
+            create_table = "CREATE TABLE transactions (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (user_id) REFERENCES user(id), type VARCHAR(255))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:

@@ -145,6 +145,11 @@ export default {
     };
   },
   methods: {
+    async getTransactionList() {
+      const userid = localStorage.getItem("userid");
+      const transactionsList = await AuthRequest.gettransactionlist(userid);
+      this.transactionsList = transactionsList;
+    },
     async getCards() {
       const userid = localStorage.getItem("userid");
       const deposit = await AuthRequest.getcard(userid);
