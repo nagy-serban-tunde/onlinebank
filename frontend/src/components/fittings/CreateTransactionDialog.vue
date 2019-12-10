@@ -18,7 +18,7 @@
       </v-fab-transition>
     </template>
 
-    <v-card elevation="10" dark outlined>
+    <v-card elevation="10" dark outlined :loading="loadingCard">
       <v-toolbar extended flat>
         <v-toolbar-title class="ml-5">Add Transaction</v-toolbar-title>
         <template v-slot:extension>
@@ -124,6 +124,7 @@ export default {
   data() {
     return {
       dialog: false,
+      loadingCard: false,
       transactionTypes: null,
       fab: false,
       hidden: false,
@@ -135,7 +136,8 @@ export default {
       regSuccesMsg: "",
       regFailedSnackbar: false,
       regSuccesSnackbar: false,
-      comment: ""
+      comment: "",
+      value: ""
     };
   },
   methods: {
@@ -168,9 +170,9 @@ export default {
           (this.regFailedSnackbar = true),
           1000
         );
-        this.loading = "success";
+        this.loadingCard = "success";
         setTimeout(
-          () => ((this.loading = false), (this.regFailedSnackbar = false)),
+          () => ((this.loadingCard = false), (this.regFailedSnackbar = false)),
           1000
         );
       } else {
@@ -182,15 +184,16 @@ export default {
         );
         this.$refs.form.reset();
         this.comment = "";
-        this.loading = "success";
+        this.loadingCard = "success";
         setTimeout(
           () => (
-            (this.loading = false),
+            (this.loadingCard = false),
             (this.regSuccesSnackbar = false),
             (this.dialog = false)
           ),
           1000
         );
+        this.$emit("refresh-event");
       }
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-list two-line subheader>
-      <create-transcation-dialog />
+      <create-transcation-dialog @refresh-event="getTransactionList" />
       <v-list-item v-for="transaction in transactionsList" :key="transaction.id">
         <v-list-item-avatar>
           <v-icon :color="transaction.type" v-text="transaction.icon"></v-icon>
@@ -18,8 +18,8 @@
                 :class="[transaction.type]"
                 mr-5
                 justify-space-around
-              >{{transaction.sign}}{{transaction.amount}} RON</v-layout>
-              <transcation-dialog/>
+              >{{transaction.sign}} {{transaction.amount}} RON</v-layout>
+              <transcation-dialog :transaction="transaction" />
             </v-layout>
           </v-list-item-action>
         </v-layout>
@@ -31,11 +31,26 @@
 <script>
 import TranscationDialog from "./TransactionDialog";
 import CreateTranscationDialog from "./CreateTransactionDialog";
+import AuthRequest from "@/services/AuthService";
 
 export default {
   name: "TransactionList",
   components: { TranscationDialog, CreateTranscationDialog },
-  props: ["transactionsList"]
+  data() {
+    return {
+      transactionsList: ""
+    };
+  },
+  methods: {
+    async getTransactionList() {
+      const userid = localStorage.getItem("userid");
+      const transactionsList = await AuthRequest.gettransactionlist(userid);
+      this.transactionsList = transactionsList;
+    }
+  },
+  mounted() {
+    this.getTransactionList();
+  }
 };
 </script>
 

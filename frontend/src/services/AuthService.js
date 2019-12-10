@@ -52,7 +52,7 @@ export default {
         return Api().post('/sendtransaction', transaction);
     },
     gettransactionlist: async (id) => {
-        let page = '/transactionlist' + String(id);
+        let page = '/transactionlist/' + String(id);
         return (await Api().get(page)).data;
     },
 }

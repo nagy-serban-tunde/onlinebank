@@ -30,64 +30,6 @@ export default {
   data() {
     return {
       deposit: null,
-      transactionsList: [
-        {
-          id: "1",
-          name: "Public Transport",
-          icon: "fas fa-bus",
-          amount: "30.5",
-          date: "Sept 23, 2019",
-          type: "red--text",
-          sign: "-",
-          attitude: "expense",
-          comment: "kellet bagora"
-        },
-        {
-          id: "2",
-          name: "Food",
-          icon: "fas fa-utensils",
-          amount: "19.6",
-          date: "Sept 10, 2019",
-          type: "red--text",
-          sign: "-",
-          attitude: "expense",
-          comment:
-            "Ket csomag perec, egy doboz pastetom, sok laska s meg valami edesseg is"
-        },
-        {
-          id: "3",
-          name: "Housing",
-          icon: "fas fa-home",
-          amount: "320",
-          date: "Sept 2, 2019",
-          type: "red--text",
-          sign: "-",
-          attitude: "expense",
-          comment: "kestem a rezsivel"
-        },
-        {
-          id: "4",
-          name: "Income",
-          icon: "fas fa-coins",
-          amount: "1000",
-          date: "Aug 11, 2019",
-          type: "green--text",
-          sign: "+",
-          attitude: "income",
-          comment: "anyum kuldott"
-        },
-        {
-          id: "5",
-          name: "Shopping",
-          icon: "fas fa-shopping-bag",
-          amount: "142.9",
-          date: "Aug 10, 2019",
-          type: "red--text",
-          sign: "-",
-          attitude: "expense",
-          comment: "kaposzta, paradicsom, s egy uveg Jack"
-        }
-      ],
       exchangesList: [
         {
           id: "1",
@@ -145,11 +87,6 @@ export default {
     };
   },
   methods: {
-    async getTransactionList() {
-      const userid = localStorage.getItem("userid");
-      const transactionsList = await AuthRequest.gettransactionlist(userid);
-      this.transactionsList = transactionsList;
-    },
     async getCards() {
       const userid = localStorage.getItem("userid");
       const deposit = await AuthRequest.getcard(userid);
