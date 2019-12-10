@@ -3,7 +3,8 @@
     <v-layout ma-5 justify-space-between>
       <exchange-card v-for="card in deposit" :key="card.currency" :card="card" />
     </v-layout>
-    <v-layout />
+    <v-layout/>
+    <v-layout ma-5/>
     <v-card dark class="mx-5 mt-5">
       <v-divider />
       <v-subheader class="subtitle-1 mt-5">Transactions</v-subheader>

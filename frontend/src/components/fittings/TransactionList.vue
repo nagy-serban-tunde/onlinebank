@@ -1,8 +1,13 @@
 <template>
   <div>
+    <v-fab-transition>
+      <v-btn @click="openTransactionList" v-on="on" color="green" fab dark small absolute right top>
+        <v-icon>{{moreButton}}</v-icon>
+      </v-btn>
+    </v-fab-transition>
     <v-list two-line subheader>
       <create-transcation-dialog @refresh-event="getTransactionList" />
-      <v-list-item v-for="transaction in transactionsList" :key="transaction.id">
+      <v-list-item v-for="transaction in transactionsListSliced" :key="transaction.id">
         <v-list-item-avatar>
           <v-icon :color="transaction.type" v-text="transaction.icon"></v-icon>
         </v-list-item-avatar>
@@ -38,7 +43,11 @@ export default {
   components: { TranscationDialog, CreateTranscationDialog },
   data() {
     return {
-      transactionsList: ""
+      transactionsList: "",
+      transactionsListSliced: "",
+      transactionListElementCount: 5,
+      btnUp: "fas fa-angle-up",
+      moreButton: "fas fa-angle-down"
     };
   },
   methods: {
@@ -46,6 +55,18 @@ export default {
       const userid = localStorage.getItem("userid");
       const transactionsList = await AuthRequest.gettransactionlist(userid);
       this.transactionsList = transactionsList;
+      this.transactionsListSliced = transactionsList.slice(
+        0,
+        this.transactionListElementCount
+      );
+    },
+    openTransactionList() {
+      var tmpList = this.transactionsList;
+      var tmpBtn = this. moreButton;
+      this.transactionsList = this.transactionsListSliced;
+      this. moreButton = this.btnUp;
+      this.transactionsListSliced = tmpList;
+      this.btnUp = tmpBtn;
     }
   },
   mounted() {
