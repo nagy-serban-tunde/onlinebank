@@ -132,28 +132,68 @@ export default {
       disableType: false,
       category: "",
       amount: null,
+      depositRON: 0,
       regFailedMsg: "",
       regSuccesMsg: "",
       regFailedSnackbar: false,
       regSuccesSnackbar: false,
       comment: "",
-      value: ""
+      value: "",
+      userid: ""
     };
   },
+  mounted() {
+    this.userid = localStorage.getItem("userid");
+  },
   methods: {
-    verification() {
+    async getDeposit() {
+      const deposit = await AuthRequest.getdeposit(this.userid);
+      this.depositRON = deposit.ron;
+    },
+    async verification() {
       if (this.$refs.form.validate()) {
-        this.sendTransaction();
+        await this.getDeposit();
+        if (this.tabs == "expense") {
+          if (this.amount > this.depositRON) {
+            this.regFailedMsg = "You have not enough money!";
+            setTimeout(
+              () => (this.regSuccesSnackbar = false),
+              (this.regFailedSnackbar = true),
+              1000
+            );
+            setTimeout(() => (this.regFailedSnackbar = false), 1000);
+          } else {
+            var new_deposit =
+              parseFloat(this.depositRON) - parseFloat(this.amount);
+            const response = await AuthRequest.changedeposit({
+              id: this.userid,
+              new_deposit: new_deposit,
+              currency: "ron"
+            });
+            this.sendTransaction();
+          }
+        } else {
+          var new_deposit =
+            parseFloat(this.depositRON) + parseFloat(this.amount);
+          console.log(new_deposit);
+          const response = await AuthRequest.changedeposit({
+            id: this.userid,
+            new_deposit: new_deposit,
+            currency: "ron"
+          });
+          this.sendTransaction();
+        }
       }
     },
+
     async getTransactionTypes() {
       const transactionTypes = await AuthRequest.gettransactiontypes();
       this.transactionTypes = transactionTypes;
     },
+
     async sendTransaction() {
-      const userid = localStorage.getItem("userid");
       const response = await AuthRequest.sendtransaction({
-        id: userid,
+        id: this.userid,
         category: this.category,
         amount: this.amount,
         type: this.tabs,
@@ -194,9 +234,11 @@ export default {
           1000
         );
         this.$emit("refresh-event");
+        setTimeout(() => location.reload(), 1000);
       }
     }
   },
+
   computed: {
     activeSign() {
       switch (this.tabs) {

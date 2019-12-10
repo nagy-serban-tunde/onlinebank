@@ -47,9 +47,8 @@ function formatDate(date) {
 }
 
 app.get('/transactionlist/:id', async (req, res) => {
-    const sqlgetalltransactions = ` ( SELECT t.user_id "user_id", t.date "date", t.type "attitude", i.amount "amount", i.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , income i, types_ ty where i.transaction_id = t.id and ty.id = i.type and user_id = '${req.params.id}' UNION SELECT t.user_id "user_id", t.date "date", t.type "attitude", e.amount "amount", e.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , expense e, types_ ty where e.transaction_id = t.id and ty.id = e.type and t.user_id = '${req.params.id}')`
+    const sqlgetalltransactions = `SELECT * FROM ( SELECT t.user_id "user_id", t.date "date", t.type "attitude", i.amount "amount", i.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , income i, types_ ty where i.transaction_id = t.id and ty.id = i.type and user_id = '${req.params.id}' UNION SELECT t.user_id "user_id", t.date "date", t.type "attitude", e.amount "amount", e.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , expense e, types_ ty where e.transaction_id = t.id and ty.id = e.type and t.user_id = '${req.params.id}') A ORDER BY A.date DESC`
     connection.query(sqlgetalltransactions, function (err, result) {
-        console.log(result);
         var transactionList = [];
         for (i in result) {
             var date = formatDate(result[i].date)
@@ -80,7 +79,7 @@ app.get('/transactionlist/:id', async (req, res) => {
 
 const insertTransaction = (req) => {
     return new Promise((resolve, reject) => {
-        var sqlinserttransaction = `INSERT INTO transactions ( user_id, date, type) VALUES ('${req.body.id}', CURDATE(),'${req.body.type}')`
+        var sqlinserttransaction = `INSERT INTO transactions ( user_id, date, type) VALUES ('${req.body.id}', CURRENT_TIMESTAMP(),'${req.body.type}')`
         connection.query(sqlinserttransaction, function (err, result) {
             if (err) { reject(err) }
             else { resolve(result) }
@@ -169,7 +168,7 @@ app.post('/verification', function (req, res) {
 });
 
 app.post('/register', function (req, res) {
-    var sqlinsertuser = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.birth_date}", "https://eu.ui-avatars.com/api/?background=fff&color=4caf50&bold=true&name=${req.body.firstname}+${req.body.lastname}", CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}")`;
+    var sqlinsertuser = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.birth_date}", "https://eu.ui-avatars.com/api/?background=fff&color=4caf50&bold=true&name=${req.body.firstname}+${req.body.lastname}", CURRENT_TIMESTAMP(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}")`;
     connection.query(sqlinsertuser, function (err, result) {
         if (err) {
             res.send({
@@ -345,6 +344,7 @@ app.get('/statisticExpense/:id', async (req, res) => {
 app.get('/statisticExchangeNumber/:id', async (req, res) => {
     sql = `select count(*) as number, date from exchange  where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}" group by date;`
     connection.query(sql, function (err, result) {
+        console.log(result);
         if (err) {
             res.send({
                 error: "Wrong statisticExchangeNumber"

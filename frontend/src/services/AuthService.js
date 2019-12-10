@@ -32,7 +32,7 @@ export default {
         return (await Api().get(page)).data;
     },
     statisticValuta: async (valuta) => {
-        let page = '/statisticValuta/' + String(valuta);;
+        let page = '/statisticValuta/' + String(valuta);
         return (await Api().get(page)).data;
     },
     verification: (verif_data) => {

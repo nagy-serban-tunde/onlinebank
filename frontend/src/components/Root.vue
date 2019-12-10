@@ -46,7 +46,7 @@
           </v-list>
         </v-navigation-drawer>
         <v-container class="justify-center">
-          <router-view />
+          <router-view  />
         </v-container>
       </v-layout>
       <v-bottom-navigation max-height="50" hidden grow dark fixed color="grey">

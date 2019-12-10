@@ -8,7 +8,7 @@
     <v-card dark class="mx-5 mt-5">
       <v-divider />
       <v-subheader class="subtitle-1 mt-5">Transactions</v-subheader>
-      <transaction-list :transactionsList="transactionsList" />
+      <transaction-list @refresh-event="getTransactionList"/>
     </v-card>
     <v-card dark class="mx-5">
       <v-divider />
@@ -92,7 +92,7 @@ export default {
       const userid = localStorage.getItem("userid");
       const deposit = await AuthRequest.getcard(userid);
       this.deposit = deposit;
-    }
+    },
   },
   mounted() {
     this.getCards();

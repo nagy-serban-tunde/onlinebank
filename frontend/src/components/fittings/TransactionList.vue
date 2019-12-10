@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-fab-transition>
-      <v-btn @click="openTransactionList" v-on="on" color="green" fab dark small absolute right top>
+      <v-btn @click="openTransactionList" color="green" fab dark small absolute right top>
         <v-icon>{{moreButton}}</v-icon>
       </v-btn>
     </v-fab-transition>
@@ -62,12 +62,15 @@ export default {
     },
     openTransactionList() {
       var tmpList = this.transactionsList;
-      var tmpBtn = this. moreButton;
+      var tmpBtn = this.moreButton;
       this.transactionsList = this.transactionsListSliced;
-      this. moreButton = this.btnUp;
+      this.moreButton = this.btnUp;
       this.transactionsListSliced = tmpList;
       this.btnUp = tmpBtn;
     }
+  },
+  eventTransmit() {
+    
   },
   mounted() {
     this.getTransactionList();
