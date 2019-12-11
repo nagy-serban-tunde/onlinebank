@@ -1,5 +1,6 @@
-import re
+import re # replaces given character by another character
 
+"""This page is responsible for cleaning the data downloaded by WebScrepper"""
 class DataCleaning(object):
     def __init__(self,List_elements):
         self.List_elements = List_elements

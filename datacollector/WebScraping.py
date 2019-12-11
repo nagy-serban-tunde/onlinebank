@@ -1,6 +1,7 @@
 import bs4 as bs 
 from urllib.request import Request, urlopen
 
+"""This script is responsible for downloading the webpage content"""
 
 class WebScraping(object):
 
