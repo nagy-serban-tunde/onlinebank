@@ -3,7 +3,6 @@
     <template v-slot:activator="{ on }">
       <v-fab-transition>
         <v-btn
-          @click="getTransactionTypes"
           v-on="on"
           color="green"
           fab
@@ -23,7 +22,6 @@
       <v-layout justify-space-around>
         <v-flex md4>
           <v-select
-            :disabled="disableType"
             type="currencyfrom"
             name="currencyfrom"
             v-model="currencyFrom"
@@ -55,7 +53,6 @@
       <v-layout justify-space-around>
         <v-flex md4>
           <v-select
-            :disabled="disableType"
             type="currencyto"
             name="currencyto"
             v-model="currencyTo"
@@ -89,7 +86,7 @@
 
       <v-card-actions>
         <v-spacer />
-        <v-btn @click="adding" color="success" text>Add</v-btn>
+        <v-btn color="success" text>Add</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
     </v-card>
@@ -106,6 +103,7 @@ export default {
       currencyList: ["RON", "EURO", "GBP", "USD"],
       currencyFrom: "",
       currencyTo: "",
+      amount: "",
       resultAmount: 0
     };
   },

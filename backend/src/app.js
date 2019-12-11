@@ -31,16 +31,61 @@ connection.connect(function (err) {
     console.log("Connected!");
 });
 
+function formatDate(date) {
+    var monthNames = [
+        "Jan", "Feb", "Mar",
+        "Apr", "May", "Jun", "Jul",
+        "Aug", "Sep", "Oct",
+        "Nov", "Dec"
+    ];
+
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+
+    return day + ' ' + monthNames[monthIndex] + ', ' + year;
+}
+
+app.get('/transactionlist/:id', async (req, res) => {
+    const sqlgetalltransactions = `SELECT * FROM ( SELECT t.user_id "user_id", t.date "date", t.type "attitude", i.amount "amount", i.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , income i, types_ ty where i.transaction_id = t.id and ty.id = i.type and user_id = '${req.params.id}' UNION SELECT t.user_id "user_id", t.date "date", t.type "attitude", e.amount "amount", e.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , expense e, types_ ty where e.transaction_id = t.id and ty.id = e.type and t.user_id = '${req.params.id}') A ORDER BY A.date DESC`
+    connection.query(sqlgetalltransactions, function (err, result) {
+        var transactionList = [];
+        for (i in result) {
+            var date = formatDate(result[i].date)
+            var type = ""
+            var sign = ""
+            if (result[i].attitude == "income") {
+                type = "green--text"
+                sign = "+"
+            } else {
+                type = "red--text"
+                sign = "-"
+            }
+            transactionList.push({
+                id: i,
+                name: result[i].name,
+                icon: result[i].icon,
+                amount: result[i].amount,
+                date: date,
+                type: type,
+                sign: sign,
+                attitude: result[i].attitude,
+                comment: result[i].comment
+            });
+        }
+        res.send(transactionList);
+    })
+})
 
 const insertTransaction = (req) => {
     return new Promise((resolve, reject) => {
-        var sqlinserttransaction = `INSERT INTO transactions ( user_id, date) VALUES ('${req.body.id}', CURDATE())`
+        var sqlinserttransaction = `INSERT INTO transactions ( user_id, date, type) VALUES ('${req.body.id}', CURRENT_TIMESTAMP(),'${req.body.type}')`
         connection.query(sqlinserttransaction, function (err, result) {
             if (err) { reject(err) }
             else { resolve(result) }
             const transaction_id = result;
             if (req.body.type == "income") {
-                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${req.body.comment}')`
+                var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}', '1' , '${req.body.comment}')`
                 connection.query(sqlinsertexpense, function (err, result) {
                     if (err) { reject(err) }
                     else { resolve(result) }
@@ -62,8 +107,6 @@ const insertTransaction = (req) => {
         })
     })
 }
-
-
 
 app.post('/sendtransaction', async (req, res) => {
     transactionTypes = await insertTransaction(req).then(
@@ -125,7 +168,7 @@ app.post('/verification', function (req, res) {
 });
 
 app.post('/register', function (req, res) {
-    var sqlinsertuser = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.birth_date}", "https://eu.ui-avatars.com/api/?background=fff&color=4caf50&bold=true&name=${req.body.firstname}+${req.body.lastname}", CURDATE(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}")`;
+    var sqlinsertuser = `INSERT INTO user (username, last_name ,first_name, birth_date, profile_picture, created_at, gender, password, email_addres, phone_number) VALUES ( "${req.body.name}" , "${req.body.lastname}","${req.body.firstname}","${req.body.birth_date}", "https://eu.ui-avatars.com/api/?background=fff&color=4caf50&bold=true&name=${req.body.firstname}+${req.body.lastname}", CURRENT_TIMESTAMP(), "${req.body.gender}", "${req.body.password}", "${req.body.email}", "${req.body.phonenumber}")`;
     connection.query(sqlinsertuser, function (err, result) {
         if (err) {
             res.send({
@@ -261,19 +304,13 @@ const getUserInfo = (id) => {
 }
 app.get('/user/:id', async (req, res) => {
     user = await getUserInfo(req.params.id).catch(err => console.error(err))
-    var day = user.birth_date.getDate();
-    var month = user.birth_date.getMonth() + 1;
-    var year = user.birth_date.getFullYear();
-    user.birth_date = year + '-' + month + '-' + day;
-    var day = user.created_at.getDate();
-    var month = user.created_at.getMonth() + 1;
-    var year = user.created_at.getFullYear();
-    user.created_at = year + '-' + month + '-' + day;
+    user.birth_date = formatDate(user.birth_date);
+    user.created_at = formatDate(user.created_at);
     res.send(user);
 });
 
 app.get('/statisticIncome/:id', async (req, res) => {
-    sql = `select amount,date from transactions t join income i on t.id = i.transaction_id where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}";`
+    sql = `SELECT amount,date FROM transactions t join income i on t.id = i.transaction_id where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}";`
     connection.query(sql, function (err, result) {
         if (err) {
             res.send({
@@ -307,6 +344,7 @@ app.get('/statisticExpense/:id', async (req, res) => {
 app.get('/statisticExchangeNumber/:id', async (req, res) => {
     sql = `select count(*) as number, date from exchange  where date BETWEEN NOW() - INTERVAL 30 DAY AND NOW() and user_id = "${req.params.id}" group by date;`
     connection.query(sql, function (err, result) {
+        console.log(result);
         if (err) {
             res.send({
                 error: "Wrong statisticExchangeNumber"

@@ -49,53 +49,53 @@ def InsertToTable():
     mydb.commit()
 
     """Transactions"""
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('1', '1', '2019-11-25')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('1', '1', '2019-11-25', 'income')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('2', '1', '2019-11-25')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('2', '1', '2019-11-25', 'expense')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('3', '1', '2019-11-26')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('3', '1', '2019-11-26', 'expense')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('4', '1', '2019-11-27')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('4', '1', '2019-11-27', 'expense')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('5', '1', '2019-11-28')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('5', '1', '2019-11-28', 'expense')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('6', '1', '2019-11-29')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('6', '1', '2019-11-29', 'expense')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('7', '1', '2019-11-26')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('7', '1', '2019-11-26', 'income')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('8', '1', '2019-11-27')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('8', '1', '2019-11-27', 'income')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('9', '1', '2019-11-28')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('9', '1', '2019-11-28', 'income')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO transactions (id,user_id,date) VALUES(%s,%s,%s)"
-    value = ('10', '1', '2019-11-29')
+    insert_element = "INSERT INTO transactions (id,user_id,date,type) VALUES(%s,%s,%s,%s)"
+    value = ('10', '1', '2019-11-29', 'income')
     mycursor.execute(insert_element,value)
     mydb.commit()
 

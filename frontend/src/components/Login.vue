@@ -100,17 +100,20 @@ export default {
         1000
       );
     },
+
     validateUser() {
       if (this.$refs.form.validate()) {
         this.loginUser();
       }
     },
+
     async loginUser() {
       this.loadingCard = "green";
       const response = await AuthRequest.verification({
         name: this.name,
         password: this.password
       });
+
       if (response.data.error) {
         this.loginFailedMsg = response.data.error;
         setTimeout(

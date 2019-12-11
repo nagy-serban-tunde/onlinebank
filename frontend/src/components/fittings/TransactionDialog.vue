@@ -14,7 +14,7 @@
         <v-list-item-action
           :class="[transaction.type]"
           class="headline mt-5 pt-5"
-        >{{transaction.sign}}{{transaction.amount}} RON</v-list-item-action>
+        >{{transaction.sign}} {{transaction.amount}} RON</v-list-item-action>
         <v-list-item-icon>
           <v-icon>{{transaction.icon}}</v-icon>
         </v-list-item-icon>

@@ -18,7 +18,7 @@
       </v-fab-transition>
     </template>
 
-    <v-card elevation="10" dark outlined>
+    <v-card elevation="10" dark outlined :loading="loadingCard">
       <v-toolbar extended flat>
         <v-toolbar-title class="ml-5">Add Transaction</v-toolbar-title>
         <template v-slot:extension>
@@ -124,6 +124,7 @@ export default {
   data() {
     return {
       dialog: false,
+      loadingCard: false,
       transactionTypes: null,
       fab: false,
       hidden: false,
@@ -131,27 +132,68 @@ export default {
       disableType: false,
       category: "",
       amount: null,
+      depositRON: 0,
       regFailedMsg: "",
       regSuccesMsg: "",
       regFailedSnackbar: false,
       regSuccesSnackbar: false,
-      comment: ""
+      comment: "",
+      value: "",
+      userid: ""
     };
   },
+  mounted() {
+    this.userid = localStorage.getItem("userid");
+  },
   methods: {
-    verification() {
+    async getDeposit() {
+      const deposit = await AuthRequest.getdeposit(this.userid);
+      this.depositRON = deposit.ron;
+    },
+    async verification() {
       if (this.$refs.form.validate()) {
-        this.sendTransaction();
+        await this.getDeposit();
+        if (this.tabs == "expense") {
+          if (this.amount > this.depositRON) {
+            this.regFailedMsg = "You have not enough money!";
+            setTimeout(
+              () => (this.regSuccesSnackbar = false),
+              (this.regFailedSnackbar = true),
+              1000
+            );
+            setTimeout(() => (this.regFailedSnackbar = false), 1000);
+          } else {
+            var new_deposit =
+              parseFloat(this.depositRON) - parseFloat(this.amount);
+            const response = await AuthRequest.changedeposit({
+              id: this.userid,
+              new_deposit: new_deposit,
+              currency: "ron"
+            });
+            this.sendTransaction();
+          }
+        } else {
+          var new_deposit =
+            parseFloat(this.depositRON) + parseFloat(this.amount);
+          console.log(new_deposit);
+          const response = await AuthRequest.changedeposit({
+            id: this.userid,
+            new_deposit: new_deposit,
+            currency: "ron"
+          });
+          this.sendTransaction();
+        }
       }
     },
+
     async getTransactionTypes() {
       const transactionTypes = await AuthRequest.gettransactiontypes();
       this.transactionTypes = transactionTypes;
     },
+
     async sendTransaction() {
-      const userid = localStorage.getItem("userid");
       const response = await AuthRequest.sendtransaction({
-        id: userid,
+        id: this.userid,
         category: this.category,
         amount: this.amount,
         type: this.tabs,
@@ -168,9 +210,9 @@ export default {
           (this.regFailedSnackbar = true),
           1000
         );
-        this.loading = "success";
+        this.loadingCard = "success";
         setTimeout(
-          () => ((this.loading = false), (this.regFailedSnackbar = false)),
+          () => ((this.loadingCard = false), (this.regFailedSnackbar = false)),
           1000
         );
       } else {
@@ -182,18 +224,21 @@ export default {
         );
         this.$refs.form.reset();
         this.comment = "";
-        this.loading = "success";
+        this.loadingCard = "success";
         setTimeout(
           () => (
-            (this.loading = false),
+            (this.loadingCard = false),
             (this.regSuccesSnackbar = false),
             (this.dialog = false)
           ),
           1000
         );
+        this.$emit("refresh-event");
+        setTimeout(() => location.reload(), 1000);
       }
     }
   },
+
   computed: {
     activeSign() {
       switch (this.tabs) {

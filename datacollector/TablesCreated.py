@@ -32,7 +32,7 @@ class TablesCreated(object):
     
     def Create_Table_Transactions(self):
         try:
-            create_table = "CREATE TABLE transactions (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (user_id) REFERENCES user(id))"
+            create_table = "CREATE TABLE transactions (id INT AUTO_INCREMENT PRIMARY KEY, user_id INT, date DATE, FOREIGN KEY (user_id) REFERENCES user(id), type VARCHAR(255))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:
@@ -40,7 +40,7 @@ class TablesCreated(object):
     
     def Create_Table_Income(self):
         try:
-            create_table = "CREATE TABLE income (id INT AUTO_INCREMENT PRIMARY KEY, transaction_id INT, amount DECIMAL(10,3), comment VARCHAR(255) DEFAULT '', FOREIGN KEY (transaction_id) REFERENCES transactions(id))"
+            create_table = "CREATE TABLE income (id INT AUTO_INCREMENT PRIMARY KEY, transaction_id INT, amount DECIMAL(10,3), type INT, comment VARCHAR(255) DEFAULT '', FOREIGN KEY (transaction_id) REFERENCES transactions(id))"
             self.mycursor.execute(create_table)
             print("Table created successfull!")
         except:

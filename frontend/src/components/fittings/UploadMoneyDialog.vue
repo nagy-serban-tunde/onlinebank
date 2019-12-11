@@ -46,10 +46,10 @@
         />
       </v-form>
 
-      <v-divider/>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer/>
+        <v-spacer />
         <v-btn @click="adding" color="success" text>Add</v-btn>
         <v-btn text @click="dialog = false">back</v-btn>
       </v-card-actions>
@@ -81,7 +81,8 @@ export default {
       regSuccesMsg: "",
       regFailedSnackbar: false,
       regSuccesSnackbar: false,
-      actualcurrency: this.currencyprop
+      actualcurrency: this.currencyprop,
+      value: ""
     };
   },
   methods: {
