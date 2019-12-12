@@ -1,7 +1,8 @@
 import mysql.connector
-import json
 
-class ValutaMySqlLoading(object):
+"""This script loads data to the database"""
+
+class CurrencyMySqlLoading(object):
     def __init__(self, ListToData, table_name,database_name,host,user,password):
         self.ListToData = ListToData
         self.table_name = table_name
@@ -17,7 +18,7 @@ class ValutaMySqlLoading(object):
         except:
             print("Unable connection!")
     
-    def Insert_Update_Element_In_Table(self):
+    def Insert_Or_Update_Element_In_Table(self):
         is_empty_tables = "SELECT count(*) from {0}".format(self.table_name)
         is_empty = self.mycursor.execute(is_empty_tables)
         is_empty = self.mycursor.fetchall()
@@ -45,11 +46,11 @@ class ValutaMySqlLoading(object):
                 print("Unable to update the data in", self.table_name)
         self.mydb.close()
 
-    def ValutaTableUpload(self, webpages_name):
+    def CurrencyTableUpload(self, webpages_name):
         webpageindex = 0
         for index in range(len(self.ListToData)):
             if index == 3 or index == 6:
                 webpageindex += 1
             self.ListToData[index] = [webpages_name[webpageindex]] + self.ListToData[index]
-        self.Insert_Update_Element_In_Table()
+        self.Insert_Or_Update_Element_In_Table()
         

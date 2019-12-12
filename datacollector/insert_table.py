@@ -100,28 +100,28 @@ def InsertToTable():
     mydb.commit()
 
     """Table income"""
-    insert_element = "INSERT INTO income (id,transaction_id,amount) VALUES(%s,%s,%s)"
-    value = ('1', '1', '1236')
+    insert_element = "INSERT INTO income (id,transaction_id,amount, type) VALUES(%s,%s,%s,%s)"
+    value = ('1', '1', '1236','1')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO income (id,transaction_id,amount) VALUES(%s,%s,%s)"
-    value = ('2', '7', '123')
+    insert_element = "INSERT INTO income (id,transaction_id,amount, type) VALUES(%s,%s,%s,%s)"
+    value = ('2', '7', '123','1')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO income (id,transaction_id,amount) VALUES(%s,%s,%s)"
-    value = ('3', '8', '120')
+    insert_element = "INSERT INTO income (id,transaction_id,amount, type) VALUES(%s,%s,%s,%s)"
+    value = ('3', '8', '120','1')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO income (id,transaction_id,amount) VALUES(%s,%s,%s)"
-    value = ('4', '9', '90')
+    insert_element = "INSERT INTO income (id,transaction_id,amount, type) VALUES(%s,%s,%s,%s)"
+    value = ('4', '9', '90','1')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
-    insert_element = "INSERT INTO income (id,transaction_id,amount) VALUES(%s,%s,%s)"
-    value = ('5', '10', '1364')
+    insert_element = "INSERT INTO income (id,transaction_id,amount, type) VALUES(%s,%s,%s,%s)"
+    value = ('5', '10', '1364','1')
     mycursor.execute(insert_element,value)
     mydb.commit()
 
