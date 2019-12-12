@@ -209,7 +209,7 @@ export default {
         1000
       );
     },
-    // User viladtion meghivja a registert, ha helyesek az adatok
+  
     validateUser() {
       if (this.$refs.form.validate()) {
         this.registerUser();

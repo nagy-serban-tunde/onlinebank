@@ -205,34 +205,16 @@ export default {
     activateSnackbar(response) {
       if (response.data.error) {
         this.regFailedMsg = response.data.error;
-        setTimeout(
-          () => (this.regSuccesSnackbar = false),
-          (this.regFailedSnackbar = true),
-          1000
-        );
+        setTimeout(() => (this.regSuccesSnackbar = false),(this.regFailedSnackbar = true),1000);
         this.loadingCard = "success";
-        setTimeout(
-          () => ((this.loadingCard = false), (this.regFailedSnackbar = false)),
-          1000
-        );
+        setTimeout(() => ((this.loadingCard = false), (this.regFailedSnackbar = false)),1000);
       } else {
         this.regSuccesMsg = response.data.message;
-        setTimeout(
-          () => (this.regFailedSnackbar = false),
-          (this.regSuccesSnackbar = true),
-          1000
-        );
+        setTimeout(() => (this.regFailedSnackbar = false),(this.regSuccesSnackbar = true),1000);
         this.$refs.form.reset();
         this.comment = "";
         this.loadingCard = "success";
-        setTimeout(
-          () => (
-            (this.loadingCard = false),
-            (this.regSuccesSnackbar = false),
-            (this.dialog = false)
-          ),
-          1000
-        );
+        setTimeout(() => ((this.loadingCard = false),(this.regSuccesSnackbar = false),(this.dialog = false)),1000);
         this.$emit("refresh-event");
         setTimeout(() => location.reload(), 1000);
       }

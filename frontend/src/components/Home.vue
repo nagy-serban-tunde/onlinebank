@@ -3,18 +3,20 @@
     <v-layout ma-5 justify-space-between>
       <exchange-card v-for="card in deposit" :key="card.currency" :card="card" />
     </v-layout>
-    <v-layout/>
-    <v-layout ma-5/>
+    <v-layout />
+    <v-layout ma-5 />
     <v-card dark class="mx-5 mt-5">
       <v-divider />
       <v-subheader class="subtitle-1 mt-5">Transactions</v-subheader>
-      <transaction-list @refresh-event="getTransactionList"/>
+      <transaction-list />
     </v-card>
-    <v-card dark class="mx-5">
+    <v-card dark class="mx-5 mb-5">
       <v-divider />
       <v-subheader class="subtitle-1 mt-5">Exchanges</v-subheader>
-      <exchange-list :exchangesList="exchangesList" />
+      <exchange-list />
     </v-card>
+    <v-layout ma-5 />
+    <v-layout />
   </div>
 </template>
 
@@ -30,61 +32,7 @@ export default {
   components: { ExchangeCard, TransactionList, ExchangeList },
   data() {
     return {
-      deposit: null,
-      exchangesList: [
-        {
-          id: "1",
-          from: "Euro",
-          to: "GPB",
-          signFrom: "€",
-          signTo: "£",
-          rate: "4.56",
-          iconFrom: "fas fa-euro-sign",
-          iconTo: "fas fa-pound-sign",
-          amountFrom: "320",
-          amountTo: "275.3",
-          date: "Jul 2, 2019"
-        },
-        {
-          id: "2",
-          from: "Euro",
-          to: "USD",
-          signFrom: "€",
-          signTo: "$",
-          rate: "1.11",
-          iconFrom: "fas fa-euro-sign",
-          iconTo: "fas fa-dollar-sign",
-          amountFrom: "110",
-          amountTo: "122",
-          date: "Jan 27, 2013"
-        },
-        {
-          id: "3",
-          from: "USD",
-          to: "EURO",
-          signTo: "€",
-          signFrom: "$",
-          rate: "4.71",
-          iconFrom: "fas fa-dollar-sign",
-          iconTo: "fas fa-euro-sign",
-          amountFrom: "104",
-          amountTo: "93.8",
-          date: "Feb 19, 2018"
-        },
-        {
-          id: "4",
-          from: "GBP",
-          to: "USD",
-          signTo: "$",
-          signFrom: "£",
-          rate: "1.29",
-          iconFrom: "fas fa-pound-sign",
-          iconTo: "fas fa-dollar-sign",
-          amountFrom: "980",
-          amountTo: "1,262.8",
-          date: "Dec 24, 2017"
-        }
-      ]
+      deposit: null
     };
   },
   methods: {
@@ -92,7 +40,7 @@ export default {
       const userid = localStorage.getItem("userid");
       const deposit = await AuthRequest.getcard(userid);
       this.deposit = deposit;
-    },
+    }
   },
   mounted() {
     this.getCards();

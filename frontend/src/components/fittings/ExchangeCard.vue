@@ -21,8 +21,8 @@
         <v-list-item-title class="headline mb-1">{{card.currency}} - {{card.sign}}{{card.amount}}</v-list-item-title>
         <v-list-item-subtitle>
           <v-layout>
-            <v-layout>{{ card.from_curreny }} to {{card.currency}}:</v-layout>
-            <v-layout justify-end>{{card.exchange}}</v-layout>
+            <v-layout>Notification limit:</v-layout>
+            <v-layout justify-end>{{limit}}</v-layout>
           </v-layout>
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -31,21 +31,30 @@
       </v-list-item-icon>
     </v-list-item>
 
-    <v-card-actions color="green"></v-card-actions>
+    <v-card-actions color="green">
+      <create-notification-dialog @select-event="limitPicker" />
+    </v-card-actions>
   </v-card>
 </template>
 <script>
+import CreateNotificationDialog from "./CreateNotificationDialog";
+
 export default {
   name: "ExchangeCard",
+  components: { CreateNotificationDialog },
   props: ["card"],
   data() {
     return {
-      notification: false
+      notification: this.$props.card.notification,
+      limit: 0
     };
   },
-  computed: {
-    notificationIsActive() {
-      this.notification = true;
+  methods: {
+    limitPicker(limit) {
+      this.limit = limit;
+      if (parseFloat(limit) < parseFloat(4.5)) {
+        this.notification = true;
+      }
     }
   }
 };

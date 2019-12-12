@@ -55,4 +55,8 @@ export default {
         let page = '/transactionlist/' + String(id);
         return (await Api().get(page)).data;
     },
+    getexchangelist: async (id) => {
+        let page = '/exchangelist/' + String(id);
+        return (await Api().get(page)).data;
+    },
 }

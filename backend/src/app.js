@@ -46,6 +46,69 @@ function formatDate(date) {
     return day + ' ' + monthNames[monthIndex] + ', ' + year;
 }
 
+app.get('/exchangelist/:id', async (req, res) => {
+    const sqlgetallexchanges = `SELECT * FROM (SELECT ex.user_id "user_id", ex.date "date", exd.currency "currency", exd.sign "sign", exd.from_amount "from_amount", exd.to_amount "to_amount", exd.rate "rate", exd.site "site" FROM exchange ex , exchange_detail exd where ex.id = exd.exchange_id and ex.user_id = '${req.params.id}')A ORDER BY A.date DESC`
+    connection.query(sqlgetallexchanges, function (err, result) {
+        var exchangeList = [];
+        for (i in result) {
+            var date = formatDate(result[i].date)
+            var signFrom = ""
+            var iconFrom = ""
+            var signTo = ""
+            var iconTo = ""
+
+            if (result[i].currency == "RON") {
+                signFrom = "RON"
+                iconFrom = "RON"
+            }
+            if (result[i].sing == "RON") {
+                signTo = "RON"
+                iconTo = "RON"
+            }
+            if (result[i].currency == "EUR") {
+                signFrom = "€"
+                iconFrom = "fas fa-euro-sign"
+            }
+            if (result[i].sign == "EUR") {
+                signTo = "€"
+                iconTo = "fas fa-euro-sign"
+            }
+            if (result[i].currency == "GBP") {
+                signFrom = "£"
+                iconFrom = "fas fa-pound-sign"
+            }
+            if (result[i].sign == "GBP") {
+                signTo = "£"
+                iconTo = "fas fa-pound-sign"
+            }
+            if (result[i].currency == "USD") {
+                signFrom = "$"
+                iconFrom = "fas fa-dollar-sign"
+            }
+            if (result[i].sign == "USD") {
+                signTo = "$"
+                iconTo = "fas fa-dollar-sign"
+            }
+
+            exchangeList.push({
+                id: i,
+                from: result[i].currency,
+                to: result[i].sign,
+                signFrom: signFrom,
+                signTo: signTo,
+                rate: result[i].rate,
+                iconFrom: iconFrom,
+                iconTo: iconTo,
+                amountFrom: result[i].from_amount,
+                amountTo: result[i].to_amount,
+                date: date
+            });
+        }
+
+        res.send(exchangeList);
+    })
+})
+
 app.get('/transactionlist/:id', async (req, res) => {
     const sqlgetalltransactions = `SELECT * FROM ( SELECT t.user_id "user_id", t.date "date", t.type "attitude", i.amount "amount", i.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , income i, types_ ty where i.transaction_id = t.id and ty.id = i.type and user_id = '${req.params.id}' UNION SELECT t.user_id "user_id", t.date "date", t.type "attitude", e.amount "amount", e.comment "comment", ty.name "name", ty.icon "icon" FROM transactions t , expense e, types_ ty where e.transaction_id = t.id and ty.id = e.type and t.user_id = '${req.params.id}') A ORDER BY A.date DESC`
     connection.query(sqlgetalltransactions, function (err, result) {
@@ -54,6 +117,7 @@ app.get('/transactionlist/:id', async (req, res) => {
             var date = formatDate(result[i].date)
             var type = ""
             var sign = ""
+
             if (result[i].attitude == "income") {
                 type = "green--text"
                 sign = "+"
@@ -61,6 +125,7 @@ app.get('/transactionlist/:id', async (req, res) => {
                 type = "red--text"
                 sign = "-"
             }
+
             transactionList.push({
                 id: i,
                 name: result[i].name,
@@ -73,6 +138,7 @@ app.get('/transactionlist/:id', async (req, res) => {
                 comment: result[i].comment
             });
         }
+
         res.send(transactionList);
     })
 })
@@ -83,7 +149,9 @@ const insertTransaction = (req) => {
         connection.query(sqlinserttransaction, function (err, result) {
             if (err) { reject(err) }
             else { resolve(result) }
+
             const transaction_id = result;
+
             if (req.body.type == "income") {
                 var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}', '1' , '${req.body.comment}')`
                 connection.query(sqlinsertexpense, function (err, result) {
@@ -95,7 +163,9 @@ const insertTransaction = (req) => {
                 connection.query(sqlgettypeid, function (err, result) {
                     if (err) { reject(err) }
                     else { resolve(result) }
+
                     const typeid = result[0].id
+
                     var sqlinsertexpense = `INSERT INTO ${req.body.type} (transaction_id, amount, type, comment) VALUES ('${transaction_id.insertId}', '${req.body.amount}','${typeid}','${req.body.comment}')`
                     connection.query(sqlinsertexpense, function (err, result) {
                         if (err) { reject(err) }
@@ -150,7 +220,6 @@ app.get('/transactiontypes', async (req, res) => {
 app.post('/verification', function (req, res) {
     var sql = `SELECT id from user where (username = "${req.body.name}" && password="${req.body.password}")`;
     connection.query(sql, function (err, result) {
-        console.log(result[0]);
         if (!result[0]) {
             res.send({
                 error: 'Wrong username or password!'
@@ -177,7 +246,6 @@ app.post('/register', function (req, res) {
             console.log('Registration rejected! User data already in use!');
             return;
         } else {
-
 
             var sqlgetuserid = `SELECT id from user where username = "${req.body.name}"`
             connection.query(sqlgetuserid, function (err, result) {
@@ -252,7 +320,7 @@ app.get('/cards/:id', async (req, res) => {
             sign: "",
             icon: "RON",
             from_curreny: "RON",
-            exchange: "4.29",
+            exchange: "4.30",
             notification: false
         },
         {
@@ -271,7 +339,7 @@ app.get('/cards/:id', async (req, res) => {
             icon: "fas fa-pound-sign",
             from_curreny: "RON",
             exchange: "5.50",
-            notification: true
+            notification: false
         },
         {
             currency: "USD",
@@ -280,7 +348,7 @@ app.get('/cards/:id', async (req, res) => {
             icon: "fas fa-dollar-sign",
             from_curreny: "RON",
             exchange: "4.29",
-            notification: true
+            notification: false
         }
     ];
     res.send(deposit);
@@ -369,13 +437,6 @@ app.get('/statisticValuta/:valuta', async (req, res) => {
     });
 });
 
-app.get('/', (req, res) => {
-    console.log('Someone connected!');
-    res.send({ message: 'Hello bello te lo' });
-});
-
-//require('./routes')(app)
-
 app.listen(config.port, function () {
     console.log(`Server is listening on port ${config.port}`);
 });
@@ -385,8 +446,10 @@ function python_run() {
     runscript.stdout.on('data', d => console.log(d))
     runscript.on("error", err => console.log(err))
     runscript.on("exit", () => {
-        console.log("Python code runed")
+        console.log("Python code executed")
     })
 }
+
+// Python code is reexecuted in every 50 minutes (50*60*1000 miliseconds)
 python_run();
 setInterval(() => python_run(), 50 * 60 * 1000);
